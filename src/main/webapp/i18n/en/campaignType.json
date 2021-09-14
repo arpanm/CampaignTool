@@ -1,0 +1,10 @@
+{
+  "campaignToolApp": {
+    "CampaignType": {
+      "null": "",
+      "Telecalling": "Telecalling",
+      "Email": "Email",
+      "SMS": "SMS"
+    }
+  }
+}

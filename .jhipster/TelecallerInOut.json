@@ -1,0 +1,52 @@
+{
+  "name": "TelecallerInOut",
+  "fields": [
+    {
+      "fieldName": "eventType",
+      "fieldType": "InOutType",
+      "fieldValues": "IN,OUT"
+    },
+    {
+      "fieldName": "eventTime",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "eventDate",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "createdBy",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "createdAt",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "updatedBy",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "updatedAt",
+      "fieldType": "LocalDate"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "telecaller",
+      "otherEntityRelationshipName": "telecallerInOut",
+      "relationshipName": "telecaller"
+    }
+  ],
+  "entityTableName": "telecaller_in_out",
+  "dto": "mapstruct",
+  "pagination": "infinite-scroll",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["CampaignTool"],
+  "changelogDate": "20210914175201"
+}

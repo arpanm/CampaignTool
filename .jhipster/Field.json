@@ -1,0 +1,62 @@
+{
+  "name": "Field",
+  "fields": [
+    {
+      "fieldName": "fieldName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "fieldLabel",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "fieldType",
+      "fieldType": "FieldType",
+      "fieldValues": "Text,BigText,Date,Number,Fraction,Pincode,Email,Phone,DropDown,RadioButton,CheckBox"
+    },
+    {
+      "fieldName": "isActive",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "createdBy",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "createdAt",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "updatedBy",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "updatedAt",
+      "fieldType": "LocalDate"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "fieldPossibleValue",
+      "otherEntityRelationshipName": "field",
+      "relationshipName": "fieldPossibleValue"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "disposition",
+      "otherEntityRelationshipName": "field",
+      "relationshipName": "disposition"
+    }
+  ],
+  "entityTableName": "field",
+  "dto": "mapstruct",
+  "pagination": "infinite-scroll",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["CampaignTool"],
+  "changelogDate": "20210914175208"
+}

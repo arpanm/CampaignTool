@@ -1,0 +1,35 @@
+{
+  "campaignToolApp": {
+    "call": {
+      "home": {
+        "title": "Calls",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Call",
+        "createOrEditLabel": "Create or edit a Call",
+        "notFound": "No Calls found"
+      },
+      "created": "A new Call is created with identifier {{ param }}",
+      "updated": "A Call is updated with identifier {{ param }}",
+      "deleted": "A Call is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Call {{ id }}?"
+      },
+      "detail": {
+        "title": "Call"
+      },
+      "id": "ID",
+      "phone": "Phone",
+      "callDate": "Call Date",
+      "followupDate": "Followup Date",
+      "notes": "Notes",
+      "recordingUrl": "Recording Url",
+      "status": "Status",
+      "createdBy": "Created By",
+      "createdAt": "Created At",
+      "updatedBy": "Updated By",
+      "updatedAt": "Updated At",
+      "leadAssignment": "Lead Assignment",
+      "dispositionSubmission": "Disposition Submission"
+    }
+  }
+}

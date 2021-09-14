@@ -1,16 +1,12 @@
 package com.arpan.campaigntool.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.arpan.campaigntool.IntegrationTest;
 import com.arpan.campaigntool.config.Constants;
 import com.arpan.campaigntool.domain.User;
 import com.arpan.campaigntool.repository.UserRepository;
-import com.arpan.campaigntool.repository.search.UserSearchRepository;
 import com.arpan.campaigntool.service.dto.AdminUserDTO;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -53,14 +49,6 @@ class UserServiceIT {
 
     @Autowired
     private UserService userService;
-
-    /**
-     * This repository is mocked in the com.arpan.campaigntool.repository.search test package.
-     *
-     * @see com.arpan.campaigntool.repository.search.UserSearchRepositoryMockConfiguration
-     */
-    @Autowired
-    private UserSearchRepository mockUserSearchRepository;
 
     @Autowired
     private AuditingHandler auditingHandler;
@@ -176,9 +164,6 @@ class UserServiceIT {
         userService.removeNotActivatedUsers();
         users = userRepository.findAllByActivatedIsFalseAndActivationKeyIsNotNullAndCreatedDateBefore(threeDaysAgo);
         assertThat(users).isEmpty();
-
-        // Verify Elasticsearch mock
-        verify(mockUserSearchRepository, times(1)).delete(user);
     }
 
     @Test
@@ -196,8 +181,5 @@ class UserServiceIT {
         userService.removeNotActivatedUsers();
         Optional<User> maybeDbUser = userRepository.findById(dbUser.getId());
         assertThat(maybeDbUser).contains(dbUser);
-
-        // Verify Elasticsearch mock
-        verify(mockUserSearchRepository, never()).delete(user);
     }
 }

@@ -8,7 +8,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.arpan.campaigntool.IntegrationTest;
 import com.arpan.campaigntool.domain.User;
 import com.arpan.campaigntool.repository.UserRepository;
-import com.arpan.campaigntool.repository.search.UserSearchRepository;
 import com.arpan.campaigntool.security.AuthoritiesConstants;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,14 +32,6 @@ class PublicUserResourceIT {
 
     @Autowired
     private UserRepository userRepository;
-
-    /**
-     * This repository is mocked in the com.arpan.campaigntool.repository.search test package.
-     *
-     * @see com.arpan.campaigntool.repository.search.UserSearchRepositoryMockConfiguration
-     */
-    @Autowired
-    private UserSearchRepository mockUserSearchRepository;
 
     @Autowired
     private EntityManager em;

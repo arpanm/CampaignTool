@@ -1,0 +1,49 @@
+{
+  "name": "LeadAssociation",
+  "fields": [
+    {
+      "fieldName": "assignmentDate",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "createdBy",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "createdAt",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "updatedBy",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "updatedAt",
+      "fieldType": "LocalDate"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "lead",
+      "otherEntityRelationshipName": "leadAssociation",
+      "relationshipName": "lead"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "campaign",
+      "otherEntityRelationshipName": "leadAssociation",
+      "relationshipName": "campaign"
+    }
+  ],
+  "entityTableName": "lead_association",
+  "dto": "mapstruct",
+  "pagination": "infinite-scroll",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["CampaignTool"],
+  "changelogDate": "20210914175203"
+}

@@ -1,0 +1,30 @@
+{
+  "campaignToolApp": {
+    "fieldPossibleValue": {
+      "home": {
+        "title": "Field Possible Values",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Field Possible Value",
+        "createOrEditLabel": "Create or edit a Field Possible Value",
+        "notFound": "No Field Possible Values found"
+      },
+      "created": "A new Field Possible Value is created with identifier {{ param }}",
+      "updated": "A Field Possible Value is updated with identifier {{ param }}",
+      "deleted": "A Field Possible Value is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Field Possible Value {{ id }}?"
+      },
+      "detail": {
+        "title": "Field Possible Value"
+      },
+      "id": "ID",
+      "value": "Value",
+      "isActive": "Is Active",
+      "createdBy": "Created By",
+      "createdAt": "Created At",
+      "updatedBy": "Updated By",
+      "updatedAt": "Updated At",
+      "field": "Field"
+    }
+  }
+}

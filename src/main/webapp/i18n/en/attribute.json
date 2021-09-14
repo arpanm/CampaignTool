@@ -1,0 +1,32 @@
+{
+  "campaignToolApp": {
+    "attribute": {
+      "home": {
+        "title": "Attributes",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Attribute",
+        "createOrEditLabel": "Create or edit a Attribute",
+        "notFound": "No Attributes found"
+      },
+      "created": "A new Attribute is created with identifier {{ param }}",
+      "updated": "A Attribute is updated with identifier {{ param }}",
+      "deleted": "A Attribute is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Attribute {{ id }}?"
+      },
+      "detail": {
+        "title": "Attribute"
+      },
+      "id": "ID",
+      "isActive": "Is Active",
+      "createdBy": "Created By",
+      "createdAt": "Created At",
+      "updatedBy": "Updated By",
+      "updatedAt": "Updated At",
+      "value": "Value",
+      "key": "Key",
+      "lead": "Lead",
+      "campaign": "Campaign"
+    }
+  }
+}

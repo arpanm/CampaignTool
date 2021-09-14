@@ -1,0 +1,10 @@
+{
+  "campaignToolApp": {
+    "CampaignApprovalStatus": {
+      "null": "",
+      "Pending": "Pending",
+      "Approved": "Approved",
+      "Rejected": "Rejected"
+    }
+  }
+}

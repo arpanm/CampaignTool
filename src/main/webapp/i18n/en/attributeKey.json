@@ -1,0 +1,30 @@
+{
+  "campaignToolApp": {
+    "attributeKey": {
+      "home": {
+        "title": "Attribute Keys",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Attribute Key",
+        "createOrEditLabel": "Create or edit a Attribute Key",
+        "notFound": "No Attribute Keys found"
+      },
+      "created": "A new Attribute Key is created with identifier {{ param }}",
+      "updated": "A Attribute Key is updated with identifier {{ param }}",
+      "deleted": "A Attribute Key is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Attribute Key {{ id }}?"
+      },
+      "detail": {
+        "title": "Attribute Key"
+      },
+      "id": "ID",
+      "key": "Key",
+      "isActive": "Is Active",
+      "createdBy": "Created By",
+      "createdAt": "Created At",
+      "updatedBy": "Updated By",
+      "updatedAt": "Updated At",
+      "attributePossibleValue": "Attribute Possible Value"
+    }
+  }
+}

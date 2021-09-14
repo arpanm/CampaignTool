@@ -1,0 +1,29 @@
+{
+  "campaignToolApp": {
+    "leadUploadFile": {
+      "home": {
+        "title": "Lead Upload Files",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Lead Upload File",
+        "createOrEditLabel": "Create or edit a Lead Upload File",
+        "notFound": "No Lead Upload Files found"
+      },
+      "created": "A new Lead Upload File is created with identifier {{ param }}",
+      "updated": "A Lead Upload File is updated with identifier {{ param }}",
+      "deleted": "A Lead Upload File is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Lead Upload File {{ id }}?"
+      },
+      "detail": {
+        "title": "Lead Upload File"
+      },
+      "id": "ID",
+      "fileUrl": "File Url",
+      "uploadStatus": "Upload Status",
+      "createdBy": "Created By",
+      "createdAt": "Created At",
+      "updatedBy": "Updated By",
+      "updatedAt": "Updated At"
+    }
+  }
+}

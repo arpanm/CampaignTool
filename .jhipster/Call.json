@@ -1,0 +1,72 @@
+{
+  "name": "Call",
+  "fields": [
+    {
+      "fieldName": "phone",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "callDate",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "followupDate",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "notes",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "recordingUrl",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "CallStatus",
+      "fieldValues": "Pending,InProgress,NoAnswer,Disconnected,Answered,Interested,NotInterested,FollowupRequested"
+    },
+    {
+      "fieldName": "createdBy",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "createdAt",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "updatedBy",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "updatedAt",
+      "fieldType": "LocalDate"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "leadAssignment",
+      "otherEntityRelationshipName": "call",
+      "relationshipName": "leadAssignment",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "dispositionSubmission",
+      "otherEntityRelationshipName": "call",
+      "relationshipName": "dispositionSubmission",
+      "ownerSide": true
+    }
+  ],
+  "entityTableName": "jhi_call",
+  "dto": "mapstruct",
+  "pagination": "infinite-scroll",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["CampaignTool"],
+  "changelogDate": "20210914175205"
+}

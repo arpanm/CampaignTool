@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+    <!--
+        Added the constraints for entity Attribute.
+    -->
+    <changeSet id="20210914175158-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="value_id"
+                                 baseTableName="attribute"
+                                 constraintName="fk_attribute__value_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="attribute_possible_value"/>
+
+        <addForeignKeyConstraint baseColumnNames="key_id"
+                                 baseTableName="attribute"
+                                 constraintName="fk_attribute__key_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="attribute_key"/>
+
+        <addForeignKeyConstraint baseColumnNames="lead_id"
+                                 baseTableName="attribute"
+                                 constraintName="fk_attribute__lead_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_lead"/>
+
+        <addForeignKeyConstraint baseColumnNames="campaign_id"
+                                 baseTableName="attribute"
+                                 constraintName="fk_attribute__campaign_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="campaign"/>
+    </changeSet>
+</databaseChangeLog>

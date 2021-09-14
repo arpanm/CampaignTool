@@ -1,0 +1,41 @@
+{
+  "name": "LeadUploadFile",
+  "fields": [
+    {
+      "fieldName": "fileUrl",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "uploadStatus",
+      "fieldType": "UploadStatus",
+      "fieldValues": "Pending,InProgress,Completed"
+    },
+    {
+      "fieldName": "createdBy",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "createdAt",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "updatedBy",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "updatedAt",
+      "fieldType": "LocalDate"
+    }
+  ],
+  "relationships": [],
+  "entityTableName": "lead_upload_file",
+  "dto": "mapstruct",
+  "pagination": "infinite-scroll",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["CampaignTool"],
+  "changelogDate": "20210914175206"
+}

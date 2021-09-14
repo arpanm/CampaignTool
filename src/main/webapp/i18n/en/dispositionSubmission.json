@@ -1,0 +1,29 @@
+{
+  "campaignToolApp": {
+    "dispositionSubmission": {
+      "home": {
+        "title": "Disposition Submissions",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Disposition Submission",
+        "createOrEditLabel": "Create or edit a Disposition Submission",
+        "notFound": "No Disposition Submissions found"
+      },
+      "created": "A new Disposition Submission is created with identifier {{ param }}",
+      "updated": "A Disposition Submission is updated with identifier {{ param }}",
+      "deleted": "A Disposition Submission is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Disposition Submission {{ id }}?"
+      },
+      "detail": {
+        "title": "Disposition Submission"
+      },
+      "id": "ID",
+      "createdBy": "Created By",
+      "createdAt": "Created At",
+      "updatedBy": "Updated By",
+      "updatedAt": "Updated At",
+      "call": "Call",
+      "disposition": "Disposition"
+    }
+  }
+}

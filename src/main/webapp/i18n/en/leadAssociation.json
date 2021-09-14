@@ -1,0 +1,30 @@
+{
+  "campaignToolApp": {
+    "leadAssociation": {
+      "home": {
+        "title": "Lead Associations",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Lead Association",
+        "createOrEditLabel": "Create or edit a Lead Association",
+        "notFound": "No Lead Associations found"
+      },
+      "created": "A new Lead Association is created with identifier {{ param }}",
+      "updated": "A Lead Association is updated with identifier {{ param }}",
+      "deleted": "A Lead Association is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Lead Association {{ id }}?"
+      },
+      "detail": {
+        "title": "Lead Association"
+      },
+      "id": "ID",
+      "assignmentDate": "Assignment Date",
+      "createdBy": "Created By",
+      "createdAt": "Created At",
+      "updatedBy": "Updated By",
+      "updatedAt": "Updated At",
+      "lead": "Lead",
+      "campaign": "Campaign"
+    }
+  }
+}
