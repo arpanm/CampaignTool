@@ -1,0 +1,341 @@
+
+entity Client {
+    companyName String,
+    companyWebsite String,
+    companyType CompanyType,
+    primaryPhone String,
+    description String,
+    isActive Boolean,
+    createdBy String,
+    createdAt LocalDate,
+    updatedBy String,
+    updatedAt LocalDate
+
+}
+
+enum CompanyType {
+	IT,
+    Consultant,
+    Hospital,
+    MediaHouse
+}
+
+entity Campaign {
+	name String,
+    description String,
+    startDate LocalDate,
+    endDate LocalDate,
+    type CampaignType,
+    status CampaignApprovalStatus,
+    isActive Boolean,
+    createdBy String,
+    createdAt LocalDate,
+    updatedBy String,
+    updatedAt LocalDate
+}
+
+enum CampaignType {
+	Telecalling,
+    Email,
+    SMS
+}
+
+enum CampaignApprovalStatus {
+	Pending,
+    Approved,
+    Rejected
+}
+
+relationship OneToMany {
+	Client to Campaign{client}
+}
+
+entity Lead {
+	name String,
+    email String,
+    phone String,
+    isActive Boolean,
+    createdBy String,
+    createdAt LocalDate,
+    updatedBy String,
+    updatedAt LocalDate
+}
+
+entity AttributeKey {
+	key String,
+    isActive Boolean,
+    createdBy String,
+    createdAt LocalDate,
+    updatedBy String,
+    updatedAt LocalDate
+}
+
+entity AttributePossibleValue {
+	value String,
+    isActive Boolean,
+    createdBy String,
+    createdAt LocalDate,
+    updatedBy String,
+    updatedAt LocalDate
+}
+
+relationship OneToMany {
+	AttributeKey to AttributePossibleValue{key}
+}
+
+entity Attribute {
+	isActive Boolean,
+    createdBy String,
+    createdAt LocalDate,
+    updatedBy String,
+    updatedAt LocalDate
+}
+
+relationship ManyToOne {
+	Attribute{value} to AttributePossibleValue,
+	Attribute{key} to AttributeKey
+}
+
+relationship OneToMany {
+	Lead to Attribute{lead}
+}
+
+relationship OneToMany {
+	Campaign to Attribute{campaign}
+}
+
+entity Location {
+	pincode Integer min(10000) max (99999),
+	country String,
+    state String,
+    city String,
+    isActive Boolean,
+    createdBy String,
+    createdAt LocalDate,
+    updatedBy String,
+    updatedAt LocalDate
+}
+
+relationship ManyToMany {
+	Lead{location} to Location{lead}
+}
+
+entity Telecaller {
+	name String,
+    email String,
+    phone String,
+    startDate LocalDate,
+    endDate LocalDate,
+    isActive Boolean,
+    createdBy String,
+    createdAt LocalDate,
+    updatedBy String,
+    updatedAt LocalDate
+}
+
+entity TelecallerInOut {
+	eventType InOutType,
+    eventTime LocalDate,
+    eventDate String,
+	createdBy String,
+    createdAt LocalDate,
+    updatedBy String,
+    updatedAt LocalDate
+}
+
+enum InOutType {
+	IN,
+    OUT
+}
+
+relationship OneToMany {
+	Telecaller to TelecallerInOut{telecaller}
+}
+
+entity TelecallerAssignment {
+	assignmentDate String,
+	createdBy String,
+    createdAt LocalDate,
+    updatedBy String,
+    updatedAt LocalDate
+}
+
+relationship ManyToOne {
+	TelecallerAssignment{telecaller} to Telecaller,
+    TelecallerAssignment{campaign} to Campaign
+}
+
+entity LeadAssociation {
+	assignmentDate String,
+	createdBy String,
+    createdAt LocalDate,
+    updatedBy String,
+    updatedAt LocalDate
+}
+
+relationship ManyToOne {
+	LeadAssociation{lead} to Lead,
+    LeadAssociation{campaign} to Campaign
+}
+
+entity LeadAssignment {
+	assignmentDate String,
+	createdBy String,
+    createdAt LocalDate,
+    updatedBy String,
+    updatedAt LocalDate
+}
+
+relationship ManyToOne {
+	LeadAssignment{telecaller} to Telecaller,
+    LeadAssignment{lead} to Lead
+}
+
+entity Call {
+	phone String,
+	callDate String,
+    followupDate String,
+    notes String,
+    recordingUrl String,
+    status CallStatus,
+	createdBy String,
+    createdAt LocalDate,
+    updatedBy String,
+    updatedAt LocalDate
+}
+
+enum CallStatus {
+	Pending,
+    InProgress,
+    NoAnswer,
+    Disconnected,
+    Answered,
+    Interested,
+    NotInterested,
+    FollowupRequested
+}
+
+relationship OneToOne {
+	Call{leadAssignment} to LeadAssignment{call}
+}
+
+entity LeadUploadFile {
+	fileUrl String,
+    uploadStatus UploadStatus,
+	createdBy String,
+    createdAt LocalDate,
+    updatedBy String,
+    updatedAt LocalDate
+}
+
+enum UploadStatus {
+	Pending,
+    InProgress,
+    Completed
+}
+
+entity Disposition {
+	isActive Boolean,
+    createdBy String,
+    createdAt LocalDate,
+    updatedBy String,
+    updatedAt LocalDate
+}
+
+relationship OneToOne {
+	Campaign{disposition} to Disposition{campaign}
+}
+
+entity Field {
+    fieldName String,
+    fieldLabel String,
+    fieldType FieldType,
+    isActive Boolean,
+    createdBy String,
+    createdAt LocalDate,
+    updatedBy String,
+    updatedAt LocalDate
+}
+
+enum FieldType {
+	Text,
+    BigText,
+    Date,
+    Number,
+    Fraction,
+    Pincode,
+    Email,
+    Phone,
+    DropDown,
+    RadioButton,
+    CheckBox
+}
+
+relationship OneToMany {
+    Disposition to Field{disposition}
+}
+
+entity FieldPossibleValue {
+	value String,
+    isActive Boolean,
+    createdBy String,
+    createdAt LocalDate,
+    updatedBy String,
+    updatedAt LocalDate
+}
+
+relationship OneToMany {
+	Field to FieldPossibleValue{field}
+}
+
+entity DispositionSubmission {
+    createdBy String,
+    createdAt LocalDate,
+    updatedBy String,
+    updatedAt LocalDate
+}
+
+relationship OneToOne {
+    Call{dispositionSubmission} to DispositionSubmission{call}
+}
+
+relationship OneToMany {
+    Disposition to DispositionSubmission{disposition}
+}
+
+entity DispositionSubmissionValue {
+	value String,
+    createdBy String,
+    createdAt LocalDate,
+    updatedBy String,
+    updatedAt LocalDate
+}
+
+relationship ManyToOne {
+    DispositionSubmissionValue{dispositionSubmission} to DispositionSubmission,
+    DispositionSubmissionValue{field} to Field
+}
+
+relationship ManyToOne {
+    DispositionSubmissionValue{possibleValue} to FieldPossibleValue
+}
+
+application {
+  config {
+    baseName CampaignTool
+    applicationType monolith
+    serverPort 9001
+    devDatabaseType mysql
+    prodDatabaseType mysql
+    clientFramework react
+    clientPackageManager npm
+    authenticationType jwt
+    buildTool maven
+    enableSwaggerCodegen true
+    packageName com.arpan.campaigntool
+  }
+  entities *
+  dto * with mapstruct
+  paginate * with infinite-scroll
+  service all with serviceImpl
+}
