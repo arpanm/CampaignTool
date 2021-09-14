@@ -48,6 +48,35 @@ public class CacheConfiguration {
             createCache(cm, com.arpan.campaigntool.domain.User.class.getName());
             createCache(cm, com.arpan.campaigntool.domain.Authority.class.getName());
             createCache(cm, com.arpan.campaigntool.domain.User.class.getName() + ".authorities");
+            createCache(cm, com.arpan.campaigntool.domain.Client.class.getName());
+            createCache(cm, com.arpan.campaigntool.domain.Client.class.getName() + ".campaigns");
+            createCache(cm, com.arpan.campaigntool.domain.Campaign.class.getName());
+            createCache(cm, com.arpan.campaigntool.domain.Campaign.class.getName() + ".attributes");
+            createCache(cm, com.arpan.campaigntool.domain.Lead.class.getName());
+            createCache(cm, com.arpan.campaigntool.domain.Lead.class.getName() + ".attributes");
+            createCache(cm, com.arpan.campaigntool.domain.Lead.class.getName() + ".locations");
+            createCache(cm, com.arpan.campaigntool.domain.AttributeKey.class.getName());
+            createCache(cm, com.arpan.campaigntool.domain.AttributeKey.class.getName() + ".attributePossibleValues");
+            createCache(cm, com.arpan.campaigntool.domain.AttributePossibleValue.class.getName());
+            createCache(cm, com.arpan.campaigntool.domain.Attribute.class.getName());
+            createCache(cm, com.arpan.campaigntool.domain.Location.class.getName());
+            createCache(cm, com.arpan.campaigntool.domain.Location.class.getName() + ".leads");
+            createCache(cm, com.arpan.campaigntool.domain.Telecaller.class.getName());
+            createCache(cm, com.arpan.campaigntool.domain.Telecaller.class.getName() + ".telecallerInOuts");
+            createCache(cm, com.arpan.campaigntool.domain.TelecallerInOut.class.getName());
+            createCache(cm, com.arpan.campaigntool.domain.TelecallerAssignment.class.getName());
+            createCache(cm, com.arpan.campaigntool.domain.LeadAssociation.class.getName());
+            createCache(cm, com.arpan.campaigntool.domain.LeadAssignment.class.getName());
+            createCache(cm, com.arpan.campaigntool.domain.Call.class.getName());
+            createCache(cm, com.arpan.campaigntool.domain.LeadUploadFile.class.getName());
+            createCache(cm, com.arpan.campaigntool.domain.Disposition.class.getName());
+            createCache(cm, com.arpan.campaigntool.domain.Disposition.class.getName() + ".fields");
+            createCache(cm, com.arpan.campaigntool.domain.Disposition.class.getName() + ".dispositionSubmissions");
+            createCache(cm, com.arpan.campaigntool.domain.Field.class.getName());
+            createCache(cm, com.arpan.campaigntool.domain.Field.class.getName() + ".fieldPossibleValues");
+            createCache(cm, com.arpan.campaigntool.domain.FieldPossibleValue.class.getName());
+            createCache(cm, com.arpan.campaigntool.domain.DispositionSubmission.class.getName());
+            createCache(cm, com.arpan.campaigntool.domain.DispositionSubmissionValue.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

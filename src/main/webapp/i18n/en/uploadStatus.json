@@ -1,0 +1,10 @@
+{
+  "campaignToolApp": {
+    "UploadStatus": {
+      "null": "",
+      "Pending": "Pending",
+      "InProgress": "InProgress",
+      "Completed": "Completed"
+    }
+  }
+}

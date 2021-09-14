@@ -1,0 +1,11 @@
+{
+  "campaignToolApp": {
+    "CompanyType": {
+      "null": "",
+      "IT": "IT",
+      "Consultant": "Consultant",
+      "Hospital": "Hospital",
+      "MediaHouse": "MediaHouse"
+    }
+  }
+}

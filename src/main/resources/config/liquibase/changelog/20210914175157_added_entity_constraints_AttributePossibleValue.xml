@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+    <!--
+        Added the constraints for entity AttributePossibleValue.
+    -->
+    <changeSet id="20210914175157-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="key_id"
+                                 baseTableName="attribute_possible_value"
+                                 constraintName="fk_attribute_possible_value__key_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="attribute_key"/>
+    </changeSet>
+</databaseChangeLog>

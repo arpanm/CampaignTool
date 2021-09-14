@@ -1,0 +1,64 @@
+{
+  "name": "Client",
+  "fields": [
+    {
+      "fieldName": "companyName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "companyWebsite",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "companyType",
+      "fieldType": "CompanyType",
+      "fieldValues": "IT,Consultant,Hospital,MediaHouse"
+    },
+    {
+      "fieldName": "primaryPhone",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "isActive",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "createdBy",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "createdAt",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "updatedBy",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "updatedAt",
+      "fieldType": "LocalDate"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "campaign",
+      "otherEntityRelationshipName": "client",
+      "relationshipName": "campaign"
+    }
+  ],
+  "entityTableName": "client",
+  "dto": "mapstruct",
+  "pagination": "infinite-scroll",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["CampaignTool"],
+  "changelogDate": "20210914175153"
+}

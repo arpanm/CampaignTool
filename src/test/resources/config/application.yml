@@ -100,16 +100,6 @@ jhipster:
         base64-secret: MjM4NWNhODg2M2Y0NmUyZjE5YzI4NTJlOGQ4YjIzMDFmNTRjNGE4YjY2NDllY2VmZWEwZGM4MTg1ZmI2ODQ2NzA3MWY3YzA2ZWRmZDBiMWVkNDZlMGRkNWE2ZjMzOTFmOTdkZDQwNTg3NzVkNmU2NGIwZWE5OGVlZDQ5ZWViYWU=
         # Token is valid 24 hours
         token-validity-in-seconds: 86400
-kafka:
-  bootstrap-servers: localhost:9092
-  consumer:
-    key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
-    value.deserializer: org.apache.kafka.common.serialization.StringDeserializer
-    group.id: campaign-tool
-    auto.offset.reset: earliest
-  producer:
-    key.serializer: org.apache.kafka.common.serialization.StringSerializer
-    value.serializer: org.apache.kafka.common.serialization.StringSerializer
 # ===================================================================
 # Application specific properties
 # Add your own application properties here, see the ApplicationProperties class

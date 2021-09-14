@@ -1,0 +1,55 @@
+{
+  "name": "DispositionSubmissionValue",
+  "fields": [
+    {
+      "fieldName": "value",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "createdBy",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "createdAt",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "updatedBy",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "updatedAt",
+      "fieldType": "LocalDate"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "dispositionSubmission",
+      "otherEntityRelationshipName": "dispositionSubmissionValue",
+      "relationshipName": "dispositionSubmission"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "field",
+      "otherEntityRelationshipName": "dispositionSubmissionValue",
+      "relationshipName": "field"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "fieldPossibleValue",
+      "otherEntityRelationshipName": "dispositionSubmissionValue",
+      "relationshipName": "possibleValue"
+    }
+  ],
+  "entityTableName": "disposition_submission_value",
+  "dto": "mapstruct",
+  "pagination": "infinite-scroll",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": ["CampaignTool"],
+  "changelogDate": "20210914175211"
+}

@@ -1,0 +1,31 @@
+{
+  "campaignToolApp": {
+    "telecallerInOut": {
+      "home": {
+        "title": "Telecaller In Outs",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Telecaller In Out",
+        "createOrEditLabel": "Create or edit a Telecaller In Out",
+        "notFound": "No Telecaller In Outs found"
+      },
+      "created": "A new Telecaller In Out is created with identifier {{ param }}",
+      "updated": "A Telecaller In Out is updated with identifier {{ param }}",
+      "deleted": "A Telecaller In Out is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Telecaller In Out {{ id }}?"
+      },
+      "detail": {
+        "title": "Telecaller In Out"
+      },
+      "id": "ID",
+      "eventType": "Event Type",
+      "eventTime": "Event Time",
+      "eventDate": "Event Date",
+      "createdBy": "Created By",
+      "createdAt": "Created At",
+      "updatedBy": "Updated By",
+      "updatedAt": "Updated At",
+      "telecaller": "Telecaller"
+    }
+  }
+}

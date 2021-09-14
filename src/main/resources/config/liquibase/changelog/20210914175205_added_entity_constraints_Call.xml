@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+    <!--
+        Added the constraints for entity Call.
+    -->
+    <changeSet id="20210914175205-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="lead_assignment_id"
+                                 baseTableName="jhi_call"
+                                 constraintName="fk_jhi_call__lead_assignment_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="lead_assignment"/>
+
+        <addForeignKeyConstraint baseColumnNames="disposition_submission_id"
+                                 baseTableName="jhi_call"
+                                 constraintName="fk_jhi_call__disposition_submission_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="disposition_submission"/>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,31 @@
+{
+  "campaignToolApp": {
+    "leadAssignment": {
+      "home": {
+        "title": "Lead Assignments",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Lead Assignment",
+        "createOrEditLabel": "Create or edit a Lead Assignment",
+        "notFound": "No Lead Assignments found"
+      },
+      "created": "A new Lead Assignment is created with identifier {{ param }}",
+      "updated": "A Lead Assignment is updated with identifier {{ param }}",
+      "deleted": "A Lead Assignment is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Lead Assignment {{ id }}?"
+      },
+      "detail": {
+        "title": "Lead Assignment"
+      },
+      "id": "ID",
+      "assignmentDate": "Assignment Date",
+      "createdBy": "Created By",
+      "createdAt": "Created At",
+      "updatedBy": "Updated By",
+      "updatedAt": "Updated At",
+      "telecaller": "Telecaller",
+      "lead": "Lead",
+      "call": "Call"
+    }
+  }
+}

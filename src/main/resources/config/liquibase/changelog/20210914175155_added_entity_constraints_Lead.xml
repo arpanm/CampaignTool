@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+    <!--
+        Added the constraints for entity Lead.
+    -->
+    <changeSet id="20210914175155-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="jhi_lead_id"
+                                 baseTableName="rel_jhi_lead__location"
+                                 constraintName="fk_rel_jhi_lead__location__jhi_lead_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_lead"/>
+
+        <addForeignKeyConstraint baseColumnNames="location_id"
+                                 baseTableName="rel_jhi_lead__location"
+                                 constraintName="fk_rel_jhi_lead__location__location_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="location"/>
+    </changeSet>
+</databaseChangeLog>
