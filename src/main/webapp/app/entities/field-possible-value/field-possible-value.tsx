@@ -1,22 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import InfiniteScroll from 'react-infinite-scroller';
-import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Col, Row, Table } from 'reactstrap';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Button, Table } from 'reactstrap';
 import { Translate, TextFormat, getSortState } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { getEntities, reset } from './field-possible-value.reducer';
-import { IFieldPossibleValue } from 'app/shared/model/field-possible-value.model';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/shared/util/pagination.constants';
 import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-export const FieldPossibleValue = (props: RouteComponentProps<{ url: string }>) => {
+import { IFieldPossibleValue } from 'app/shared/model/field-possible-value.model';
+import { getEntities, reset } from './field-possible-value.reducer';
+
+export const FieldPossibleValue = () => {
   const dispatch = useAppDispatch();
 
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const [paginationState, setPaginationState] = useState(
-    overridePaginationStateWithQueryParams(getSortState(props.location, ITEMS_PER_PAGE, 'id'), props.location.search)
+    overridePaginationStateWithQueryParams(getSortState(location, ITEMS_PER_PAGE, 'id'), location.search)
   );
   const [sorting, setSorting] = useState(false);
 
@@ -91,65 +95,71 @@ export const FieldPossibleValue = (props: RouteComponentProps<{ url: string }>) 
     resetAll();
   };
 
-  const { match } = props;
-
   return (
     <div>
       <h2 id="field-possible-value-heading" data-cy="FieldPossibleValueHeading">
-        <Translate contentKey="campaignToolApp.fieldPossibleValue.home.title">Field Possible Values</Translate>
+        <Translate contentKey="automatedPerformanceTestingApp.fieldPossibleValue.home.title">Field Possible Values</Translate>
         <div className="d-flex justify-content-end">
-          <Button className="mr-2" color="info" onClick={handleSyncList} disabled={loading}>
+          <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
             <FontAwesomeIcon icon="sync" spin={loading} />{' '}
-            <Translate contentKey="campaignToolApp.fieldPossibleValue.home.refreshListLabel">Refresh List</Translate>
+            <Translate contentKey="automatedPerformanceTestingApp.fieldPossibleValue.home.refreshListLabel">Refresh List</Translate>
           </Button>
-          <Link to={`${match.url}/new`} className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
+          <Link
+            to="/field-possible-value/new"
+            className="btn btn-primary jh-create-entity"
+            id="jh-create-entity"
+            data-cy="entityCreateButton"
+          >
             <FontAwesomeIcon icon="plus" />
             &nbsp;
-            <Translate contentKey="campaignToolApp.fieldPossibleValue.home.createLabel">Create new Field Possible Value</Translate>
+            <Translate contentKey="automatedPerformanceTestingApp.fieldPossibleValue.home.createLabel">
+              Create new Field Possible Value
+            </Translate>
           </Link>
         </div>
       </h2>
       <div className="table-responsive">
         <InfiniteScroll
-          pageStart={paginationState.activePage}
-          loadMore={handleLoadMore}
+          dataLength={fieldPossibleValueList ? fieldPossibleValueList.length : 0}
+          next={handleLoadMore}
           hasMore={paginationState.activePage - 1 < links.next}
           loader={<div className="loader">Loading ...</div>}
-          threshold={0}
-          initialLoad={false}
         >
           {fieldPossibleValueList && fieldPossibleValueList.length > 0 ? (
             <Table responsive>
               <thead>
                 <tr>
                   <th className="hand" onClick={sort('id')}>
-                    <Translate contentKey="campaignToolApp.fieldPossibleValue.id">ID</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="automatedPerformanceTestingApp.fieldPossibleValue.id">ID</Translate>{' '}
+                    <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('value')}>
-                    <Translate contentKey="campaignToolApp.fieldPossibleValue.value">Value</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="automatedPerformanceTestingApp.fieldPossibleValue.value">Value</Translate>{' '}
+                    <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('isActive')}>
-                    <Translate contentKey="campaignToolApp.fieldPossibleValue.isActive">Is Active</Translate>{' '}
+                    <Translate contentKey="automatedPerformanceTestingApp.fieldPossibleValue.isActive">Is Active</Translate>{' '}
                     <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('createdBy')}>
-                    <Translate contentKey="campaignToolApp.fieldPossibleValue.createdBy">Created By</Translate>{' '}
+                    <Translate contentKey="automatedPerformanceTestingApp.fieldPossibleValue.createdBy">Created By</Translate>{' '}
                     <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('createdAt')}>
-                    <Translate contentKey="campaignToolApp.fieldPossibleValue.createdAt">Created At</Translate>{' '}
+                    <Translate contentKey="automatedPerformanceTestingApp.fieldPossibleValue.createdAt">Created At</Translate>{' '}
                     <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('updatedBy')}>
-                    <Translate contentKey="campaignToolApp.fieldPossibleValue.updatedBy">Updated By</Translate>{' '}
+                    <Translate contentKey="automatedPerformanceTestingApp.fieldPossibleValue.updatedBy">Updated By</Translate>{' '}
                     <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('updatedAt')}>
-                    <Translate contentKey="campaignToolApp.fieldPossibleValue.updatedAt">Updated At</Translate>{' '}
+                    <Translate contentKey="automatedPerformanceTestingApp.fieldPossibleValue.updatedAt">Updated At</Translate>{' '}
                     <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="campaignToolApp.fieldPossibleValue.field">Field</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="automatedPerformanceTestingApp.fieldPossibleValue.field">Field</Translate>{' '}
+                    <FontAwesomeIcon icon="sort" />
                   </th>
                   <th />
                 </tr>
@@ -158,7 +168,7 @@ export const FieldPossibleValue = (props: RouteComponentProps<{ url: string }>) 
                 {fieldPossibleValueList.map((fieldPossibleValue, i) => (
                   <tr key={`entity-${i}`} data-cy="entityTable">
                     <td>
-                      <Button tag={Link} to={`${match.url}/${fieldPossibleValue.id}`} color="link" size="sm">
+                      <Button tag={Link} to={`/field-possible-value/${fieldPossibleValue.id}`} color="link" size="sm">
                         {fieldPossibleValue.id}
                       </Button>
                     </td>
@@ -178,16 +188,16 @@ export const FieldPossibleValue = (props: RouteComponentProps<{ url: string }>) 
                     </td>
                     <td>
                       {fieldPossibleValue.field ? (
-                        <Link to={`field/${fieldPossibleValue.field.id}`}>{fieldPossibleValue.field.id}</Link>
+                        <Link to={`/field/${fieldPossibleValue.field.id}`}>{fieldPossibleValue.field.id}</Link>
                       ) : (
                         ''
                       )}
                     </td>
-                    <td className="text-right">
+                    <td className="text-end">
                       <div className="btn-group flex-btn-group-container">
                         <Button
                           tag={Link}
-                          to={`${match.url}/${fieldPossibleValue.id}`}
+                          to={`/field-possible-value/${fieldPossibleValue.id}`}
                           color="info"
                           size="sm"
                           data-cy="entityDetailsButton"
@@ -199,7 +209,7 @@ export const FieldPossibleValue = (props: RouteComponentProps<{ url: string }>) 
                         </Button>
                         <Button
                           tag={Link}
-                          to={`${match.url}/${fieldPossibleValue.id}/edit`}
+                          to={`/field-possible-value/${fieldPossibleValue.id}/edit`}
                           color="primary"
                           size="sm"
                           data-cy="entityEditButton"
@@ -211,7 +221,7 @@ export const FieldPossibleValue = (props: RouteComponentProps<{ url: string }>) 
                         </Button>
                         <Button
                           tag={Link}
-                          to={`${match.url}/${fieldPossibleValue.id}/delete`}
+                          to={`/field-possible-value/${fieldPossibleValue.id}/delete`}
                           color="danger"
                           size="sm"
                           data-cy="entityDeleteButton"
@@ -230,7 +240,9 @@ export const FieldPossibleValue = (props: RouteComponentProps<{ url: string }>) 
           ) : (
             !loading && (
               <div className="alert alert-warning">
-                <Translate contentKey="campaignToolApp.fieldPossibleValue.home.notFound">No Field Possible Values found</Translate>
+                <Translate contentKey="automatedPerformanceTestingApp.fieldPossibleValue.home.notFound">
+                  No Field Possible Values found
+                </Translate>
               </div>
             )
           )}

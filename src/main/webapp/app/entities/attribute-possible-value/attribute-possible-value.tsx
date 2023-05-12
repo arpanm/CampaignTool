@@ -1,22 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import InfiniteScroll from 'react-infinite-scroller';
-import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Col, Row, Table } from 'reactstrap';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Button, Table } from 'reactstrap';
 import { Translate, TextFormat, getSortState } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { getEntities, reset } from './attribute-possible-value.reducer';
-import { IAttributePossibleValue } from 'app/shared/model/attribute-possible-value.model';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/shared/util/pagination.constants';
 import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-export const AttributePossibleValue = (props: RouteComponentProps<{ url: string }>) => {
+import { IAttributePossibleValue } from 'app/shared/model/attribute-possible-value.model';
+import { getEntities, reset } from './attribute-possible-value.reducer';
+
+export const AttributePossibleValue = () => {
   const dispatch = useAppDispatch();
 
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const [paginationState, setPaginationState] = useState(
-    overridePaginationStateWithQueryParams(getSortState(props.location, ITEMS_PER_PAGE, 'id'), props.location.search)
+    overridePaginationStateWithQueryParams(getSortState(location, ITEMS_PER_PAGE, 'id'), location.search)
   );
   const [sorting, setSorting] = useState(false);
 
@@ -91,65 +95,71 @@ export const AttributePossibleValue = (props: RouteComponentProps<{ url: string 
     resetAll();
   };
 
-  const { match } = props;
-
   return (
     <div>
       <h2 id="attribute-possible-value-heading" data-cy="AttributePossibleValueHeading">
-        <Translate contentKey="campaignToolApp.attributePossibleValue.home.title">Attribute Possible Values</Translate>
+        <Translate contentKey="automatedPerformanceTestingApp.attributePossibleValue.home.title">Attribute Possible Values</Translate>
         <div className="d-flex justify-content-end">
-          <Button className="mr-2" color="info" onClick={handleSyncList} disabled={loading}>
+          <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
             <FontAwesomeIcon icon="sync" spin={loading} />{' '}
-            <Translate contentKey="campaignToolApp.attributePossibleValue.home.refreshListLabel">Refresh List</Translate>
+            <Translate contentKey="automatedPerformanceTestingApp.attributePossibleValue.home.refreshListLabel">Refresh List</Translate>
           </Button>
-          <Link to={`${match.url}/new`} className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
+          <Link
+            to="/attribute-possible-value/new"
+            className="btn btn-primary jh-create-entity"
+            id="jh-create-entity"
+            data-cy="entityCreateButton"
+          >
             <FontAwesomeIcon icon="plus" />
             &nbsp;
-            <Translate contentKey="campaignToolApp.attributePossibleValue.home.createLabel">Create new Attribute Possible Value</Translate>
+            <Translate contentKey="automatedPerformanceTestingApp.attributePossibleValue.home.createLabel">
+              Create new Attribute Possible Value
+            </Translate>
           </Link>
         </div>
       </h2>
       <div className="table-responsive">
         <InfiniteScroll
-          pageStart={paginationState.activePage}
-          loadMore={handleLoadMore}
+          dataLength={attributePossibleValueList ? attributePossibleValueList.length : 0}
+          next={handleLoadMore}
           hasMore={paginationState.activePage - 1 < links.next}
           loader={<div className="loader">Loading ...</div>}
-          threshold={0}
-          initialLoad={false}
         >
           {attributePossibleValueList && attributePossibleValueList.length > 0 ? (
             <Table responsive>
               <thead>
                 <tr>
                   <th className="hand" onClick={sort('id')}>
-                    <Translate contentKey="campaignToolApp.attributePossibleValue.id">ID</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="automatedPerformanceTestingApp.attributePossibleValue.id">ID</Translate>{' '}
+                    <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('value')}>
-                    <Translate contentKey="campaignToolApp.attributePossibleValue.value">Value</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="automatedPerformanceTestingApp.attributePossibleValue.value">Value</Translate>{' '}
+                    <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('isActive')}>
-                    <Translate contentKey="campaignToolApp.attributePossibleValue.isActive">Is Active</Translate>{' '}
+                    <Translate contentKey="automatedPerformanceTestingApp.attributePossibleValue.isActive">Is Active</Translate>{' '}
                     <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('createdBy')}>
-                    <Translate contentKey="campaignToolApp.attributePossibleValue.createdBy">Created By</Translate>{' '}
+                    <Translate contentKey="automatedPerformanceTestingApp.attributePossibleValue.createdBy">Created By</Translate>{' '}
                     <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('createdAt')}>
-                    <Translate contentKey="campaignToolApp.attributePossibleValue.createdAt">Created At</Translate>{' '}
+                    <Translate contentKey="automatedPerformanceTestingApp.attributePossibleValue.createdAt">Created At</Translate>{' '}
                     <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('updatedBy')}>
-                    <Translate contentKey="campaignToolApp.attributePossibleValue.updatedBy">Updated By</Translate>{' '}
+                    <Translate contentKey="automatedPerformanceTestingApp.attributePossibleValue.updatedBy">Updated By</Translate>{' '}
                     <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('updatedAt')}>
-                    <Translate contentKey="campaignToolApp.attributePossibleValue.updatedAt">Updated At</Translate>{' '}
+                    <Translate contentKey="automatedPerformanceTestingApp.attributePossibleValue.updatedAt">Updated At</Translate>{' '}
                     <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="campaignToolApp.attributePossibleValue.key">Key</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="automatedPerformanceTestingApp.attributePossibleValue.key">Key</Translate>{' '}
+                    <FontAwesomeIcon icon="sort" />
                   </th>
                   <th />
                 </tr>
@@ -158,7 +168,7 @@ export const AttributePossibleValue = (props: RouteComponentProps<{ url: string 
                 {attributePossibleValueList.map((attributePossibleValue, i) => (
                   <tr key={`entity-${i}`} data-cy="entityTable">
                     <td>
-                      <Button tag={Link} to={`${match.url}/${attributePossibleValue.id}`} color="link" size="sm">
+                      <Button tag={Link} to={`/attribute-possible-value/${attributePossibleValue.id}`} color="link" size="sm">
                         {attributePossibleValue.id}
                       </Button>
                     </td>
@@ -178,16 +188,16 @@ export const AttributePossibleValue = (props: RouteComponentProps<{ url: string 
                     </td>
                     <td>
                       {attributePossibleValue.key ? (
-                        <Link to={`attribute-key/${attributePossibleValue.key.id}`}>{attributePossibleValue.key.id}</Link>
+                        <Link to={`/attribute-key/${attributePossibleValue.key.id}`}>{attributePossibleValue.key.id}</Link>
                       ) : (
                         ''
                       )}
                     </td>
-                    <td className="text-right">
+                    <td className="text-end">
                       <div className="btn-group flex-btn-group-container">
                         <Button
                           tag={Link}
-                          to={`${match.url}/${attributePossibleValue.id}`}
+                          to={`/attribute-possible-value/${attributePossibleValue.id}`}
                           color="info"
                           size="sm"
                           data-cy="entityDetailsButton"
@@ -199,7 +209,7 @@ export const AttributePossibleValue = (props: RouteComponentProps<{ url: string 
                         </Button>
                         <Button
                           tag={Link}
-                          to={`${match.url}/${attributePossibleValue.id}/edit`}
+                          to={`/attribute-possible-value/${attributePossibleValue.id}/edit`}
                           color="primary"
                           size="sm"
                           data-cy="entityEditButton"
@@ -211,7 +221,7 @@ export const AttributePossibleValue = (props: RouteComponentProps<{ url: string 
                         </Button>
                         <Button
                           tag={Link}
-                          to={`${match.url}/${attributePossibleValue.id}/delete`}
+                          to={`/attribute-possible-value/${attributePossibleValue.id}/delete`}
                           color="danger"
                           size="sm"
                           data-cy="entityDeleteButton"
@@ -230,7 +240,9 @@ export const AttributePossibleValue = (props: RouteComponentProps<{ url: string 
           ) : (
             !loading && (
               <div className="alert alert-warning">
-                <Translate contentKey="campaignToolApp.attributePossibleValue.home.notFound">No Attribute Possible Values found</Translate>
+                <Translate contentKey="automatedPerformanceTestingApp.attributePossibleValue.home.notFound">
+                  No Attribute Possible Values found
+                </Translate>
               </div>
             )
           )}

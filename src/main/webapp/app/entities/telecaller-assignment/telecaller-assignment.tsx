@@ -1,22 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import InfiniteScroll from 'react-infinite-scroller';
-import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Col, Row, Table } from 'reactstrap';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Button, Table } from 'reactstrap';
 import { Translate, TextFormat, getSortState } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { getEntities, reset } from './telecaller-assignment.reducer';
-import { ITelecallerAssignment } from 'app/shared/model/telecaller-assignment.model';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/shared/util/pagination.constants';
 import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-export const TelecallerAssignment = (props: RouteComponentProps<{ url: string }>) => {
+import { ITelecallerAssignment } from 'app/shared/model/telecaller-assignment.model';
+import { getEntities, reset } from './telecaller-assignment.reducer';
+
+export const TelecallerAssignment = () => {
   const dispatch = useAppDispatch();
 
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const [paginationState, setPaginationState] = useState(
-    overridePaginationStateWithQueryParams(getSortState(props.location, ITEMS_PER_PAGE, 'id'), props.location.search)
+    overridePaginationStateWithQueryParams(getSortState(location, ITEMS_PER_PAGE, 'id'), location.search)
   );
   const [sorting, setSorting] = useState(false);
 
@@ -91,66 +95,70 @@ export const TelecallerAssignment = (props: RouteComponentProps<{ url: string }>
     resetAll();
   };
 
-  const { match } = props;
-
   return (
     <div>
       <h2 id="telecaller-assignment-heading" data-cy="TelecallerAssignmentHeading">
-        <Translate contentKey="campaignToolApp.telecallerAssignment.home.title">Telecaller Assignments</Translate>
+        <Translate contentKey="automatedPerformanceTestingApp.telecallerAssignment.home.title">Telecaller Assignments</Translate>
         <div className="d-flex justify-content-end">
-          <Button className="mr-2" color="info" onClick={handleSyncList} disabled={loading}>
+          <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
             <FontAwesomeIcon icon="sync" spin={loading} />{' '}
-            <Translate contentKey="campaignToolApp.telecallerAssignment.home.refreshListLabel">Refresh List</Translate>
+            <Translate contentKey="automatedPerformanceTestingApp.telecallerAssignment.home.refreshListLabel">Refresh List</Translate>
           </Button>
-          <Link to={`${match.url}/new`} className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
+          <Link
+            to="/telecaller-assignment/new"
+            className="btn btn-primary jh-create-entity"
+            id="jh-create-entity"
+            data-cy="entityCreateButton"
+          >
             <FontAwesomeIcon icon="plus" />
             &nbsp;
-            <Translate contentKey="campaignToolApp.telecallerAssignment.home.createLabel">Create new Telecaller Assignment</Translate>
+            <Translate contentKey="automatedPerformanceTestingApp.telecallerAssignment.home.createLabel">
+              Create new Telecaller Assignment
+            </Translate>
           </Link>
         </div>
       </h2>
       <div className="table-responsive">
         <InfiniteScroll
-          pageStart={paginationState.activePage}
-          loadMore={handleLoadMore}
+          dataLength={telecallerAssignmentList ? telecallerAssignmentList.length : 0}
+          next={handleLoadMore}
           hasMore={paginationState.activePage - 1 < links.next}
           loader={<div className="loader">Loading ...</div>}
-          threshold={0}
-          initialLoad={false}
         >
           {telecallerAssignmentList && telecallerAssignmentList.length > 0 ? (
             <Table responsive>
               <thead>
                 <tr>
                   <th className="hand" onClick={sort('id')}>
-                    <Translate contentKey="campaignToolApp.telecallerAssignment.id">ID</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="automatedPerformanceTestingApp.telecallerAssignment.id">ID</Translate>{' '}
+                    <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('assignmentDate')}>
-                    <Translate contentKey="campaignToolApp.telecallerAssignment.assignmentDate">Assignment Date</Translate>{' '}
+                    <Translate contentKey="automatedPerformanceTestingApp.telecallerAssignment.assignmentDate">Assignment Date</Translate>{' '}
                     <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('createdBy')}>
-                    <Translate contentKey="campaignToolApp.telecallerAssignment.createdBy">Created By</Translate>{' '}
+                    <Translate contentKey="automatedPerformanceTestingApp.telecallerAssignment.createdBy">Created By</Translate>{' '}
                     <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('createdAt')}>
-                    <Translate contentKey="campaignToolApp.telecallerAssignment.createdAt">Created At</Translate>{' '}
+                    <Translate contentKey="automatedPerformanceTestingApp.telecallerAssignment.createdAt">Created At</Translate>{' '}
                     <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('updatedBy')}>
-                    <Translate contentKey="campaignToolApp.telecallerAssignment.updatedBy">Updated By</Translate>{' '}
+                    <Translate contentKey="automatedPerformanceTestingApp.telecallerAssignment.updatedBy">Updated By</Translate>{' '}
                     <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('updatedAt')}>
-                    <Translate contentKey="campaignToolApp.telecallerAssignment.updatedAt">Updated At</Translate>{' '}
+                    <Translate contentKey="automatedPerformanceTestingApp.telecallerAssignment.updatedAt">Updated At</Translate>{' '}
                     <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="campaignToolApp.telecallerAssignment.telecaller">Telecaller</Translate>{' '}
+                    <Translate contentKey="automatedPerformanceTestingApp.telecallerAssignment.telecaller">Telecaller</Translate>{' '}
                     <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="campaignToolApp.telecallerAssignment.campaign">Campaign</Translate>{' '}
+                    <Translate contentKey="automatedPerformanceTestingApp.telecallerAssignment.campaign">Campaign</Translate>{' '}
                     <FontAwesomeIcon icon="sort" />
                   </th>
                   <th />
@@ -160,7 +168,7 @@ export const TelecallerAssignment = (props: RouteComponentProps<{ url: string }>
                 {telecallerAssignmentList.map((telecallerAssignment, i) => (
                   <tr key={`entity-${i}`} data-cy="entityTable">
                     <td>
-                      <Button tag={Link} to={`${match.url}/${telecallerAssignment.id}`} color="link" size="sm">
+                      <Button tag={Link} to={`/telecaller-assignment/${telecallerAssignment.id}`} color="link" size="sm">
                         {telecallerAssignment.id}
                       </Button>
                     </td>
@@ -179,23 +187,23 @@ export const TelecallerAssignment = (props: RouteComponentProps<{ url: string }>
                     </td>
                     <td>
                       {telecallerAssignment.telecaller ? (
-                        <Link to={`telecaller/${telecallerAssignment.telecaller.id}`}>{telecallerAssignment.telecaller.id}</Link>
+                        <Link to={`/telecaller/${telecallerAssignment.telecaller.id}`}>{telecallerAssignment.telecaller.id}</Link>
                       ) : (
                         ''
                       )}
                     </td>
                     <td>
                       {telecallerAssignment.campaign ? (
-                        <Link to={`campaign/${telecallerAssignment.campaign.id}`}>{telecallerAssignment.campaign.id}</Link>
+                        <Link to={`/campaign/${telecallerAssignment.campaign.id}`}>{telecallerAssignment.campaign.id}</Link>
                       ) : (
                         ''
                       )}
                     </td>
-                    <td className="text-right">
+                    <td className="text-end">
                       <div className="btn-group flex-btn-group-container">
                         <Button
                           tag={Link}
-                          to={`${match.url}/${telecallerAssignment.id}`}
+                          to={`/telecaller-assignment/${telecallerAssignment.id}`}
                           color="info"
                           size="sm"
                           data-cy="entityDetailsButton"
@@ -207,7 +215,7 @@ export const TelecallerAssignment = (props: RouteComponentProps<{ url: string }>
                         </Button>
                         <Button
                           tag={Link}
-                          to={`${match.url}/${telecallerAssignment.id}/edit`}
+                          to={`/telecaller-assignment/${telecallerAssignment.id}/edit`}
                           color="primary"
                           size="sm"
                           data-cy="entityEditButton"
@@ -219,7 +227,7 @@ export const TelecallerAssignment = (props: RouteComponentProps<{ url: string }>
                         </Button>
                         <Button
                           tag={Link}
-                          to={`${match.url}/${telecallerAssignment.id}/delete`}
+                          to={`/telecaller-assignment/${telecallerAssignment.id}/delete`}
                           color="danger"
                           size="sm"
                           data-cy="entityDeleteButton"
@@ -238,7 +246,9 @@ export const TelecallerAssignment = (props: RouteComponentProps<{ url: string }>
           ) : (
             !loading && (
               <div className="alert alert-warning">
-                <Translate contentKey="campaignToolApp.telecallerAssignment.home.notFound">No Telecaller Assignments found</Translate>
+                <Translate contentKey="automatedPerformanceTestingApp.telecallerAssignment.home.notFound">
+                  No Telecaller Assignments found
+                </Translate>
               </div>
             )
           )}

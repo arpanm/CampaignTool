@@ -30,6 +30,8 @@ export const HealthPage = () => {
     setHealthObject({ ...healthObj, name });
   };
 
+  const getBadgeType = (status: string) => (status !== 'UP' ? 'danger' : 'success');
+
   const handleClose = () => setShowModal(false);
 
   const renderModal = () => <HealthModal healthObject={healthObject} handleClose={handleClose} showModal={showModal} />;
@@ -39,7 +41,7 @@ export const HealthPage = () => {
   return (
     <div>
       <h2 id="health-page-heading" data-cy="healthPageHeading">
-        Health Checks
+        <Translate contentKey="health.title">Health Checks</Translate>
       </h2>
       <p>
         <Button onClick={fetchSystemHealth} color={isFetching ? 'btn btn-danger' : 'btn btn-primary'} disabled={isFetching}>
@@ -55,9 +57,15 @@ export const HealthPage = () => {
           <Table bordered aria-describedby="health-page-heading">
             <thead>
               <tr>
-                <th>Service Name</th>
-                <th>Status</th>
-                <th>Details</th>
+                <th>
+                  <Translate contentKey="health.table.service">Service Name</Translate>
+                </th>
+                <th>
+                  <Translate contentKey="health.table.status">Status</Translate>
+                </th>
+                <th>
+                  <Translate contentKey="health.details.details">Details</Translate>
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -66,7 +74,7 @@ export const HealthPage = () => {
                   <tr key={configPropIndex}>
                     <td>{configPropKey}</td>
                     <td>
-                      <Badge color={data[configPropKey].status !== 'UP' ? 'danger' : 'success'}>{data[configPropKey].status}</Badge>
+                      <Badge color={getBadgeType(data[configPropKey].status)}>{data[configPropKey].status}</Badge>
                     </td>
                     <td>
                       {data[configPropKey].details ? (

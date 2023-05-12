@@ -1,18 +1,21 @@
 import React, { useEffect } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Button, Row, Col } from 'reactstrap';
 import { Translate, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { getEntity } from './telecaller-assignment.reducer';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-export const TelecallerAssignmentDetail = (props: RouteComponentProps<{ id: string }>) => {
+import { getEntity } from './telecaller-assignment.reducer';
+
+export const TelecallerAssignmentDetail = () => {
   const dispatch = useAppDispatch();
 
+  const { id } = useParams<'id'>();
+
   useEffect(() => {
-    dispatch(getEntity(props.match.params.id));
+    dispatch(getEntity(id));
   }, []);
 
   const telecallerAssignmentEntity = useAppSelector(state => state.telecallerAssignment.entity);
@@ -20,7 +23,7 @@ export const TelecallerAssignmentDetail = (props: RouteComponentProps<{ id: stri
     <Row>
       <Col md="8">
         <h2 data-cy="telecallerAssignmentDetailsHeading">
-          <Translate contentKey="campaignToolApp.telecallerAssignment.detail.title">TelecallerAssignment</Translate>
+          <Translate contentKey="automatedPerformanceTestingApp.telecallerAssignment.detail.title">TelecallerAssignment</Translate>
         </h2>
         <dl className="jh-entity-details">
           <dt>
@@ -31,19 +34,19 @@ export const TelecallerAssignmentDetail = (props: RouteComponentProps<{ id: stri
           <dd>{telecallerAssignmentEntity.id}</dd>
           <dt>
             <span id="assignmentDate">
-              <Translate contentKey="campaignToolApp.telecallerAssignment.assignmentDate">Assignment Date</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.telecallerAssignment.assignmentDate">Assignment Date</Translate>
             </span>
           </dt>
           <dd>{telecallerAssignmentEntity.assignmentDate}</dd>
           <dt>
             <span id="createdBy">
-              <Translate contentKey="campaignToolApp.telecallerAssignment.createdBy">Created By</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.telecallerAssignment.createdBy">Created By</Translate>
             </span>
           </dt>
           <dd>{telecallerAssignmentEntity.createdBy}</dd>
           <dt>
             <span id="createdAt">
-              <Translate contentKey="campaignToolApp.telecallerAssignment.createdAt">Created At</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.telecallerAssignment.createdAt">Created At</Translate>
             </span>
           </dt>
           <dd>
@@ -53,13 +56,13 @@ export const TelecallerAssignmentDetail = (props: RouteComponentProps<{ id: stri
           </dd>
           <dt>
             <span id="updatedBy">
-              <Translate contentKey="campaignToolApp.telecallerAssignment.updatedBy">Updated By</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.telecallerAssignment.updatedBy">Updated By</Translate>
             </span>
           </dt>
           <dd>{telecallerAssignmentEntity.updatedBy}</dd>
           <dt>
             <span id="updatedAt">
-              <Translate contentKey="campaignToolApp.telecallerAssignment.updatedAt">Updated At</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.telecallerAssignment.updatedAt">Updated At</Translate>
             </span>
           </dt>
           <dd>
@@ -68,11 +71,11 @@ export const TelecallerAssignmentDetail = (props: RouteComponentProps<{ id: stri
             ) : null}
           </dd>
           <dt>
-            <Translate contentKey="campaignToolApp.telecallerAssignment.telecaller">Telecaller</Translate>
+            <Translate contentKey="automatedPerformanceTestingApp.telecallerAssignment.telecaller">Telecaller</Translate>
           </dt>
           <dd>{telecallerAssignmentEntity.telecaller ? telecallerAssignmentEntity.telecaller.id : ''}</dd>
           <dt>
-            <Translate contentKey="campaignToolApp.telecallerAssignment.campaign">Campaign</Translate>
+            <Translate contentKey="automatedPerformanceTestingApp.telecallerAssignment.campaign">Campaign</Translate>
           </dt>
           <dd>{telecallerAssignmentEntity.campaign ? telecallerAssignmentEntity.campaign.id : ''}</dd>
         </dl>

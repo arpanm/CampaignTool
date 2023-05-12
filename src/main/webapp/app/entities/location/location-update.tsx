@@ -1,21 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, Row, Col, FormText } from 'reactstrap';
 import { isNumber, Translate, translate, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { ILead } from 'app/shared/model/lead.model';
-import { getEntities as getLeads } from 'app/entities/lead/lead.reducer';
-import { getEntity, updateEntity, createEntity, reset } from './location.reducer';
-import { ILocation } from 'app/shared/model/location.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { mapIdList } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-export const LocationUpdate = (props: RouteComponentProps<{ id: string }>) => {
+import { ILead } from 'app/shared/model/lead.model';
+import { getEntities as getLeads } from 'app/entities/lead/lead.reducer';
+import { ILocation } from 'app/shared/model/location.model';
+import { getEntity, updateEntity, createEntity, reset } from './location.reducer';
+
+export const LocationUpdate = () => {
   const dispatch = useAppDispatch();
 
-  const [isNew] = useState(!props.match.params || !props.match.params.id);
+  const navigate = useNavigate();
+
+  const { id } = useParams<'id'>();
+  const isNew = id === undefined;
 
   const leads = useAppSelector(state => state.lead.entities);
   const locationEntity = useAppSelector(state => state.location.entity);
@@ -24,12 +28,12 @@ export const LocationUpdate = (props: RouteComponentProps<{ id: string }>) => {
   const updateSuccess = useAppSelector(state => state.location.updateSuccess);
 
   const handleClose = () => {
-    props.history.push('/location');
+    navigate('/location');
   };
 
   useEffect(() => {
     if (!isNew) {
-      dispatch(getEntity(props.match.params.id));
+      dispatch(getEntity(id));
     }
 
     dispatch(getLeads({}));
@@ -65,8 +69,8 @@ export const LocationUpdate = (props: RouteComponentProps<{ id: string }>) => {
     <div>
       <Row className="justify-content-center">
         <Col md="8">
-          <h2 id="campaignToolApp.location.home.createOrEditLabel" data-cy="LocationCreateUpdateHeading">
-            <Translate contentKey="campaignToolApp.location.home.createOrEditLabel">Create or edit a Location</Translate>
+          <h2 id="automatedPerformanceTestingApp.location.home.createOrEditLabel" data-cy="LocationCreateUpdateHeading">
+            <Translate contentKey="automatedPerformanceTestingApp.location.home.createOrEditLabel">Create or edit a Location</Translate>
           </h2>
         </Col>
       </Row>
@@ -87,7 +91,7 @@ export const LocationUpdate = (props: RouteComponentProps<{ id: string }>) => {
                 />
               ) : null}
               <ValidatedField
-                label={translate('campaignToolApp.location.pincode')}
+                label={translate('automatedPerformanceTestingApp.location.pincode')}
                 id="location-pincode"
                 name="pincode"
                 data-cy="pincode"
@@ -99,28 +103,28 @@ export const LocationUpdate = (props: RouteComponentProps<{ id: string }>) => {
                 }}
               />
               <ValidatedField
-                label={translate('campaignToolApp.location.country')}
+                label={translate('automatedPerformanceTestingApp.location.country')}
                 id="location-country"
                 name="country"
                 data-cy="country"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.location.state')}
+                label={translate('automatedPerformanceTestingApp.location.state')}
                 id="location-state"
                 name="state"
                 data-cy="state"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.location.city')}
+                label={translate('automatedPerformanceTestingApp.location.city')}
                 id="location-city"
                 name="city"
                 data-cy="city"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.location.isActive')}
+                label={translate('automatedPerformanceTestingApp.location.isActive')}
                 id="location-isActive"
                 name="isActive"
                 data-cy="isActive"
@@ -128,28 +132,28 @@ export const LocationUpdate = (props: RouteComponentProps<{ id: string }>) => {
                 type="checkbox"
               />
               <ValidatedField
-                label={translate('campaignToolApp.location.createdBy')}
+                label={translate('automatedPerformanceTestingApp.location.createdBy')}
                 id="location-createdBy"
                 name="createdBy"
                 data-cy="createdBy"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.location.createdAt')}
+                label={translate('automatedPerformanceTestingApp.location.createdAt')}
                 id="location-createdAt"
                 name="createdAt"
                 data-cy="createdAt"
                 type="date"
               />
               <ValidatedField
-                label={translate('campaignToolApp.location.updatedBy')}
+                label={translate('automatedPerformanceTestingApp.location.updatedBy')}
                 id="location-updatedBy"
                 name="updatedBy"
                 data-cy="updatedBy"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.location.updatedAt')}
+                label={translate('automatedPerformanceTestingApp.location.updatedAt')}
                 id="location-updatedAt"
                 name="updatedAt"
                 data-cy="updatedAt"

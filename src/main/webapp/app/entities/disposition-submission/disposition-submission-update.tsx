@@ -1,23 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, Row, Col, FormText } from 'reactstrap';
 import { isNumber, Translate, translate, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
+import { mapIdList } from 'app/shared/util/entity-utils';
+import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { ICall } from 'app/shared/model/call.model';
 import { getEntities as getCalls } from 'app/entities/call/call.reducer';
 import { IDisposition } from 'app/shared/model/disposition.model';
 import { getEntities as getDispositions } from 'app/entities/disposition/disposition.reducer';
-import { getEntity, updateEntity, createEntity, reset } from './disposition-submission.reducer';
 import { IDispositionSubmission } from 'app/shared/model/disposition-submission.model';
-import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
-import { mapIdList } from 'app/shared/util/entity-utils';
-import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { getEntity, updateEntity, createEntity, reset } from './disposition-submission.reducer';
 
-export const DispositionSubmissionUpdate = (props: RouteComponentProps<{ id: string }>) => {
+export const DispositionSubmissionUpdate = () => {
   const dispatch = useAppDispatch();
 
-  const [isNew] = useState(!props.match.params || !props.match.params.id);
+  const navigate = useNavigate();
+
+  const { id } = useParams<'id'>();
+  const isNew = id === undefined;
 
   const calls = useAppSelector(state => state.call.entities);
   const dispositions = useAppSelector(state => state.disposition.entities);
@@ -27,12 +31,12 @@ export const DispositionSubmissionUpdate = (props: RouteComponentProps<{ id: str
   const updateSuccess = useAppSelector(state => state.dispositionSubmission.updateSuccess);
 
   const handleClose = () => {
-    props.history.push('/disposition-submission');
+    navigate('/disposition-submission');
   };
 
   useEffect(() => {
     if (!isNew) {
-      dispatch(getEntity(props.match.params.id));
+      dispatch(getEntity(id));
     }
 
     dispatch(getCalls({}));
@@ -49,7 +53,7 @@ export const DispositionSubmissionUpdate = (props: RouteComponentProps<{ id: str
     const entity = {
       ...dispositionSubmissionEntity,
       ...values,
-      disposition: dispositions.find(it => it.id.toString() === values.dispositionId.toString()),
+      disposition: dispositions.find(it => it.id.toString() === values.disposition.toString()),
     };
 
     if (isNew) {
@@ -64,15 +68,18 @@ export const DispositionSubmissionUpdate = (props: RouteComponentProps<{ id: str
       ? {}
       : {
           ...dispositionSubmissionEntity,
-          dispositionId: dispositionSubmissionEntity?.disposition?.id,
+          disposition: dispositionSubmissionEntity?.disposition?.id,
         };
 
   return (
     <div>
       <Row className="justify-content-center">
         <Col md="8">
-          <h2 id="campaignToolApp.dispositionSubmission.home.createOrEditLabel" data-cy="DispositionSubmissionCreateUpdateHeading">
-            <Translate contentKey="campaignToolApp.dispositionSubmission.home.createOrEditLabel">
+          <h2
+            id="automatedPerformanceTestingApp.dispositionSubmission.home.createOrEditLabel"
+            data-cy="DispositionSubmissionCreateUpdateHeading"
+          >
+            <Translate contentKey="automatedPerformanceTestingApp.dispositionSubmission.home.createOrEditLabel">
               Create or edit a DispositionSubmission
             </Translate>
           </h2>
@@ -95,28 +102,28 @@ export const DispositionSubmissionUpdate = (props: RouteComponentProps<{ id: str
                 />
               ) : null}
               <ValidatedField
-                label={translate('campaignToolApp.dispositionSubmission.createdBy')}
+                label={translate('automatedPerformanceTestingApp.dispositionSubmission.createdBy')}
                 id="disposition-submission-createdBy"
                 name="createdBy"
                 data-cy="createdBy"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.dispositionSubmission.createdAt')}
+                label={translate('automatedPerformanceTestingApp.dispositionSubmission.createdAt')}
                 id="disposition-submission-createdAt"
                 name="createdAt"
                 data-cy="createdAt"
                 type="date"
               />
               <ValidatedField
-                label={translate('campaignToolApp.dispositionSubmission.updatedBy')}
+                label={translate('automatedPerformanceTestingApp.dispositionSubmission.updatedBy')}
                 id="disposition-submission-updatedBy"
                 name="updatedBy"
                 data-cy="updatedBy"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.dispositionSubmission.updatedAt')}
+                label={translate('automatedPerformanceTestingApp.dispositionSubmission.updatedAt')}
                 id="disposition-submission-updatedAt"
                 name="updatedAt"
                 data-cy="updatedAt"
@@ -124,9 +131,9 @@ export const DispositionSubmissionUpdate = (props: RouteComponentProps<{ id: str
               />
               <ValidatedField
                 id="disposition-submission-disposition"
-                name="dispositionId"
+                name="disposition"
                 data-cy="disposition"
-                label={translate('campaignToolApp.dispositionSubmission.disposition')}
+                label={translate('automatedPerformanceTestingApp.dispositionSubmission.disposition')}
                 type="select"
               >
                 <option value="" key="0" />

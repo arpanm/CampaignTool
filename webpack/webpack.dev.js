@@ -11,15 +11,15 @@ const commonConfig = require('./webpack.common.js');
 
 const ENV = 'development';
 
-module.exports = options =>
-  webpackMerge(commonConfig({ env: ENV }), {
+module.exports = async options =>
+  webpackMerge(await commonConfig({ env: ENV }), {
     devtool: 'cheap-module-source-map', // https://reactjs.org/docs/cross-origin-errors.html
     mode: ENV,
     entry: ['./src/main/webapp/app/index'],
     output: {
       path: utils.root('target/classes/static/'),
-      filename: 'app/[name].bundle.js',
-      chunkFilename: 'app/[id].chunk.js',
+      filename: '[name].[contenthash:8].js',
+      chunkFilename: '[name].[chunkhash:8].chunk.js',
     },
     optimization: {
       moduleIds: 'named',
@@ -31,7 +31,9 @@ module.exports = options =>
           use: [
             'style-loader',
             'css-loader',
-            'postcss-loader',
+            {
+              loader: 'postcss-loader',
+            },
             {
               loader: 'sass-loader',
               options: { implementation: sass },
@@ -41,21 +43,19 @@ module.exports = options =>
       ],
     },
     devServer: {
-      stats: options.stats,
       hot: true,
-      contentBase: './target/classes/static/',
+      static: {
+        directory: './target/classes/static/',
+      },
       port: 9060,
       proxy: [
         {
-          context: ['/api', '/services', '/management', '/swagger-resources', '/v2/api-docs', '/v3/api-docs', '/h2-console', '/auth'],
+          context: ['/api', '/services', '/management', '/v3/api-docs', '/h2-console', '/auth'],
           target: `http${options.tls ? 's' : ''}://localhost:9001`,
           secure: false,
           changeOrigin: options.tls,
         },
       ],
-      watchOptions: {
-        ignore: [/node_modules/, utils.root('src/test')],
-      },
       https: options.tls,
       historyApiFallback: true,
     },
@@ -72,7 +72,8 @@ module.exports = options =>
           host: 'localhost',
           port: 9000,
           proxy: {
-            target: `http${options.tls ? 's' : ''}://localhost:9060`,
+            target: `http${options.tls ? 's' : ''}://localhost:${options.watch ? '9001' : '9060'}`,
+            ws: true,
             proxyOptions: {
               changeOrigin: false, //pass the Host header to the backend unchanged  https://github.com/Browsersync/browser-sync/issues/430
             },
@@ -94,9 +95,8 @@ module.exports = options =>
           reload: false,
         }
       ),
-      new webpack.HotModuleReplacementPlugin(),
       new WebpackNotifierPlugin({
-        title: 'Campaign Tool',
+        title: 'Automated Performance Testing',
         contentImage: path.join(__dirname, 'logo-jhipster.png'),
       }),
     ].filter(Boolean),

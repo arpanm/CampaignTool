@@ -1,18 +1,21 @@
 import React, { useEffect } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Button, Row, Col } from 'reactstrap';
 import { Translate, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { getEntity } from './disposition-submission-value.reducer';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-export const DispositionSubmissionValueDetail = (props: RouteComponentProps<{ id: string }>) => {
+import { getEntity } from './disposition-submission-value.reducer';
+
+export const DispositionSubmissionValueDetail = () => {
   const dispatch = useAppDispatch();
 
+  const { id } = useParams<'id'>();
+
   useEffect(() => {
-    dispatch(getEntity(props.match.params.id));
+    dispatch(getEntity(id));
   }, []);
 
   const dispositionSubmissionValueEntity = useAppSelector(state => state.dispositionSubmissionValue.entity);
@@ -20,7 +23,9 @@ export const DispositionSubmissionValueDetail = (props: RouteComponentProps<{ id
     <Row>
       <Col md="8">
         <h2 data-cy="dispositionSubmissionValueDetailsHeading">
-          <Translate contentKey="campaignToolApp.dispositionSubmissionValue.detail.title">DispositionSubmissionValue</Translate>
+          <Translate contentKey="automatedPerformanceTestingApp.dispositionSubmissionValue.detail.title">
+            DispositionSubmissionValue
+          </Translate>
         </h2>
         <dl className="jh-entity-details">
           <dt>
@@ -31,19 +36,19 @@ export const DispositionSubmissionValueDetail = (props: RouteComponentProps<{ id
           <dd>{dispositionSubmissionValueEntity.id}</dd>
           <dt>
             <span id="value">
-              <Translate contentKey="campaignToolApp.dispositionSubmissionValue.value">Value</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.dispositionSubmissionValue.value">Value</Translate>
             </span>
           </dt>
           <dd>{dispositionSubmissionValueEntity.value}</dd>
           <dt>
             <span id="createdBy">
-              <Translate contentKey="campaignToolApp.dispositionSubmissionValue.createdBy">Created By</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.dispositionSubmissionValue.createdBy">Created By</Translate>
             </span>
           </dt>
           <dd>{dispositionSubmissionValueEntity.createdBy}</dd>
           <dt>
             <span id="createdAt">
-              <Translate contentKey="campaignToolApp.dispositionSubmissionValue.createdAt">Created At</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.dispositionSubmissionValue.createdAt">Created At</Translate>
             </span>
           </dt>
           <dd>
@@ -53,13 +58,13 @@ export const DispositionSubmissionValueDetail = (props: RouteComponentProps<{ id
           </dd>
           <dt>
             <span id="updatedBy">
-              <Translate contentKey="campaignToolApp.dispositionSubmissionValue.updatedBy">Updated By</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.dispositionSubmissionValue.updatedBy">Updated By</Translate>
             </span>
           </dt>
           <dd>{dispositionSubmissionValueEntity.updatedBy}</dd>
           <dt>
             <span id="updatedAt">
-              <Translate contentKey="campaignToolApp.dispositionSubmissionValue.updatedAt">Updated At</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.dispositionSubmissionValue.updatedAt">Updated At</Translate>
             </span>
           </dt>
           <dd>
@@ -68,15 +73,17 @@ export const DispositionSubmissionValueDetail = (props: RouteComponentProps<{ id
             ) : null}
           </dd>
           <dt>
-            <Translate contentKey="campaignToolApp.dispositionSubmissionValue.dispositionSubmission">Disposition Submission</Translate>
+            <Translate contentKey="automatedPerformanceTestingApp.dispositionSubmissionValue.dispositionSubmission">
+              Disposition Submission
+            </Translate>
           </dt>
           <dd>{dispositionSubmissionValueEntity.dispositionSubmission ? dispositionSubmissionValueEntity.dispositionSubmission.id : ''}</dd>
           <dt>
-            <Translate contentKey="campaignToolApp.dispositionSubmissionValue.field">Field</Translate>
+            <Translate contentKey="automatedPerformanceTestingApp.dispositionSubmissionValue.field">Field</Translate>
           </dt>
           <dd>{dispositionSubmissionValueEntity.field ? dispositionSubmissionValueEntity.field.id : ''}</dd>
           <dt>
-            <Translate contentKey="campaignToolApp.dispositionSubmissionValue.possibleValue">Possible Value</Translate>
+            <Translate contentKey="automatedPerformanceTestingApp.dispositionSubmissionValue.possibleValue">Possible Value</Translate>
           </dt>
           <dd>{dispositionSubmissionValueEntity.possibleValue ? dispositionSubmissionValueEntity.possibleValue.id : ''}</dd>
         </dl>

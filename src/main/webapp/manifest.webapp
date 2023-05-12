@@ -1,6 +1,6 @@
 {
-  "name": "CampaignTool",
-  "short_name": "CampaignTool",
+  "name": "AutomatedPerformanceTesting",
+  "short_name": "AutomatedPerformanceTesting",
   "icons": [
     {
       "src": "./content/images/jhipster_family_member_0_head-192.png",

@@ -1,22 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import InfiniteScroll from 'react-infinite-scroller';
-import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Col, Row, Table } from 'reactstrap';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Button, Table } from 'reactstrap';
 import { Translate, TextFormat, getSortState } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { getEntities, reset } from './lead-association.reducer';
-import { ILeadAssociation } from 'app/shared/model/lead-association.model';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/shared/util/pagination.constants';
 import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-export const LeadAssociation = (props: RouteComponentProps<{ url: string }>) => {
+import { ILeadAssociation } from 'app/shared/model/lead-association.model';
+import { getEntities, reset } from './lead-association.reducer';
+
+export const LeadAssociation = () => {
   const dispatch = useAppDispatch();
 
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const [paginationState, setPaginationState] = useState(
-    overridePaginationStateWithQueryParams(getSortState(props.location, ITEMS_PER_PAGE, 'id'), props.location.search)
+    overridePaginationStateWithQueryParams(getSortState(location, ITEMS_PER_PAGE, 'id'), location.search)
   );
   const [sorting, setSorting] = useState(false);
 
@@ -91,61 +95,63 @@ export const LeadAssociation = (props: RouteComponentProps<{ url: string }>) => 
     resetAll();
   };
 
-  const { match } = props;
-
   return (
     <div>
       <h2 id="lead-association-heading" data-cy="LeadAssociationHeading">
-        <Translate contentKey="campaignToolApp.leadAssociation.home.title">Lead Associations</Translate>
+        <Translate contentKey="automatedPerformanceTestingApp.leadAssociation.home.title">Lead Associations</Translate>
         <div className="d-flex justify-content-end">
-          <Button className="mr-2" color="info" onClick={handleSyncList} disabled={loading}>
+          <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
             <FontAwesomeIcon icon="sync" spin={loading} />{' '}
-            <Translate contentKey="campaignToolApp.leadAssociation.home.refreshListLabel">Refresh List</Translate>
+            <Translate contentKey="automatedPerformanceTestingApp.leadAssociation.home.refreshListLabel">Refresh List</Translate>
           </Button>
-          <Link to={`${match.url}/new`} className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
+          <Link to="/lead-association/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
             <FontAwesomeIcon icon="plus" />
             &nbsp;
-            <Translate contentKey="campaignToolApp.leadAssociation.home.createLabel">Create new Lead Association</Translate>
+            <Translate contentKey="automatedPerformanceTestingApp.leadAssociation.home.createLabel">Create new Lead Association</Translate>
           </Link>
         </div>
       </h2>
       <div className="table-responsive">
         <InfiniteScroll
-          pageStart={paginationState.activePage}
-          loadMore={handleLoadMore}
+          dataLength={leadAssociationList ? leadAssociationList.length : 0}
+          next={handleLoadMore}
           hasMore={paginationState.activePage - 1 < links.next}
           loader={<div className="loader">Loading ...</div>}
-          threshold={0}
-          initialLoad={false}
         >
           {leadAssociationList && leadAssociationList.length > 0 ? (
             <Table responsive>
               <thead>
                 <tr>
                   <th className="hand" onClick={sort('id')}>
-                    <Translate contentKey="campaignToolApp.leadAssociation.id">ID</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="automatedPerformanceTestingApp.leadAssociation.id">ID</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('assignmentDate')}>
-                    <Translate contentKey="campaignToolApp.leadAssociation.assignmentDate">Assignment Date</Translate>{' '}
+                    <Translate contentKey="automatedPerformanceTestingApp.leadAssociation.assignmentDate">Assignment Date</Translate>{' '}
                     <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('createdBy')}>
-                    <Translate contentKey="campaignToolApp.leadAssociation.createdBy">Created By</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="automatedPerformanceTestingApp.leadAssociation.createdBy">Created By</Translate>{' '}
+                    <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('createdAt')}>
-                    <Translate contentKey="campaignToolApp.leadAssociation.createdAt">Created At</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="automatedPerformanceTestingApp.leadAssociation.createdAt">Created At</Translate>{' '}
+                    <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('updatedBy')}>
-                    <Translate contentKey="campaignToolApp.leadAssociation.updatedBy">Updated By</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="automatedPerformanceTestingApp.leadAssociation.updatedBy">Updated By</Translate>{' '}
+                    <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('updatedAt')}>
-                    <Translate contentKey="campaignToolApp.leadAssociation.updatedAt">Updated At</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="automatedPerformanceTestingApp.leadAssociation.updatedAt">Updated At</Translate>{' '}
+                    <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="campaignToolApp.leadAssociation.lead">Lead</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="automatedPerformanceTestingApp.leadAssociation.lead">Lead</Translate>{' '}
+                    <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="campaignToolApp.leadAssociation.campaign">Campaign</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="automatedPerformanceTestingApp.leadAssociation.campaign">Campaign</Translate>{' '}
+                    <FontAwesomeIcon icon="sort" />
                   </th>
                   <th />
                 </tr>
@@ -154,7 +160,7 @@ export const LeadAssociation = (props: RouteComponentProps<{ url: string }>) => 
                 {leadAssociationList.map((leadAssociation, i) => (
                   <tr key={`entity-${i}`} data-cy="entityTable">
                     <td>
-                      <Button tag={Link} to={`${match.url}/${leadAssociation.id}`} color="link" size="sm">
+                      <Button tag={Link} to={`/lead-association/${leadAssociation.id}`} color="link" size="sm">
                         {leadAssociation.id}
                       </Button>
                     </td>
@@ -171,17 +177,23 @@ export const LeadAssociation = (props: RouteComponentProps<{ url: string }>) => 
                         <TextFormat type="date" value={leadAssociation.updatedAt} format={APP_LOCAL_DATE_FORMAT} />
                       ) : null}
                     </td>
-                    <td>{leadAssociation.lead ? <Link to={`lead/${leadAssociation.lead.id}`}>{leadAssociation.lead.id}</Link> : ''}</td>
+                    <td>{leadAssociation.lead ? <Link to={`/lead/${leadAssociation.lead.id}`}>{leadAssociation.lead.id}</Link> : ''}</td>
                     <td>
                       {leadAssociation.campaign ? (
-                        <Link to={`campaign/${leadAssociation.campaign.id}`}>{leadAssociation.campaign.id}</Link>
+                        <Link to={`/campaign/${leadAssociation.campaign.id}`}>{leadAssociation.campaign.id}</Link>
                       ) : (
                         ''
                       )}
                     </td>
-                    <td className="text-right">
+                    <td className="text-end">
                       <div className="btn-group flex-btn-group-container">
-                        <Button tag={Link} to={`${match.url}/${leadAssociation.id}`} color="info" size="sm" data-cy="entityDetailsButton">
+                        <Button
+                          tag={Link}
+                          to={`/lead-association/${leadAssociation.id}`}
+                          color="info"
+                          size="sm"
+                          data-cy="entityDetailsButton"
+                        >
                           <FontAwesomeIcon icon="eye" />{' '}
                           <span className="d-none d-md-inline">
                             <Translate contentKey="entity.action.view">View</Translate>
@@ -189,7 +201,7 @@ export const LeadAssociation = (props: RouteComponentProps<{ url: string }>) => 
                         </Button>
                         <Button
                           tag={Link}
-                          to={`${match.url}/${leadAssociation.id}/edit`}
+                          to={`/lead-association/${leadAssociation.id}/edit`}
                           color="primary"
                           size="sm"
                           data-cy="entityEditButton"
@@ -201,7 +213,7 @@ export const LeadAssociation = (props: RouteComponentProps<{ url: string }>) => 
                         </Button>
                         <Button
                           tag={Link}
-                          to={`${match.url}/${leadAssociation.id}/delete`}
+                          to={`/lead-association/${leadAssociation.id}/delete`}
                           color="danger"
                           size="sm"
                           data-cy="entityDeleteButton"
@@ -220,7 +232,7 @@ export const LeadAssociation = (props: RouteComponentProps<{ url: string }>) => 
           ) : (
             !loading && (
               <div className="alert alert-warning">
-                <Translate contentKey="campaignToolApp.leadAssociation.home.notFound">No Lead Associations found</Translate>
+                <Translate contentKey="automatedPerformanceTestingApp.leadAssociation.home.notFound">No Lead Associations found</Translate>
               </div>
             )
           )}

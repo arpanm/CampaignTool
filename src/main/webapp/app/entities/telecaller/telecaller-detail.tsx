@@ -1,18 +1,21 @@
 import React, { useEffect } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Button, Row, Col } from 'reactstrap';
 import { Translate, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { getEntity } from './telecaller.reducer';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-export const TelecallerDetail = (props: RouteComponentProps<{ id: string }>) => {
+import { getEntity } from './telecaller.reducer';
+
+export const TelecallerDetail = () => {
   const dispatch = useAppDispatch();
 
+  const { id } = useParams<'id'>();
+
   useEffect(() => {
-    dispatch(getEntity(props.match.params.id));
+    dispatch(getEntity(id));
   }, []);
 
   const telecallerEntity = useAppSelector(state => state.telecaller.entity);
@@ -20,7 +23,7 @@ export const TelecallerDetail = (props: RouteComponentProps<{ id: string }>) => 
     <Row>
       <Col md="8">
         <h2 data-cy="telecallerDetailsHeading">
-          <Translate contentKey="campaignToolApp.telecaller.detail.title">Telecaller</Translate>
+          <Translate contentKey="automatedPerformanceTestingApp.telecaller.detail.title">Telecaller</Translate>
         </h2>
         <dl className="jh-entity-details">
           <dt>
@@ -31,25 +34,25 @@ export const TelecallerDetail = (props: RouteComponentProps<{ id: string }>) => 
           <dd>{telecallerEntity.id}</dd>
           <dt>
             <span id="name">
-              <Translate contentKey="campaignToolApp.telecaller.name">Name</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.telecaller.name">Name</Translate>
             </span>
           </dt>
           <dd>{telecallerEntity.name}</dd>
           <dt>
             <span id="email">
-              <Translate contentKey="campaignToolApp.telecaller.email">Email</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.telecaller.email">Email</Translate>
             </span>
           </dt>
           <dd>{telecallerEntity.email}</dd>
           <dt>
             <span id="phone">
-              <Translate contentKey="campaignToolApp.telecaller.phone">Phone</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.telecaller.phone">Phone</Translate>
             </span>
           </dt>
           <dd>{telecallerEntity.phone}</dd>
           <dt>
             <span id="startDate">
-              <Translate contentKey="campaignToolApp.telecaller.startDate">Start Date</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.telecaller.startDate">Start Date</Translate>
             </span>
           </dt>
           <dd>
@@ -59,7 +62,7 @@ export const TelecallerDetail = (props: RouteComponentProps<{ id: string }>) => 
           </dd>
           <dt>
             <span id="endDate">
-              <Translate contentKey="campaignToolApp.telecaller.endDate">End Date</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.telecaller.endDate">End Date</Translate>
             </span>
           </dt>
           <dd>
@@ -67,19 +70,19 @@ export const TelecallerDetail = (props: RouteComponentProps<{ id: string }>) => 
           </dd>
           <dt>
             <span id="isActive">
-              <Translate contentKey="campaignToolApp.telecaller.isActive">Is Active</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.telecaller.isActive">Is Active</Translate>
             </span>
           </dt>
           <dd>{telecallerEntity.isActive ? 'true' : 'false'}</dd>
           <dt>
             <span id="createdBy">
-              <Translate contentKey="campaignToolApp.telecaller.createdBy">Created By</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.telecaller.createdBy">Created By</Translate>
             </span>
           </dt>
           <dd>{telecallerEntity.createdBy}</dd>
           <dt>
             <span id="createdAt">
-              <Translate contentKey="campaignToolApp.telecaller.createdAt">Created At</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.telecaller.createdAt">Created At</Translate>
             </span>
           </dt>
           <dd>
@@ -89,13 +92,13 @@ export const TelecallerDetail = (props: RouteComponentProps<{ id: string }>) => 
           </dd>
           <dt>
             <span id="updatedBy">
-              <Translate contentKey="campaignToolApp.telecaller.updatedBy">Updated By</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.telecaller.updatedBy">Updated By</Translate>
             </span>
           </dt>
           <dd>{telecallerEntity.updatedBy}</dd>
           <dt>
             <span id="updatedAt">
-              <Translate contentKey="campaignToolApp.telecaller.updatedAt">Updated At</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.telecaller.updatedAt">Updated At</Translate>
             </span>
           </dt>
           <dd>

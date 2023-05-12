@@ -1,21 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, Row, Col, FormText } from 'reactstrap';
 import { isNumber, Translate, translate, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { ILocation } from 'app/shared/model/location.model';
-import { getEntities as getLocations } from 'app/entities/location/location.reducer';
-import { getEntity, updateEntity, createEntity, reset } from './lead.reducer';
-import { ILead } from 'app/shared/model/lead.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { mapIdList } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-export const LeadUpdate = (props: RouteComponentProps<{ id: string }>) => {
+import { ILocation } from 'app/shared/model/location.model';
+import { getEntities as getLocations } from 'app/entities/location/location.reducer';
+import { ILead } from 'app/shared/model/lead.model';
+import { getEntity, updateEntity, createEntity, reset } from './lead.reducer';
+
+export const LeadUpdate = () => {
   const dispatch = useAppDispatch();
 
-  const [isNew] = useState(!props.match.params || !props.match.params.id);
+  const navigate = useNavigate();
+
+  const { id } = useParams<'id'>();
+  const isNew = id === undefined;
 
   const locations = useAppSelector(state => state.location.entities);
   const leadEntity = useAppSelector(state => state.lead.entity);
@@ -24,12 +28,12 @@ export const LeadUpdate = (props: RouteComponentProps<{ id: string }>) => {
   const updateSuccess = useAppSelector(state => state.lead.updateSuccess);
 
   const handleClose = () => {
-    props.history.push('/lead');
+    navigate('/lead');
   };
 
   useEffect(() => {
     if (!isNew) {
-      dispatch(getEntity(props.match.params.id));
+      dispatch(getEntity(id));
     }
 
     dispatch(getLocations({}));
@@ -67,8 +71,8 @@ export const LeadUpdate = (props: RouteComponentProps<{ id: string }>) => {
     <div>
       <Row className="justify-content-center">
         <Col md="8">
-          <h2 id="campaignToolApp.lead.home.createOrEditLabel" data-cy="LeadCreateUpdateHeading">
-            <Translate contentKey="campaignToolApp.lead.home.createOrEditLabel">Create or edit a Lead</Translate>
+          <h2 id="automatedPerformanceTestingApp.lead.home.createOrEditLabel" data-cy="LeadCreateUpdateHeading">
+            <Translate contentKey="automatedPerformanceTestingApp.lead.home.createOrEditLabel">Create or edit a Lead</Translate>
           </h2>
         </Col>
       </Row>
@@ -88,11 +92,29 @@ export const LeadUpdate = (props: RouteComponentProps<{ id: string }>) => {
                   validate={{ required: true }}
                 />
               ) : null}
-              <ValidatedField label={translate('campaignToolApp.lead.name')} id="lead-name" name="name" data-cy="name" type="text" />
-              <ValidatedField label={translate('campaignToolApp.lead.email')} id="lead-email" name="email" data-cy="email" type="text" />
-              <ValidatedField label={translate('campaignToolApp.lead.phone')} id="lead-phone" name="phone" data-cy="phone" type="text" />
               <ValidatedField
-                label={translate('campaignToolApp.lead.isActive')}
+                label={translate('automatedPerformanceTestingApp.lead.name')}
+                id="lead-name"
+                name="name"
+                data-cy="name"
+                type="text"
+              />
+              <ValidatedField
+                label={translate('automatedPerformanceTestingApp.lead.email')}
+                id="lead-email"
+                name="email"
+                data-cy="email"
+                type="text"
+              />
+              <ValidatedField
+                label={translate('automatedPerformanceTestingApp.lead.phone')}
+                id="lead-phone"
+                name="phone"
+                data-cy="phone"
+                type="text"
+              />
+              <ValidatedField
+                label={translate('automatedPerformanceTestingApp.lead.isActive')}
                 id="lead-isActive"
                 name="isActive"
                 data-cy="isActive"
@@ -100,35 +122,35 @@ export const LeadUpdate = (props: RouteComponentProps<{ id: string }>) => {
                 type="checkbox"
               />
               <ValidatedField
-                label={translate('campaignToolApp.lead.createdBy')}
+                label={translate('automatedPerformanceTestingApp.lead.createdBy')}
                 id="lead-createdBy"
                 name="createdBy"
                 data-cy="createdBy"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.lead.createdAt')}
+                label={translate('automatedPerformanceTestingApp.lead.createdAt')}
                 id="lead-createdAt"
                 name="createdAt"
                 data-cy="createdAt"
                 type="date"
               />
               <ValidatedField
-                label={translate('campaignToolApp.lead.updatedBy')}
+                label={translate('automatedPerformanceTestingApp.lead.updatedBy')}
                 id="lead-updatedBy"
                 name="updatedBy"
                 data-cy="updatedBy"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.lead.updatedAt')}
+                label={translate('automatedPerformanceTestingApp.lead.updatedAt')}
                 id="lead-updatedAt"
                 name="updatedAt"
                 data-cy="updatedAt"
                 type="date"
               />
               <ValidatedField
-                label={translate('campaignToolApp.lead.location')}
+                label={translate('automatedPerformanceTestingApp.lead.location')}
                 id="lead-location"
                 data-cy="location"
                 type="select"

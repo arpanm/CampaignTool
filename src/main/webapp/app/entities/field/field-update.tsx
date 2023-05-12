@@ -1,35 +1,41 @@
 import React, { useState, useEffect } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, Row, Col, FormText } from 'reactstrap';
 import { isNumber, Translate, translate, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { IDisposition } from 'app/shared/model/disposition.model';
-import { getEntities as getDispositions } from 'app/entities/disposition/disposition.reducer';
-import { getEntity, updateEntity, createEntity, reset } from './field.reducer';
-import { IField } from 'app/shared/model/field.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { mapIdList } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-export const FieldUpdate = (props: RouteComponentProps<{ id: string }>) => {
+import { IDisposition } from 'app/shared/model/disposition.model';
+import { getEntities as getDispositions } from 'app/entities/disposition/disposition.reducer';
+import { IField } from 'app/shared/model/field.model';
+import { FieldType } from 'app/shared/model/enumerations/field-type.model';
+import { getEntity, updateEntity, createEntity, reset } from './field.reducer';
+
+export const FieldUpdate = () => {
   const dispatch = useAppDispatch();
 
-  const [isNew] = useState(!props.match.params || !props.match.params.id);
+  const navigate = useNavigate();
+
+  const { id } = useParams<'id'>();
+  const isNew = id === undefined;
 
   const dispositions = useAppSelector(state => state.disposition.entities);
   const fieldEntity = useAppSelector(state => state.field.entity);
   const loading = useAppSelector(state => state.field.loading);
   const updating = useAppSelector(state => state.field.updating);
   const updateSuccess = useAppSelector(state => state.field.updateSuccess);
+  const fieldTypeValues = Object.keys(FieldType);
 
   const handleClose = () => {
-    props.history.push('/field');
+    navigate('/field');
   };
 
   useEffect(() => {
     if (!isNew) {
-      dispatch(getEntity(props.match.params.id));
+      dispatch(getEntity(id));
     }
 
     dispatch(getDispositions({}));
@@ -45,7 +51,7 @@ export const FieldUpdate = (props: RouteComponentProps<{ id: string }>) => {
     const entity = {
       ...fieldEntity,
       ...values,
-      disposition: dispositions.find(it => it.id.toString() === values.dispositionId.toString()),
+      disposition: dispositions.find(it => it.id.toString() === values.disposition.toString()),
     };
 
     if (isNew) {
@@ -59,17 +65,17 @@ export const FieldUpdate = (props: RouteComponentProps<{ id: string }>) => {
     isNew
       ? {}
       : {
-          ...fieldEntity,
           fieldType: 'Text',
-          dispositionId: fieldEntity?.disposition?.id,
+          ...fieldEntity,
+          disposition: fieldEntity?.disposition?.id,
         };
 
   return (
     <div>
       <Row className="justify-content-center">
         <Col md="8">
-          <h2 id="campaignToolApp.field.home.createOrEditLabel" data-cy="FieldCreateUpdateHeading">
-            <Translate contentKey="campaignToolApp.field.home.createOrEditLabel">Create or edit a Field</Translate>
+          <h2 id="automatedPerformanceTestingApp.field.home.createOrEditLabel" data-cy="FieldCreateUpdateHeading">
+            <Translate contentKey="automatedPerformanceTestingApp.field.home.createOrEditLabel">Create or edit a Field</Translate>
           </h2>
         </Col>
       </Row>
@@ -90,40 +96,34 @@ export const FieldUpdate = (props: RouteComponentProps<{ id: string }>) => {
                 />
               ) : null}
               <ValidatedField
-                label={translate('campaignToolApp.field.fieldName')}
+                label={translate('automatedPerformanceTestingApp.field.fieldName')}
                 id="field-fieldName"
                 name="fieldName"
                 data-cy="fieldName"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.field.fieldLabel')}
+                label={translate('automatedPerformanceTestingApp.field.fieldLabel')}
                 id="field-fieldLabel"
                 name="fieldLabel"
                 data-cy="fieldLabel"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.field.fieldType')}
+                label={translate('automatedPerformanceTestingApp.field.fieldType')}
                 id="field-fieldType"
                 name="fieldType"
                 data-cy="fieldType"
                 type="select"
               >
-                <option value="Text">{translate('campaignToolApp.FieldType.Text')}</option>
-                <option value="BigText">{translate('campaignToolApp.FieldType.BigText')}</option>
-                <option value="Date">{translate('campaignToolApp.FieldType.Date')}</option>
-                <option value="Number">{translate('campaignToolApp.FieldType.Number')}</option>
-                <option value="Fraction">{translate('campaignToolApp.FieldType.Fraction')}</option>
-                <option value="Pincode">{translate('campaignToolApp.FieldType.Pincode')}</option>
-                <option value="Email">{translate('campaignToolApp.FieldType.Email')}</option>
-                <option value="Phone">{translate('campaignToolApp.FieldType.Phone')}</option>
-                <option value="DropDown">{translate('campaignToolApp.FieldType.DropDown')}</option>
-                <option value="RadioButton">{translate('campaignToolApp.FieldType.RadioButton')}</option>
-                <option value="CheckBox">{translate('campaignToolApp.FieldType.CheckBox')}</option>
+                {fieldTypeValues.map(fieldType => (
+                  <option value={fieldType} key={fieldType}>
+                    {translate('automatedPerformanceTestingApp.FieldType.' + fieldType)}
+                  </option>
+                ))}
               </ValidatedField>
               <ValidatedField
-                label={translate('campaignToolApp.field.isActive')}
+                label={translate('automatedPerformanceTestingApp.field.isActive')}
                 id="field-isActive"
                 name="isActive"
                 data-cy="isActive"
@@ -131,28 +131,28 @@ export const FieldUpdate = (props: RouteComponentProps<{ id: string }>) => {
                 type="checkbox"
               />
               <ValidatedField
-                label={translate('campaignToolApp.field.createdBy')}
+                label={translate('automatedPerformanceTestingApp.field.createdBy')}
                 id="field-createdBy"
                 name="createdBy"
                 data-cy="createdBy"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.field.createdAt')}
+                label={translate('automatedPerformanceTestingApp.field.createdAt')}
                 id="field-createdAt"
                 name="createdAt"
                 data-cy="createdAt"
                 type="date"
               />
               <ValidatedField
-                label={translate('campaignToolApp.field.updatedBy')}
+                label={translate('automatedPerformanceTestingApp.field.updatedBy')}
                 id="field-updatedBy"
                 name="updatedBy"
                 data-cy="updatedBy"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.field.updatedAt')}
+                label={translate('automatedPerformanceTestingApp.field.updatedAt')}
                 id="field-updatedAt"
                 name="updatedAt"
                 data-cy="updatedAt"
@@ -160,9 +160,9 @@ export const FieldUpdate = (props: RouteComponentProps<{ id: string }>) => {
               />
               <ValidatedField
                 id="field-disposition"
-                name="dispositionId"
+                name="disposition"
                 data-cy="disposition"
-                label={translate('campaignToolApp.field.disposition')}
+                label={translate('automatedPerformanceTestingApp.field.disposition')}
                 type="select"
               >
                 <option value="" key="0" />

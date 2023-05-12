@@ -1,23 +1,23 @@
 import React from 'react';
-import { Switch } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 
-import ErrorBoundaryRoute from 'app/shared/error/error-boundary-route';
+import ErrorBoundaryRoutes from 'app/shared/error/error-boundary-routes';
 
 import Attribute from './attribute';
 import AttributeDetail from './attribute-detail';
 import AttributeUpdate from './attribute-update';
 import AttributeDeleteDialog from './attribute-delete-dialog';
 
-const Routes = ({ match }) => (
-  <>
-    <Switch>
-      <ErrorBoundaryRoute exact path={`${match.url}/new`} component={AttributeUpdate} />
-      <ErrorBoundaryRoute exact path={`${match.url}/:id/edit`} component={AttributeUpdate} />
-      <ErrorBoundaryRoute exact path={`${match.url}/:id`} component={AttributeDetail} />
-      <ErrorBoundaryRoute path={match.url} component={Attribute} />
-    </Switch>
-    <ErrorBoundaryRoute exact path={`${match.url}/:id/delete`} component={AttributeDeleteDialog} />
-  </>
+const AttributeRoutes = () => (
+  <ErrorBoundaryRoutes>
+    <Route index element={<Attribute />} />
+    <Route path="new" element={<AttributeUpdate />} />
+    <Route path=":id">
+      <Route index element={<AttributeDetail />} />
+      <Route path="edit" element={<AttributeUpdate />} />
+      <Route path="delete" element={<AttributeDeleteDialog />} />
+    </Route>
+  </ErrorBoundaryRoutes>
 );
 
-export default Routes;
+export default AttributeRoutes;

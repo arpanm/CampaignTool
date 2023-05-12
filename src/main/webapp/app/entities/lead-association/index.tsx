@@ -1,23 +1,23 @@
 import React from 'react';
-import { Switch } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 
-import ErrorBoundaryRoute from 'app/shared/error/error-boundary-route';
+import ErrorBoundaryRoutes from 'app/shared/error/error-boundary-routes';
 
 import LeadAssociation from './lead-association';
 import LeadAssociationDetail from './lead-association-detail';
 import LeadAssociationUpdate from './lead-association-update';
 import LeadAssociationDeleteDialog from './lead-association-delete-dialog';
 
-const Routes = ({ match }) => (
-  <>
-    <Switch>
-      <ErrorBoundaryRoute exact path={`${match.url}/new`} component={LeadAssociationUpdate} />
-      <ErrorBoundaryRoute exact path={`${match.url}/:id/edit`} component={LeadAssociationUpdate} />
-      <ErrorBoundaryRoute exact path={`${match.url}/:id`} component={LeadAssociationDetail} />
-      <ErrorBoundaryRoute path={match.url} component={LeadAssociation} />
-    </Switch>
-    <ErrorBoundaryRoute exact path={`${match.url}/:id/delete`} component={LeadAssociationDeleteDialog} />
-  </>
+const LeadAssociationRoutes = () => (
+  <ErrorBoundaryRoutes>
+    <Route index element={<LeadAssociation />} />
+    <Route path="new" element={<LeadAssociationUpdate />} />
+    <Route path=":id">
+      <Route index element={<LeadAssociationDetail />} />
+      <Route path="edit" element={<LeadAssociationUpdate />} />
+      <Route path="delete" element={<LeadAssociationDeleteDialog />} />
+    </Route>
+  </ErrorBoundaryRoutes>
 );
 
-export default Routes;
+export default LeadAssociationRoutes;

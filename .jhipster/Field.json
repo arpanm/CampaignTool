@@ -1,5 +1,9 @@
 {
-  "name": "Field",
+  "applications": ["CampaignTool"],
+  "changelogDate": "20210914175208",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "field",
   "fields": [
     {
       "fieldName": "fieldName",
@@ -35,28 +39,24 @@
       "fieldType": "LocalDate"
     }
   ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Field",
+  "pagination": "infinite-scroll",
+  "readOnly": false,
   "relationships": [
     {
-      "relationshipType": "one-to-many",
       "otherEntityName": "fieldPossibleValue",
       "otherEntityRelationshipName": "field",
-      "relationshipName": "fieldPossibleValue"
+      "relationshipName": "fieldPossibleValue",
+      "relationshipType": "one-to-many"
     },
     {
-      "relationshipType": "many-to-one",
       "otherEntityName": "disposition",
       "otherEntityRelationshipName": "field",
-      "relationshipName": "disposition"
+      "relationshipName": "disposition",
+      "relationshipType": "many-to-one"
     }
   ],
-  "entityTableName": "field",
-  "dto": "mapstruct",
-  "pagination": "infinite-scroll",
-  "service": "serviceImpl",
-  "jpaMetamodelFiltering": false,
-  "fluentMethods": true,
-  "readOnly": false,
-  "embedded": false,
-  "applications": ["CampaignTool"],
-  "changelogDate": "20210914175208"
+  "service": "serviceImpl"
 }

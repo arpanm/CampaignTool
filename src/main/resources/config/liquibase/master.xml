@@ -2,17 +2,13 @@
 <databaseChangeLog
     xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
-
-    <property name="now" value="now()" dbms="h2"/>
-    <property name="now" value="now()" dbms="mysql, mariadb"/>
-    <property name="floatType" value="float4" dbms="postgresql, h2"/>
-    <property name="floatType" value="float" dbms="mysql, oracle, mssql, mariadb"/>
-    <property name="clobType" value="clob" dbms="h2"/>
-    <property name="clobType" value="clob" dbms="mysql, oracle, mssql, mariadb, postgresql"/>
-    <property name="uuidType" value="varchar(36)" dbms="h2, mysql, mariadb"/>
-    <property name="datetimeType" value="datetime(6)" dbms="mysql, mariadb"/>
-    <property name="datetimeType" value="datetime" dbms="oracle, mssql, postgresql, h2"/>
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <property name="now" value="now()" dbms="mysql"/>
+    <property name="floatType" value="float" dbms="mysql"/>
+    <property name="clobType" value="clob" dbms="mysql"/>
+    <property name="blobType" value="longblob" dbms="mysql"/>
+    <property name="uuidType" value="varchar(36)" dbms="mysql"/>
+    <property name="datetimeType" value="datetime(6)" dbms="mysql"/>
 
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210914175153_added_entity_Client.xml" relativeToChangelogFile="false"/>
@@ -34,6 +30,8 @@
     <include file="config/liquibase/changelog/20210914175209_added_entity_FieldPossibleValue.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210914175210_added_entity_DispositionSubmission.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210914175211_added_entity_DispositionSubmissionValue.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230512091951_added_entity_TestResult.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230512091952_added_entity_Build.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20210914175154_added_entity_constraints_Campaign.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210914175155_added_entity_constraints_Lead.xml" relativeToChangelogFile="false"/>
@@ -48,6 +46,7 @@
     <include file="config/liquibase/changelog/20210914175209_added_entity_constraints_FieldPossibleValue.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210914175210_added_entity_constraints_DispositionSubmission.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210914175211_added_entity_constraints_DispositionSubmissionValue.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230512091951_added_entity_constraints_TestResult.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->
 </databaseChangeLog>

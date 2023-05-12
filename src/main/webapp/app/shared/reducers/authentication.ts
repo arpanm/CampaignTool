@@ -18,7 +18,6 @@ export const initialState = {
   errorMessage: null as unknown as string, // Errors returned from server side
   redirectMessage: null as unknown as string,
   sessionHasBeenFetched: false,
-  idToken: null as unknown as string,
   logoutUrl: null as unknown as string,
 };
 
@@ -32,7 +31,7 @@ export const getSession = (): AppThunk => async (dispatch, getState) => {
   const { account } = getState().authentication;
   if (account && account.langKey) {
     const langKey = Storage.session.get('locale', account.langKey);
-    dispatch(setLocale(langKey));
+    await dispatch(setLocale(langKey));
   }
 };
 

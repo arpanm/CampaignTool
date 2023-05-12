@@ -3,7 +3,7 @@
     xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
     xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <!--
@@ -50,7 +50,8 @@
         <loadData
                   file="config/liquibase/fake-data/lead_upload_file.csv"
                   separator=";"
-                  tableName="lead_upload_file">
+                  tableName="lead_upload_file"
+                  usePreparedStatements="true">
             <column name="id" type="numeric"/>
             <column name="file_url" type="string"/>
             <column name="upload_status" type="string"/>

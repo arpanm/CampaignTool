@@ -1,23 +1,23 @@
 import React from 'react';
-import { Switch } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 
-import ErrorBoundaryRoute from 'app/shared/error/error-boundary-route';
+import ErrorBoundaryRoutes from 'app/shared/error/error-boundary-routes';
 
 import Disposition from './disposition';
 import DispositionDetail from './disposition-detail';
 import DispositionUpdate from './disposition-update';
 import DispositionDeleteDialog from './disposition-delete-dialog';
 
-const Routes = ({ match }) => (
-  <>
-    <Switch>
-      <ErrorBoundaryRoute exact path={`${match.url}/new`} component={DispositionUpdate} />
-      <ErrorBoundaryRoute exact path={`${match.url}/:id/edit`} component={DispositionUpdate} />
-      <ErrorBoundaryRoute exact path={`${match.url}/:id`} component={DispositionDetail} />
-      <ErrorBoundaryRoute path={match.url} component={Disposition} />
-    </Switch>
-    <ErrorBoundaryRoute exact path={`${match.url}/:id/delete`} component={DispositionDeleteDialog} />
-  </>
+const DispositionRoutes = () => (
+  <ErrorBoundaryRoutes>
+    <Route index element={<Disposition />} />
+    <Route path="new" element={<DispositionUpdate />} />
+    <Route path=":id">
+      <Route index element={<DispositionDetail />} />
+      <Route path="edit" element={<DispositionUpdate />} />
+      <Route path="delete" element={<DispositionDeleteDialog />} />
+    </Route>
+  </ErrorBoundaryRoutes>
 );
 
-export default Routes;
+export default DispositionRoutes;

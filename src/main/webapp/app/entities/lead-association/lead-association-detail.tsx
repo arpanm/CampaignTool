@@ -1,18 +1,21 @@
 import React, { useEffect } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Button, Row, Col } from 'reactstrap';
 import { Translate, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { getEntity } from './lead-association.reducer';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-export const LeadAssociationDetail = (props: RouteComponentProps<{ id: string }>) => {
+import { getEntity } from './lead-association.reducer';
+
+export const LeadAssociationDetail = () => {
   const dispatch = useAppDispatch();
 
+  const { id } = useParams<'id'>();
+
   useEffect(() => {
-    dispatch(getEntity(props.match.params.id));
+    dispatch(getEntity(id));
   }, []);
 
   const leadAssociationEntity = useAppSelector(state => state.leadAssociation.entity);
@@ -20,7 +23,7 @@ export const LeadAssociationDetail = (props: RouteComponentProps<{ id: string }>
     <Row>
       <Col md="8">
         <h2 data-cy="leadAssociationDetailsHeading">
-          <Translate contentKey="campaignToolApp.leadAssociation.detail.title">LeadAssociation</Translate>
+          <Translate contentKey="automatedPerformanceTestingApp.leadAssociation.detail.title">LeadAssociation</Translate>
         </h2>
         <dl className="jh-entity-details">
           <dt>
@@ -31,19 +34,19 @@ export const LeadAssociationDetail = (props: RouteComponentProps<{ id: string }>
           <dd>{leadAssociationEntity.id}</dd>
           <dt>
             <span id="assignmentDate">
-              <Translate contentKey="campaignToolApp.leadAssociation.assignmentDate">Assignment Date</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.leadAssociation.assignmentDate">Assignment Date</Translate>
             </span>
           </dt>
           <dd>{leadAssociationEntity.assignmentDate}</dd>
           <dt>
             <span id="createdBy">
-              <Translate contentKey="campaignToolApp.leadAssociation.createdBy">Created By</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.leadAssociation.createdBy">Created By</Translate>
             </span>
           </dt>
           <dd>{leadAssociationEntity.createdBy}</dd>
           <dt>
             <span id="createdAt">
-              <Translate contentKey="campaignToolApp.leadAssociation.createdAt">Created At</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.leadAssociation.createdAt">Created At</Translate>
             </span>
           </dt>
           <dd>
@@ -53,13 +56,13 @@ export const LeadAssociationDetail = (props: RouteComponentProps<{ id: string }>
           </dd>
           <dt>
             <span id="updatedBy">
-              <Translate contentKey="campaignToolApp.leadAssociation.updatedBy">Updated By</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.leadAssociation.updatedBy">Updated By</Translate>
             </span>
           </dt>
           <dd>{leadAssociationEntity.updatedBy}</dd>
           <dt>
             <span id="updatedAt">
-              <Translate contentKey="campaignToolApp.leadAssociation.updatedAt">Updated At</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.leadAssociation.updatedAt">Updated At</Translate>
             </span>
           </dt>
           <dd>
@@ -68,11 +71,11 @@ export const LeadAssociationDetail = (props: RouteComponentProps<{ id: string }>
             ) : null}
           </dd>
           <dt>
-            <Translate contentKey="campaignToolApp.leadAssociation.lead">Lead</Translate>
+            <Translate contentKey="automatedPerformanceTestingApp.leadAssociation.lead">Lead</Translate>
           </dt>
           <dd>{leadAssociationEntity.lead ? leadAssociationEntity.lead.id : ''}</dd>
           <dt>
-            <Translate contentKey="campaignToolApp.leadAssociation.campaign">Campaign</Translate>
+            <Translate contentKey="automatedPerformanceTestingApp.leadAssociation.campaign">Campaign</Translate>
           </dt>
           <dd>{leadAssociationEntity.campaign ? leadAssociationEntity.campaign.id : ''}</dd>
         </dl>

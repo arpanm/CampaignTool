@@ -1,18 +1,21 @@
 import React, { useEffect } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Button, Row, Col } from 'reactstrap';
 import { Translate, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { getEntity } from './location.reducer';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-export const LocationDetail = (props: RouteComponentProps<{ id: string }>) => {
+import { getEntity } from './location.reducer';
+
+export const LocationDetail = () => {
   const dispatch = useAppDispatch();
 
+  const { id } = useParams<'id'>();
+
   useEffect(() => {
-    dispatch(getEntity(props.match.params.id));
+    dispatch(getEntity(id));
   }, []);
 
   const locationEntity = useAppSelector(state => state.location.entity);
@@ -20,7 +23,7 @@ export const LocationDetail = (props: RouteComponentProps<{ id: string }>) => {
     <Row>
       <Col md="8">
         <h2 data-cy="locationDetailsHeading">
-          <Translate contentKey="campaignToolApp.location.detail.title">Location</Translate>
+          <Translate contentKey="automatedPerformanceTestingApp.location.detail.title">Location</Translate>
         </h2>
         <dl className="jh-entity-details">
           <dt>
@@ -31,43 +34,43 @@ export const LocationDetail = (props: RouteComponentProps<{ id: string }>) => {
           <dd>{locationEntity.id}</dd>
           <dt>
             <span id="pincode">
-              <Translate contentKey="campaignToolApp.location.pincode">Pincode</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.location.pincode">Pincode</Translate>
             </span>
           </dt>
           <dd>{locationEntity.pincode}</dd>
           <dt>
             <span id="country">
-              <Translate contentKey="campaignToolApp.location.country">Country</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.location.country">Country</Translate>
             </span>
           </dt>
           <dd>{locationEntity.country}</dd>
           <dt>
             <span id="state">
-              <Translate contentKey="campaignToolApp.location.state">State</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.location.state">State</Translate>
             </span>
           </dt>
           <dd>{locationEntity.state}</dd>
           <dt>
             <span id="city">
-              <Translate contentKey="campaignToolApp.location.city">City</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.location.city">City</Translate>
             </span>
           </dt>
           <dd>{locationEntity.city}</dd>
           <dt>
             <span id="isActive">
-              <Translate contentKey="campaignToolApp.location.isActive">Is Active</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.location.isActive">Is Active</Translate>
             </span>
           </dt>
           <dd>{locationEntity.isActive ? 'true' : 'false'}</dd>
           <dt>
             <span id="createdBy">
-              <Translate contentKey="campaignToolApp.location.createdBy">Created By</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.location.createdBy">Created By</Translate>
             </span>
           </dt>
           <dd>{locationEntity.createdBy}</dd>
           <dt>
             <span id="createdAt">
-              <Translate contentKey="campaignToolApp.location.createdAt">Created At</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.location.createdAt">Created At</Translate>
             </span>
           </dt>
           <dd>
@@ -75,13 +78,13 @@ export const LocationDetail = (props: RouteComponentProps<{ id: string }>) => {
           </dd>
           <dt>
             <span id="updatedBy">
-              <Translate contentKey="campaignToolApp.location.updatedBy">Updated By</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.location.updatedBy">Updated By</Translate>
             </span>
           </dt>
           <dd>{locationEntity.updatedBy}</dd>
           <dt>
             <span id="updatedAt">
-              <Translate contentKey="campaignToolApp.location.updatedAt">Updated At</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.location.updatedAt">Updated At</Translate>
             </span>
           </dt>
           <dd>

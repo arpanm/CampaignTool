@@ -1,18 +1,21 @@
 import React, { useEffect } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Button, Row, Col } from 'reactstrap';
 import { Translate, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { getEntity } from './attribute-possible-value.reducer';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-export const AttributePossibleValueDetail = (props: RouteComponentProps<{ id: string }>) => {
+import { getEntity } from './attribute-possible-value.reducer';
+
+export const AttributePossibleValueDetail = () => {
   const dispatch = useAppDispatch();
 
+  const { id } = useParams<'id'>();
+
   useEffect(() => {
-    dispatch(getEntity(props.match.params.id));
+    dispatch(getEntity(id));
   }, []);
 
   const attributePossibleValueEntity = useAppSelector(state => state.attributePossibleValue.entity);
@@ -20,7 +23,7 @@ export const AttributePossibleValueDetail = (props: RouteComponentProps<{ id: st
     <Row>
       <Col md="8">
         <h2 data-cy="attributePossibleValueDetailsHeading">
-          <Translate contentKey="campaignToolApp.attributePossibleValue.detail.title">AttributePossibleValue</Translate>
+          <Translate contentKey="automatedPerformanceTestingApp.attributePossibleValue.detail.title">AttributePossibleValue</Translate>
         </h2>
         <dl className="jh-entity-details">
           <dt>
@@ -31,25 +34,25 @@ export const AttributePossibleValueDetail = (props: RouteComponentProps<{ id: st
           <dd>{attributePossibleValueEntity.id}</dd>
           <dt>
             <span id="value">
-              <Translate contentKey="campaignToolApp.attributePossibleValue.value">Value</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.attributePossibleValue.value">Value</Translate>
             </span>
           </dt>
           <dd>{attributePossibleValueEntity.value}</dd>
           <dt>
             <span id="isActive">
-              <Translate contentKey="campaignToolApp.attributePossibleValue.isActive">Is Active</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.attributePossibleValue.isActive">Is Active</Translate>
             </span>
           </dt>
           <dd>{attributePossibleValueEntity.isActive ? 'true' : 'false'}</dd>
           <dt>
             <span id="createdBy">
-              <Translate contentKey="campaignToolApp.attributePossibleValue.createdBy">Created By</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.attributePossibleValue.createdBy">Created By</Translate>
             </span>
           </dt>
           <dd>{attributePossibleValueEntity.createdBy}</dd>
           <dt>
             <span id="createdAt">
-              <Translate contentKey="campaignToolApp.attributePossibleValue.createdAt">Created At</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.attributePossibleValue.createdAt">Created At</Translate>
             </span>
           </dt>
           <dd>
@@ -59,13 +62,13 @@ export const AttributePossibleValueDetail = (props: RouteComponentProps<{ id: st
           </dd>
           <dt>
             <span id="updatedBy">
-              <Translate contentKey="campaignToolApp.attributePossibleValue.updatedBy">Updated By</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.attributePossibleValue.updatedBy">Updated By</Translate>
             </span>
           </dt>
           <dd>{attributePossibleValueEntity.updatedBy}</dd>
           <dt>
             <span id="updatedAt">
-              <Translate contentKey="campaignToolApp.attributePossibleValue.updatedAt">Updated At</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.attributePossibleValue.updatedAt">Updated At</Translate>
             </span>
           </dt>
           <dd>
@@ -74,7 +77,7 @@ export const AttributePossibleValueDetail = (props: RouteComponentProps<{ id: st
             ) : null}
           </dd>
           <dt>
-            <Translate contentKey="campaignToolApp.attributePossibleValue.key">Key</Translate>
+            <Translate contentKey="automatedPerformanceTestingApp.attributePossibleValue.key">Key</Translate>
           </dt>
           <dd>{attributePossibleValueEntity.key ? attributePossibleValueEntity.key.id : ''}</dd>
         </dl>

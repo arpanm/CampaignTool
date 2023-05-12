@@ -1,10 +1,6 @@
-/**
- * @jest-environment jsdom
- */
 import React from 'react';
 import { render } from '@testing-library/react';
-import { Router } from 'react-router-dom';
-import { createMemoryHistory } from 'history';
+import { MemoryRouter } from 'react-router-dom';
 
 import { AccountMenu } from './account';
 
@@ -13,11 +9,10 @@ describe('AccountMenu', () => {
 
   const authenticatedWrapper = () => {
     if (!mountedWrapper) {
-      const history = createMemoryHistory();
       const { container } = render(
-        <Router history={history}>
+        <MemoryRouter>
           <AccountMenu isAuthenticated />
-        </Router>
+        </MemoryRouter>
       );
       mountedWrapper = container.innerHTML;
     }
@@ -25,11 +20,10 @@ describe('AccountMenu', () => {
   };
   const guestWrapper = () => {
     if (!mountedWrapper) {
-      const history = createMemoryHistory();
       const { container } = (mountedWrapper = render(
-        <Router history={history}>
+        <MemoryRouter>
           <AccountMenu />
-        </Router>
+        </MemoryRouter>
       ));
       mountedWrapper = container.innerHTML;
     }

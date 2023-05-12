@@ -1,5 +1,9 @@
 {
-  "name": "LeadAssignment",
+  "applications": ["CampaignTool"],
+  "changelogDate": "20210914175204",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "lead_assignment",
   "fields": [
     {
       "fieldName": "assignmentDate",
@@ -22,35 +26,31 @@
       "fieldType": "LocalDate"
     }
   ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "LeadAssignment",
+  "pagination": "infinite-scroll",
+  "readOnly": false,
   "relationships": [
     {
-      "relationshipType": "many-to-one",
       "otherEntityName": "telecaller",
       "otherEntityRelationshipName": "leadAssignment",
-      "relationshipName": "telecaller"
+      "relationshipName": "telecaller",
+      "relationshipType": "many-to-one"
     },
     {
-      "relationshipType": "many-to-one",
       "otherEntityName": "lead",
       "otherEntityRelationshipName": "leadAssignment",
-      "relationshipName": "lead"
+      "relationshipName": "lead",
+      "relationshipType": "many-to-one"
     },
     {
-      "relationshipType": "one-to-one",
       "otherEntityName": "call",
       "otherEntityRelationshipName": "leadAssignment",
+      "ownerSide": false,
       "relationshipName": "call",
-      "ownerSide": false
+      "relationshipType": "one-to-one"
     }
   ],
-  "entityTableName": "lead_assignment",
-  "dto": "mapstruct",
-  "pagination": "infinite-scroll",
-  "service": "serviceImpl",
-  "jpaMetamodelFiltering": false,
-  "fluentMethods": true,
-  "readOnly": false,
-  "embedded": false,
-  "applications": ["CampaignTool"],
-  "changelogDate": "20210914175204"
+  "service": "serviceImpl"
 }

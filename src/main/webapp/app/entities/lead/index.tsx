@@ -1,23 +1,23 @@
 import React from 'react';
-import { Switch } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 
-import ErrorBoundaryRoute from 'app/shared/error/error-boundary-route';
+import ErrorBoundaryRoutes from 'app/shared/error/error-boundary-routes';
 
 import Lead from './lead';
 import LeadDetail from './lead-detail';
 import LeadUpdate from './lead-update';
 import LeadDeleteDialog from './lead-delete-dialog';
 
-const Routes = ({ match }) => (
-  <>
-    <Switch>
-      <ErrorBoundaryRoute exact path={`${match.url}/new`} component={LeadUpdate} />
-      <ErrorBoundaryRoute exact path={`${match.url}/:id/edit`} component={LeadUpdate} />
-      <ErrorBoundaryRoute exact path={`${match.url}/:id`} component={LeadDetail} />
-      <ErrorBoundaryRoute path={match.url} component={Lead} />
-    </Switch>
-    <ErrorBoundaryRoute exact path={`${match.url}/:id/delete`} component={LeadDeleteDialog} />
-  </>
+const LeadRoutes = () => (
+  <ErrorBoundaryRoutes>
+    <Route index element={<Lead />} />
+    <Route path="new" element={<LeadUpdate />} />
+    <Route path=":id">
+      <Route index element={<LeadDetail />} />
+      <Route path="edit" element={<LeadUpdate />} />
+      <Route path="delete" element={<LeadDeleteDialog />} />
+    </Route>
+  </ErrorBoundaryRoutes>
 );
 
-export default Routes;
+export default LeadRoutes;

@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 import { Translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,23 +7,31 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { getEntity, deleteEntity } from './telecaller-assignment.reducer';
 
-export const TelecallerAssignmentDeleteDialog = (props: RouteComponentProps<{ id: string }>) => {
+export const TelecallerAssignmentDeleteDialog = () => {
   const dispatch = useAppDispatch();
 
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { id } = useParams<'id'>();
+
+  const [loadModal, setLoadModal] = useState(false);
+
   useEffect(() => {
-    dispatch(getEntity(props.match.params.id));
+    dispatch(getEntity(id));
+    setLoadModal(true);
   }, []);
 
   const telecallerAssignmentEntity = useAppSelector(state => state.telecallerAssignment.entity);
   const updateSuccess = useAppSelector(state => state.telecallerAssignment.updateSuccess);
 
   const handleClose = () => {
-    props.history.push('/telecaller-assignment');
+    navigate('/telecaller-assignment');
   };
 
   useEffect(() => {
-    if (updateSuccess) {
+    if (updateSuccess && loadModal) {
       handleClose();
+      setLoadModal(false);
     }
   }, [updateSuccess]);
 
@@ -36,8 +44,11 @@ export const TelecallerAssignmentDeleteDialog = (props: RouteComponentProps<{ id
       <ModalHeader toggle={handleClose} data-cy="telecallerAssignmentDeleteDialogHeading">
         <Translate contentKey="entity.delete.title">Confirm delete operation</Translate>
       </ModalHeader>
-      <ModalBody id="campaignToolApp.telecallerAssignment.delete.question">
-        <Translate contentKey="campaignToolApp.telecallerAssignment.delete.question" interpolate={{ id: telecallerAssignmentEntity.id }}>
+      <ModalBody id="automatedPerformanceTestingApp.telecallerAssignment.delete.question">
+        <Translate
+          contentKey="automatedPerformanceTestingApp.telecallerAssignment.delete.question"
+          interpolate={{ id: telecallerAssignmentEntity.id }}
+        >
           Are you sure you want to delete this TelecallerAssignment?
         </Translate>
       </ModalBody>

@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 import { Translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,23 +7,31 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { getEntity, deleteEntity } from './location.reducer';
 
-export const LocationDeleteDialog = (props: RouteComponentProps<{ id: string }>) => {
+export const LocationDeleteDialog = () => {
   const dispatch = useAppDispatch();
 
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { id } = useParams<'id'>();
+
+  const [loadModal, setLoadModal] = useState(false);
+
   useEffect(() => {
-    dispatch(getEntity(props.match.params.id));
+    dispatch(getEntity(id));
+    setLoadModal(true);
   }, []);
 
   const locationEntity = useAppSelector(state => state.location.entity);
   const updateSuccess = useAppSelector(state => state.location.updateSuccess);
 
   const handleClose = () => {
-    props.history.push('/location');
+    navigate('/location');
   };
 
   useEffect(() => {
-    if (updateSuccess) {
+    if (updateSuccess && loadModal) {
       handleClose();
+      setLoadModal(false);
     }
   }, [updateSuccess]);
 
@@ -36,8 +44,8 @@ export const LocationDeleteDialog = (props: RouteComponentProps<{ id: string }>)
       <ModalHeader toggle={handleClose} data-cy="locationDeleteDialogHeading">
         <Translate contentKey="entity.delete.title">Confirm delete operation</Translate>
       </ModalHeader>
-      <ModalBody id="campaignToolApp.location.delete.question">
-        <Translate contentKey="campaignToolApp.location.delete.question" interpolate={{ id: locationEntity.id }}>
+      <ModalBody id="automatedPerformanceTestingApp.location.delete.question">
+        <Translate contentKey="automatedPerformanceTestingApp.location.delete.question" interpolate={{ id: locationEntity.id }}>
           Are you sure you want to delete this Location?
         </Translate>
       </ModalBody>

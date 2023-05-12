@@ -1,5 +1,9 @@
 {
-  "name": "Call",
+  "applications": ["CampaignTool"],
+  "changelogDate": "20210914175205",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "jhi_call",
   "fields": [
     {
       "fieldName": "phone",
@@ -43,30 +47,26 @@
       "fieldType": "LocalDate"
     }
   ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Call",
+  "pagination": "infinite-scroll",
+  "readOnly": false,
   "relationships": [
     {
-      "relationshipType": "one-to-one",
       "otherEntityName": "leadAssignment",
       "otherEntityRelationshipName": "call",
+      "ownerSide": true,
       "relationshipName": "leadAssignment",
-      "ownerSide": true
+      "relationshipType": "one-to-one"
     },
     {
-      "relationshipType": "one-to-one",
       "otherEntityName": "dispositionSubmission",
       "otherEntityRelationshipName": "call",
+      "ownerSide": true,
       "relationshipName": "dispositionSubmission",
-      "ownerSide": true
+      "relationshipType": "one-to-one"
     }
   ],
-  "entityTableName": "jhi_call",
-  "dto": "mapstruct",
-  "pagination": "infinite-scroll",
-  "service": "serviceImpl",
-  "jpaMetamodelFiltering": false,
-  "fluentMethods": true,
-  "readOnly": false,
-  "embedded": false,
-  "applications": ["CampaignTool"],
-  "changelogDate": "20210914175205"
+  "service": "serviceImpl"
 }

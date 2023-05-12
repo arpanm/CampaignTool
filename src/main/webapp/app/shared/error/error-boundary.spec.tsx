@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import React from 'react';
 import { render } from '@testing-library/react';
 
@@ -17,7 +14,7 @@ describe('error component', () => {
     jest.spyOn((window as any).console, 'error').mockImplementation(() => false);
   });
 
-  it('Should throw an error when componnet is not enclosed in Error Boundary', () => {
+  it('Should throw an error when component is not enclosed in Error Boundary', () => {
     expect(() => render(<ErrorComp />)).toThrow(Error);
   });
 

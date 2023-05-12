@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, Row, Col, FormText } from 'reactstrap';
 import { isNumber, Translate, translate, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
+import { mapIdList } from 'app/shared/util/entity-utils';
+import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { IDispositionSubmission } from 'app/shared/model/disposition-submission.model';
 import { getEntities as getDispositionSubmissions } from 'app/entities/disposition-submission/disposition-submission.reducer';
@@ -10,16 +14,16 @@ import { IField } from 'app/shared/model/field.model';
 import { getEntities as getFields } from 'app/entities/field/field.reducer';
 import { IFieldPossibleValue } from 'app/shared/model/field-possible-value.model';
 import { getEntities as getFieldPossibleValues } from 'app/entities/field-possible-value/field-possible-value.reducer';
-import { getEntity, updateEntity, createEntity, reset } from './disposition-submission-value.reducer';
 import { IDispositionSubmissionValue } from 'app/shared/model/disposition-submission-value.model';
-import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
-import { mapIdList } from 'app/shared/util/entity-utils';
-import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { getEntity, updateEntity, createEntity, reset } from './disposition-submission-value.reducer';
 
-export const DispositionSubmissionValueUpdate = (props: RouteComponentProps<{ id: string }>) => {
+export const DispositionSubmissionValueUpdate = () => {
   const dispatch = useAppDispatch();
 
-  const [isNew] = useState(!props.match.params || !props.match.params.id);
+  const navigate = useNavigate();
+
+  const { id } = useParams<'id'>();
+  const isNew = id === undefined;
 
   const dispositionSubmissions = useAppSelector(state => state.dispositionSubmission.entities);
   const fields = useAppSelector(state => state.field.entities);
@@ -30,12 +34,12 @@ export const DispositionSubmissionValueUpdate = (props: RouteComponentProps<{ id
   const updateSuccess = useAppSelector(state => state.dispositionSubmissionValue.updateSuccess);
 
   const handleClose = () => {
-    props.history.push('/disposition-submission-value');
+    navigate('/disposition-submission-value');
   };
 
   useEffect(() => {
     if (!isNew) {
-      dispatch(getEntity(props.match.params.id));
+      dispatch(getEntity(id));
     }
 
     dispatch(getDispositionSubmissions({}));
@@ -53,9 +57,9 @@ export const DispositionSubmissionValueUpdate = (props: RouteComponentProps<{ id
     const entity = {
       ...dispositionSubmissionValueEntity,
       ...values,
-      dispositionSubmission: dispositionSubmissions.find(it => it.id.toString() === values.dispositionSubmissionId.toString()),
-      field: fields.find(it => it.id.toString() === values.fieldId.toString()),
-      possibleValue: fieldPossibleValues.find(it => it.id.toString() === values.possibleValueId.toString()),
+      dispositionSubmission: dispositionSubmissions.find(it => it.id.toString() === values.dispositionSubmission.toString()),
+      field: fields.find(it => it.id.toString() === values.field.toString()),
+      possibleValue: fieldPossibleValues.find(it => it.id.toString() === values.possibleValue.toString()),
     };
 
     if (isNew) {
@@ -70,9 +74,9 @@ export const DispositionSubmissionValueUpdate = (props: RouteComponentProps<{ id
       ? {}
       : {
           ...dispositionSubmissionValueEntity,
-          dispositionSubmissionId: dispositionSubmissionValueEntity?.dispositionSubmission?.id,
-          fieldId: dispositionSubmissionValueEntity?.field?.id,
-          possibleValueId: dispositionSubmissionValueEntity?.possibleValue?.id,
+          dispositionSubmission: dispositionSubmissionValueEntity?.dispositionSubmission?.id,
+          field: dispositionSubmissionValueEntity?.field?.id,
+          possibleValue: dispositionSubmissionValueEntity?.possibleValue?.id,
         };
 
   return (
@@ -80,10 +84,10 @@ export const DispositionSubmissionValueUpdate = (props: RouteComponentProps<{ id
       <Row className="justify-content-center">
         <Col md="8">
           <h2
-            id="campaignToolApp.dispositionSubmissionValue.home.createOrEditLabel"
+            id="automatedPerformanceTestingApp.dispositionSubmissionValue.home.createOrEditLabel"
             data-cy="DispositionSubmissionValueCreateUpdateHeading"
           >
-            <Translate contentKey="campaignToolApp.dispositionSubmissionValue.home.createOrEditLabel">
+            <Translate contentKey="automatedPerformanceTestingApp.dispositionSubmissionValue.home.createOrEditLabel">
               Create or edit a DispositionSubmissionValue
             </Translate>
           </h2>
@@ -106,35 +110,35 @@ export const DispositionSubmissionValueUpdate = (props: RouteComponentProps<{ id
                 />
               ) : null}
               <ValidatedField
-                label={translate('campaignToolApp.dispositionSubmissionValue.value')}
+                label={translate('automatedPerformanceTestingApp.dispositionSubmissionValue.value')}
                 id="disposition-submission-value-value"
                 name="value"
                 data-cy="value"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.dispositionSubmissionValue.createdBy')}
+                label={translate('automatedPerformanceTestingApp.dispositionSubmissionValue.createdBy')}
                 id="disposition-submission-value-createdBy"
                 name="createdBy"
                 data-cy="createdBy"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.dispositionSubmissionValue.createdAt')}
+                label={translate('automatedPerformanceTestingApp.dispositionSubmissionValue.createdAt')}
                 id="disposition-submission-value-createdAt"
                 name="createdAt"
                 data-cy="createdAt"
                 type="date"
               />
               <ValidatedField
-                label={translate('campaignToolApp.dispositionSubmissionValue.updatedBy')}
+                label={translate('automatedPerformanceTestingApp.dispositionSubmissionValue.updatedBy')}
                 id="disposition-submission-value-updatedBy"
                 name="updatedBy"
                 data-cy="updatedBy"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.dispositionSubmissionValue.updatedAt')}
+                label={translate('automatedPerformanceTestingApp.dispositionSubmissionValue.updatedAt')}
                 id="disposition-submission-value-updatedAt"
                 name="updatedAt"
                 data-cy="updatedAt"
@@ -142,9 +146,9 @@ export const DispositionSubmissionValueUpdate = (props: RouteComponentProps<{ id
               />
               <ValidatedField
                 id="disposition-submission-value-dispositionSubmission"
-                name="dispositionSubmissionId"
+                name="dispositionSubmission"
                 data-cy="dispositionSubmission"
-                label={translate('campaignToolApp.dispositionSubmissionValue.dispositionSubmission')}
+                label={translate('automatedPerformanceTestingApp.dispositionSubmissionValue.dispositionSubmission')}
                 type="select"
               >
                 <option value="" key="0" />
@@ -158,9 +162,9 @@ export const DispositionSubmissionValueUpdate = (props: RouteComponentProps<{ id
               </ValidatedField>
               <ValidatedField
                 id="disposition-submission-value-field"
-                name="fieldId"
+                name="field"
                 data-cy="field"
-                label={translate('campaignToolApp.dispositionSubmissionValue.field')}
+                label={translate('automatedPerformanceTestingApp.dispositionSubmissionValue.field')}
                 type="select"
               >
                 <option value="" key="0" />
@@ -174,9 +178,9 @@ export const DispositionSubmissionValueUpdate = (props: RouteComponentProps<{ id
               </ValidatedField>
               <ValidatedField
                 id="disposition-submission-value-possibleValue"
-                name="possibleValueId"
+                name="possibleValue"
                 data-cy="possibleValue"
-                label={translate('campaignToolApp.dispositionSubmissionValue.possibleValue')}
+                label={translate('automatedPerformanceTestingApp.dispositionSubmissionValue.possibleValue')}
                 type="select"
               >
                 <option value="" key="0" />

@@ -1,23 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, Row, Col, FormText } from 'reactstrap';
 import { isNumber, Translate, translate, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
+import { mapIdList } from 'app/shared/util/entity-utils';
+import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { ITelecaller } from 'app/shared/model/telecaller.model';
 import { getEntities as getTelecallers } from 'app/entities/telecaller/telecaller.reducer';
 import { ICampaign } from 'app/shared/model/campaign.model';
 import { getEntities as getCampaigns } from 'app/entities/campaign/campaign.reducer';
-import { getEntity, updateEntity, createEntity, reset } from './telecaller-assignment.reducer';
 import { ITelecallerAssignment } from 'app/shared/model/telecaller-assignment.model';
-import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
-import { mapIdList } from 'app/shared/util/entity-utils';
-import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { getEntity, updateEntity, createEntity, reset } from './telecaller-assignment.reducer';
 
-export const TelecallerAssignmentUpdate = (props: RouteComponentProps<{ id: string }>) => {
+export const TelecallerAssignmentUpdate = () => {
   const dispatch = useAppDispatch();
 
-  const [isNew] = useState(!props.match.params || !props.match.params.id);
+  const navigate = useNavigate();
+
+  const { id } = useParams<'id'>();
+  const isNew = id === undefined;
 
   const telecallers = useAppSelector(state => state.telecaller.entities);
   const campaigns = useAppSelector(state => state.campaign.entities);
@@ -27,12 +31,12 @@ export const TelecallerAssignmentUpdate = (props: RouteComponentProps<{ id: stri
   const updateSuccess = useAppSelector(state => state.telecallerAssignment.updateSuccess);
 
   const handleClose = () => {
-    props.history.push('/telecaller-assignment');
+    navigate('/telecaller-assignment');
   };
 
   useEffect(() => {
     if (!isNew) {
-      dispatch(getEntity(props.match.params.id));
+      dispatch(getEntity(id));
     }
 
     dispatch(getTelecallers({}));
@@ -49,8 +53,8 @@ export const TelecallerAssignmentUpdate = (props: RouteComponentProps<{ id: stri
     const entity = {
       ...telecallerAssignmentEntity,
       ...values,
-      telecaller: telecallers.find(it => it.id.toString() === values.telecallerId.toString()),
-      campaign: campaigns.find(it => it.id.toString() === values.campaignId.toString()),
+      telecaller: telecallers.find(it => it.id.toString() === values.telecaller.toString()),
+      campaign: campaigns.find(it => it.id.toString() === values.campaign.toString()),
     };
 
     if (isNew) {
@@ -65,16 +69,19 @@ export const TelecallerAssignmentUpdate = (props: RouteComponentProps<{ id: stri
       ? {}
       : {
           ...telecallerAssignmentEntity,
-          telecallerId: telecallerAssignmentEntity?.telecaller?.id,
-          campaignId: telecallerAssignmentEntity?.campaign?.id,
+          telecaller: telecallerAssignmentEntity?.telecaller?.id,
+          campaign: telecallerAssignmentEntity?.campaign?.id,
         };
 
   return (
     <div>
       <Row className="justify-content-center">
         <Col md="8">
-          <h2 id="campaignToolApp.telecallerAssignment.home.createOrEditLabel" data-cy="TelecallerAssignmentCreateUpdateHeading">
-            <Translate contentKey="campaignToolApp.telecallerAssignment.home.createOrEditLabel">
+          <h2
+            id="automatedPerformanceTestingApp.telecallerAssignment.home.createOrEditLabel"
+            data-cy="TelecallerAssignmentCreateUpdateHeading"
+          >
+            <Translate contentKey="automatedPerformanceTestingApp.telecallerAssignment.home.createOrEditLabel">
               Create or edit a TelecallerAssignment
             </Translate>
           </h2>
@@ -97,35 +104,35 @@ export const TelecallerAssignmentUpdate = (props: RouteComponentProps<{ id: stri
                 />
               ) : null}
               <ValidatedField
-                label={translate('campaignToolApp.telecallerAssignment.assignmentDate')}
+                label={translate('automatedPerformanceTestingApp.telecallerAssignment.assignmentDate')}
                 id="telecaller-assignment-assignmentDate"
                 name="assignmentDate"
                 data-cy="assignmentDate"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.telecallerAssignment.createdBy')}
+                label={translate('automatedPerformanceTestingApp.telecallerAssignment.createdBy')}
                 id="telecaller-assignment-createdBy"
                 name="createdBy"
                 data-cy="createdBy"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.telecallerAssignment.createdAt')}
+                label={translate('automatedPerformanceTestingApp.telecallerAssignment.createdAt')}
                 id="telecaller-assignment-createdAt"
                 name="createdAt"
                 data-cy="createdAt"
                 type="date"
               />
               <ValidatedField
-                label={translate('campaignToolApp.telecallerAssignment.updatedBy')}
+                label={translate('automatedPerformanceTestingApp.telecallerAssignment.updatedBy')}
                 id="telecaller-assignment-updatedBy"
                 name="updatedBy"
                 data-cy="updatedBy"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.telecallerAssignment.updatedAt')}
+                label={translate('automatedPerformanceTestingApp.telecallerAssignment.updatedAt')}
                 id="telecaller-assignment-updatedAt"
                 name="updatedAt"
                 data-cy="updatedAt"
@@ -133,9 +140,9 @@ export const TelecallerAssignmentUpdate = (props: RouteComponentProps<{ id: stri
               />
               <ValidatedField
                 id="telecaller-assignment-telecaller"
-                name="telecallerId"
+                name="telecaller"
                 data-cy="telecaller"
-                label={translate('campaignToolApp.telecallerAssignment.telecaller')}
+                label={translate('automatedPerformanceTestingApp.telecallerAssignment.telecaller')}
                 type="select"
               >
                 <option value="" key="0" />
@@ -149,9 +156,9 @@ export const TelecallerAssignmentUpdate = (props: RouteComponentProps<{ id: stri
               </ValidatedField>
               <ValidatedField
                 id="telecaller-assignment-campaign"
-                name="campaignId"
+                name="campaign"
                 data-cy="campaign"
-                label={translate('campaignToolApp.telecallerAssignment.campaign')}
+                label={translate('automatedPerformanceTestingApp.telecallerAssignment.campaign')}
                 type="select"
               >
                 <option value="" key="0" />

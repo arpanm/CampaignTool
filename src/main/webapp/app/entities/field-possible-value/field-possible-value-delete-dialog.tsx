@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 import { Translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,23 +7,31 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { getEntity, deleteEntity } from './field-possible-value.reducer';
 
-export const FieldPossibleValueDeleteDialog = (props: RouteComponentProps<{ id: string }>) => {
+export const FieldPossibleValueDeleteDialog = () => {
   const dispatch = useAppDispatch();
 
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { id } = useParams<'id'>();
+
+  const [loadModal, setLoadModal] = useState(false);
+
   useEffect(() => {
-    dispatch(getEntity(props.match.params.id));
+    dispatch(getEntity(id));
+    setLoadModal(true);
   }, []);
 
   const fieldPossibleValueEntity = useAppSelector(state => state.fieldPossibleValue.entity);
   const updateSuccess = useAppSelector(state => state.fieldPossibleValue.updateSuccess);
 
   const handleClose = () => {
-    props.history.push('/field-possible-value');
+    navigate('/field-possible-value');
   };
 
   useEffect(() => {
-    if (updateSuccess) {
+    if (updateSuccess && loadModal) {
       handleClose();
+      setLoadModal(false);
     }
   }, [updateSuccess]);
 
@@ -36,8 +44,11 @@ export const FieldPossibleValueDeleteDialog = (props: RouteComponentProps<{ id: 
       <ModalHeader toggle={handleClose} data-cy="fieldPossibleValueDeleteDialogHeading">
         <Translate contentKey="entity.delete.title">Confirm delete operation</Translate>
       </ModalHeader>
-      <ModalBody id="campaignToolApp.fieldPossibleValue.delete.question">
-        <Translate contentKey="campaignToolApp.fieldPossibleValue.delete.question" interpolate={{ id: fieldPossibleValueEntity.id }}>
+      <ModalBody id="automatedPerformanceTestingApp.fieldPossibleValue.delete.question">
+        <Translate
+          contentKey="automatedPerformanceTestingApp.fieldPossibleValue.delete.question"
+          interpolate={{ id: fieldPossibleValueEntity.id }}
+        >
           Are you sure you want to delete this FieldPossibleValue?
         </Translate>
       </ModalBody>
