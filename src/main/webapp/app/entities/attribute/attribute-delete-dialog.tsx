@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 import { Translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,23 +7,31 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { getEntity, deleteEntity } from './attribute.reducer';
 
-export const AttributeDeleteDialog = (props: RouteComponentProps<{ id: string }>) => {
+export const AttributeDeleteDialog = () => {
   const dispatch = useAppDispatch();
 
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { id } = useParams<'id'>();
+
+  const [loadModal, setLoadModal] = useState(false);
+
   useEffect(() => {
-    dispatch(getEntity(props.match.params.id));
+    dispatch(getEntity(id));
+    setLoadModal(true);
   }, []);
 
   const attributeEntity = useAppSelector(state => state.attribute.entity);
   const updateSuccess = useAppSelector(state => state.attribute.updateSuccess);
 
   const handleClose = () => {
-    props.history.push('/attribute');
+    navigate('/attribute');
   };
 
   useEffect(() => {
-    if (updateSuccess) {
+    if (updateSuccess && loadModal) {
       handleClose();
+      setLoadModal(false);
     }
   }, [updateSuccess]);
 
@@ -36,8 +44,8 @@ export const AttributeDeleteDialog = (props: RouteComponentProps<{ id: string }>
       <ModalHeader toggle={handleClose} data-cy="attributeDeleteDialogHeading">
         <Translate contentKey="entity.delete.title">Confirm delete operation</Translate>
       </ModalHeader>
-      <ModalBody id="campaignToolApp.attribute.delete.question">
-        <Translate contentKey="campaignToolApp.attribute.delete.question" interpolate={{ id: attributeEntity.id }}>
+      <ModalBody id="automatedPerformanceTestingApp.attribute.delete.question">
+        <Translate contentKey="automatedPerformanceTestingApp.attribute.delete.question" interpolate={{ id: attributeEntity.id }}>
           Are you sure you want to delete this Attribute?
         </Translate>
       </ModalBody>

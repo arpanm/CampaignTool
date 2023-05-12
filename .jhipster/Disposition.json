@@ -1,5 +1,9 @@
 {
-  "name": "Disposition",
+  "applications": ["CampaignTool"],
+  "changelogDate": "20210914175207",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "disposition",
   "fields": [
     {
       "fieldName": "isActive",
@@ -22,35 +26,31 @@
       "fieldType": "LocalDate"
     }
   ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Disposition",
+  "pagination": "infinite-scroll",
+  "readOnly": false,
   "relationships": [
     {
-      "relationshipType": "one-to-many",
       "otherEntityName": "field",
       "otherEntityRelationshipName": "disposition",
-      "relationshipName": "field"
+      "relationshipName": "field",
+      "relationshipType": "one-to-many"
     },
     {
-      "relationshipType": "one-to-many",
       "otherEntityName": "dispositionSubmission",
       "otherEntityRelationshipName": "disposition",
-      "relationshipName": "dispositionSubmission"
+      "relationshipName": "dispositionSubmission",
+      "relationshipType": "one-to-many"
     },
     {
-      "relationshipType": "one-to-one",
       "otherEntityName": "campaign",
       "otherEntityRelationshipName": "disposition",
+      "ownerSide": false,
       "relationshipName": "campaign",
-      "ownerSide": false
+      "relationshipType": "one-to-one"
     }
   ],
-  "entityTableName": "disposition",
-  "dto": "mapstruct",
-  "pagination": "infinite-scroll",
-  "service": "serviceImpl",
-  "jpaMetamodelFiltering": false,
-  "fluentMethods": true,
-  "readOnly": false,
-  "embedded": false,
-  "applications": ["CampaignTool"],
-  "changelogDate": "20210914175207"
+  "service": "serviceImpl"
 }

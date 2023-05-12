@@ -1,18 +1,21 @@
 import React, { useEffect } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Button, Row, Col } from 'reactstrap';
 import { Translate, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { getEntity } from './telecaller-in-out.reducer';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-export const TelecallerInOutDetail = (props: RouteComponentProps<{ id: string }>) => {
+import { getEntity } from './telecaller-in-out.reducer';
+
+export const TelecallerInOutDetail = () => {
   const dispatch = useAppDispatch();
 
+  const { id } = useParams<'id'>();
+
   useEffect(() => {
-    dispatch(getEntity(props.match.params.id));
+    dispatch(getEntity(id));
   }, []);
 
   const telecallerInOutEntity = useAppSelector(state => state.telecallerInOut.entity);
@@ -20,7 +23,7 @@ export const TelecallerInOutDetail = (props: RouteComponentProps<{ id: string }>
     <Row>
       <Col md="8">
         <h2 data-cy="telecallerInOutDetailsHeading">
-          <Translate contentKey="campaignToolApp.telecallerInOut.detail.title">TelecallerInOut</Translate>
+          <Translate contentKey="automatedPerformanceTestingApp.telecallerInOut.detail.title">TelecallerInOut</Translate>
         </h2>
         <dl className="jh-entity-details">
           <dt>
@@ -31,13 +34,13 @@ export const TelecallerInOutDetail = (props: RouteComponentProps<{ id: string }>
           <dd>{telecallerInOutEntity.id}</dd>
           <dt>
             <span id="eventType">
-              <Translate contentKey="campaignToolApp.telecallerInOut.eventType">Event Type</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.telecallerInOut.eventType">Event Type</Translate>
             </span>
           </dt>
           <dd>{telecallerInOutEntity.eventType}</dd>
           <dt>
             <span id="eventTime">
-              <Translate contentKey="campaignToolApp.telecallerInOut.eventTime">Event Time</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.telecallerInOut.eventTime">Event Time</Translate>
             </span>
           </dt>
           <dd>
@@ -47,19 +50,19 @@ export const TelecallerInOutDetail = (props: RouteComponentProps<{ id: string }>
           </dd>
           <dt>
             <span id="eventDate">
-              <Translate contentKey="campaignToolApp.telecallerInOut.eventDate">Event Date</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.telecallerInOut.eventDate">Event Date</Translate>
             </span>
           </dt>
           <dd>{telecallerInOutEntity.eventDate}</dd>
           <dt>
             <span id="createdBy">
-              <Translate contentKey="campaignToolApp.telecallerInOut.createdBy">Created By</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.telecallerInOut.createdBy">Created By</Translate>
             </span>
           </dt>
           <dd>{telecallerInOutEntity.createdBy}</dd>
           <dt>
             <span id="createdAt">
-              <Translate contentKey="campaignToolApp.telecallerInOut.createdAt">Created At</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.telecallerInOut.createdAt">Created At</Translate>
             </span>
           </dt>
           <dd>
@@ -69,13 +72,13 @@ export const TelecallerInOutDetail = (props: RouteComponentProps<{ id: string }>
           </dd>
           <dt>
             <span id="updatedBy">
-              <Translate contentKey="campaignToolApp.telecallerInOut.updatedBy">Updated By</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.telecallerInOut.updatedBy">Updated By</Translate>
             </span>
           </dt>
           <dd>{telecallerInOutEntity.updatedBy}</dd>
           <dt>
             <span id="updatedAt">
-              <Translate contentKey="campaignToolApp.telecallerInOut.updatedAt">Updated At</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.telecallerInOut.updatedAt">Updated At</Translate>
             </span>
           </dt>
           <dd>
@@ -84,7 +87,7 @@ export const TelecallerInOutDetail = (props: RouteComponentProps<{ id: string }>
             ) : null}
           </dd>
           <dt>
-            <Translate contentKey="campaignToolApp.telecallerInOut.telecaller">Telecaller</Translate>
+            <Translate contentKey="automatedPerformanceTestingApp.telecallerInOut.telecaller">Telecaller</Translate>
           </dt>
           <dd>{telecallerInOutEntity.telecaller ? telecallerInOutEntity.telecaller.id : ''}</dd>
         </dl>

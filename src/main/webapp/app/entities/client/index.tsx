@@ -1,23 +1,23 @@
 import React from 'react';
-import { Switch } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 
-import ErrorBoundaryRoute from 'app/shared/error/error-boundary-route';
+import ErrorBoundaryRoutes from 'app/shared/error/error-boundary-routes';
 
 import Client from './client';
 import ClientDetail from './client-detail';
 import ClientUpdate from './client-update';
 import ClientDeleteDialog from './client-delete-dialog';
 
-const Routes = ({ match }) => (
-  <>
-    <Switch>
-      <ErrorBoundaryRoute exact path={`${match.url}/new`} component={ClientUpdate} />
-      <ErrorBoundaryRoute exact path={`${match.url}/:id/edit`} component={ClientUpdate} />
-      <ErrorBoundaryRoute exact path={`${match.url}/:id`} component={ClientDetail} />
-      <ErrorBoundaryRoute path={match.url} component={Client} />
-    </Switch>
-    <ErrorBoundaryRoute exact path={`${match.url}/:id/delete`} component={ClientDeleteDialog} />
-  </>
+const ClientRoutes = () => (
+  <ErrorBoundaryRoutes>
+    <Route index element={<Client />} />
+    <Route path="new" element={<ClientUpdate />} />
+    <Route path=":id">
+      <Route index element={<ClientDetail />} />
+      <Route path="edit" element={<ClientUpdate />} />
+      <Route path="delete" element={<ClientDeleteDialog />} />
+    </Route>
+  </ErrorBoundaryRoutes>
 );
 
-export default Routes;
+export default ClientRoutes;

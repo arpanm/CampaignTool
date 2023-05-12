@@ -1,32 +1,38 @@
 import React, { useState, useEffect } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, Row, Col, FormText } from 'reactstrap';
 import { isNumber, Translate, translate, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { getEntity, updateEntity, createEntity, reset } from './lead-upload-file.reducer';
-import { ILeadUploadFile } from 'app/shared/model/lead-upload-file.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { mapIdList } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-export const LeadUploadFileUpdate = (props: RouteComponentProps<{ id: string }>) => {
+import { ILeadUploadFile } from 'app/shared/model/lead-upload-file.model';
+import { UploadStatus } from 'app/shared/model/enumerations/upload-status.model';
+import { getEntity, updateEntity, createEntity, reset } from './lead-upload-file.reducer';
+
+export const LeadUploadFileUpdate = () => {
   const dispatch = useAppDispatch();
 
-  const [isNew] = useState(!props.match.params || !props.match.params.id);
+  const navigate = useNavigate();
+
+  const { id } = useParams<'id'>();
+  const isNew = id === undefined;
 
   const leadUploadFileEntity = useAppSelector(state => state.leadUploadFile.entity);
   const loading = useAppSelector(state => state.leadUploadFile.loading);
   const updating = useAppSelector(state => state.leadUploadFile.updating);
   const updateSuccess = useAppSelector(state => state.leadUploadFile.updateSuccess);
+  const uploadStatusValues = Object.keys(UploadStatus);
 
   const handleClose = () => {
-    props.history.push('/lead-upload-file');
+    navigate('/lead-upload-file');
   };
 
   useEffect(() => {
     if (!isNew) {
-      dispatch(getEntity(props.match.params.id));
+      dispatch(getEntity(id));
     }
   }, []);
 
@@ -53,16 +59,18 @@ export const LeadUploadFileUpdate = (props: RouteComponentProps<{ id: string }>)
     isNew
       ? {}
       : {
-          ...leadUploadFileEntity,
           uploadStatus: 'Pending',
+          ...leadUploadFileEntity,
         };
 
   return (
     <div>
       <Row className="justify-content-center">
         <Col md="8">
-          <h2 id="campaignToolApp.leadUploadFile.home.createOrEditLabel" data-cy="LeadUploadFileCreateUpdateHeading">
-            <Translate contentKey="campaignToolApp.leadUploadFile.home.createOrEditLabel">Create or edit a LeadUploadFile</Translate>
+          <h2 id="automatedPerformanceTestingApp.leadUploadFile.home.createOrEditLabel" data-cy="LeadUploadFileCreateUpdateHeading">
+            <Translate contentKey="automatedPerformanceTestingApp.leadUploadFile.home.createOrEditLabel">
+              Create or edit a LeadUploadFile
+            </Translate>
           </h2>
         </Col>
       </Row>
@@ -83,46 +91,48 @@ export const LeadUploadFileUpdate = (props: RouteComponentProps<{ id: string }>)
                 />
               ) : null}
               <ValidatedField
-                label={translate('campaignToolApp.leadUploadFile.fileUrl')}
+                label={translate('automatedPerformanceTestingApp.leadUploadFile.fileUrl')}
                 id="lead-upload-file-fileUrl"
                 name="fileUrl"
                 data-cy="fileUrl"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.leadUploadFile.uploadStatus')}
+                label={translate('automatedPerformanceTestingApp.leadUploadFile.uploadStatus')}
                 id="lead-upload-file-uploadStatus"
                 name="uploadStatus"
                 data-cy="uploadStatus"
                 type="select"
               >
-                <option value="Pending">{translate('campaignToolApp.UploadStatus.Pending')}</option>
-                <option value="InProgress">{translate('campaignToolApp.UploadStatus.InProgress')}</option>
-                <option value="Completed">{translate('campaignToolApp.UploadStatus.Completed')}</option>
+                {uploadStatusValues.map(uploadStatus => (
+                  <option value={uploadStatus} key={uploadStatus}>
+                    {translate('automatedPerformanceTestingApp.UploadStatus.' + uploadStatus)}
+                  </option>
+                ))}
               </ValidatedField>
               <ValidatedField
-                label={translate('campaignToolApp.leadUploadFile.createdBy')}
+                label={translate('automatedPerformanceTestingApp.leadUploadFile.createdBy')}
                 id="lead-upload-file-createdBy"
                 name="createdBy"
                 data-cy="createdBy"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.leadUploadFile.createdAt')}
+                label={translate('automatedPerformanceTestingApp.leadUploadFile.createdAt')}
                 id="lead-upload-file-createdAt"
                 name="createdAt"
                 data-cy="createdAt"
                 type="date"
               />
               <ValidatedField
-                label={translate('campaignToolApp.leadUploadFile.updatedBy')}
+                label={translate('automatedPerformanceTestingApp.leadUploadFile.updatedBy')}
                 id="lead-upload-file-updatedBy"
                 name="updatedBy"
                 data-cy="updatedBy"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.leadUploadFile.updatedAt')}
+                label={translate('automatedPerformanceTestingApp.leadUploadFile.updatedAt')}
                 id="lead-upload-file-updatedAt"
                 name="updatedAt"
                 data-cy="updatedAt"

@@ -1,5 +1,9 @@
 {
-  "name": "DispositionSubmission",
+  "applications": ["CampaignTool"],
+  "changelogDate": "20210914175210",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "disposition_submission",
   "fields": [
     {
       "fieldName": "createdBy",
@@ -18,29 +22,25 @@
       "fieldType": "LocalDate"
     }
   ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "DispositionSubmission",
+  "pagination": "infinite-scroll",
+  "readOnly": false,
   "relationships": [
     {
-      "relationshipType": "one-to-one",
       "otherEntityName": "call",
       "otherEntityRelationshipName": "dispositionSubmission",
+      "ownerSide": false,
       "relationshipName": "call",
-      "ownerSide": false
+      "relationshipType": "one-to-one"
     },
     {
-      "relationshipType": "many-to-one",
       "otherEntityName": "disposition",
       "otherEntityRelationshipName": "dispositionSubmission",
-      "relationshipName": "disposition"
+      "relationshipName": "disposition",
+      "relationshipType": "many-to-one"
     }
   ],
-  "entityTableName": "disposition_submission",
-  "dto": "mapstruct",
-  "pagination": "infinite-scroll",
-  "service": "serviceImpl",
-  "jpaMetamodelFiltering": false,
-  "fluentMethods": true,
-  "readOnly": false,
-  "embedded": false,
-  "applications": ["CampaignTool"],
-  "changelogDate": "20210914175210"
+  "service": "serviceImpl"
 }

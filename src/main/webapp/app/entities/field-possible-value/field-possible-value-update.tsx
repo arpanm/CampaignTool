@@ -1,21 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, Row, Col, FormText } from 'reactstrap';
 import { isNumber, Translate, translate, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { IField } from 'app/shared/model/field.model';
-import { getEntities as getFields } from 'app/entities/field/field.reducer';
-import { getEntity, updateEntity, createEntity, reset } from './field-possible-value.reducer';
-import { IFieldPossibleValue } from 'app/shared/model/field-possible-value.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { mapIdList } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-export const FieldPossibleValueUpdate = (props: RouteComponentProps<{ id: string }>) => {
+import { IField } from 'app/shared/model/field.model';
+import { getEntities as getFields } from 'app/entities/field/field.reducer';
+import { IFieldPossibleValue } from 'app/shared/model/field-possible-value.model';
+import { getEntity, updateEntity, createEntity, reset } from './field-possible-value.reducer';
+
+export const FieldPossibleValueUpdate = () => {
   const dispatch = useAppDispatch();
 
-  const [isNew] = useState(!props.match.params || !props.match.params.id);
+  const navigate = useNavigate();
+
+  const { id } = useParams<'id'>();
+  const isNew = id === undefined;
 
   const fields = useAppSelector(state => state.field.entities);
   const fieldPossibleValueEntity = useAppSelector(state => state.fieldPossibleValue.entity);
@@ -24,12 +28,12 @@ export const FieldPossibleValueUpdate = (props: RouteComponentProps<{ id: string
   const updateSuccess = useAppSelector(state => state.fieldPossibleValue.updateSuccess);
 
   const handleClose = () => {
-    props.history.push('/field-possible-value');
+    navigate('/field-possible-value');
   };
 
   useEffect(() => {
     if (!isNew) {
-      dispatch(getEntity(props.match.params.id));
+      dispatch(getEntity(id));
     }
 
     dispatch(getFields({}));
@@ -45,7 +49,7 @@ export const FieldPossibleValueUpdate = (props: RouteComponentProps<{ id: string
     const entity = {
       ...fieldPossibleValueEntity,
       ...values,
-      field: fields.find(it => it.id.toString() === values.fieldId.toString()),
+      field: fields.find(it => it.id.toString() === values.field.toString()),
     };
 
     if (isNew) {
@@ -60,15 +64,15 @@ export const FieldPossibleValueUpdate = (props: RouteComponentProps<{ id: string
       ? {}
       : {
           ...fieldPossibleValueEntity,
-          fieldId: fieldPossibleValueEntity?.field?.id,
+          field: fieldPossibleValueEntity?.field?.id,
         };
 
   return (
     <div>
       <Row className="justify-content-center">
         <Col md="8">
-          <h2 id="campaignToolApp.fieldPossibleValue.home.createOrEditLabel" data-cy="FieldPossibleValueCreateUpdateHeading">
-            <Translate contentKey="campaignToolApp.fieldPossibleValue.home.createOrEditLabel">
+          <h2 id="automatedPerformanceTestingApp.fieldPossibleValue.home.createOrEditLabel" data-cy="FieldPossibleValueCreateUpdateHeading">
+            <Translate contentKey="automatedPerformanceTestingApp.fieldPossibleValue.home.createOrEditLabel">
               Create or edit a FieldPossibleValue
             </Translate>
           </h2>
@@ -91,14 +95,14 @@ export const FieldPossibleValueUpdate = (props: RouteComponentProps<{ id: string
                 />
               ) : null}
               <ValidatedField
-                label={translate('campaignToolApp.fieldPossibleValue.value')}
+                label={translate('automatedPerformanceTestingApp.fieldPossibleValue.value')}
                 id="field-possible-value-value"
                 name="value"
                 data-cy="value"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.fieldPossibleValue.isActive')}
+                label={translate('automatedPerformanceTestingApp.fieldPossibleValue.isActive')}
                 id="field-possible-value-isActive"
                 name="isActive"
                 data-cy="isActive"
@@ -106,28 +110,28 @@ export const FieldPossibleValueUpdate = (props: RouteComponentProps<{ id: string
                 type="checkbox"
               />
               <ValidatedField
-                label={translate('campaignToolApp.fieldPossibleValue.createdBy')}
+                label={translate('automatedPerformanceTestingApp.fieldPossibleValue.createdBy')}
                 id="field-possible-value-createdBy"
                 name="createdBy"
                 data-cy="createdBy"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.fieldPossibleValue.createdAt')}
+                label={translate('automatedPerformanceTestingApp.fieldPossibleValue.createdAt')}
                 id="field-possible-value-createdAt"
                 name="createdAt"
                 data-cy="createdAt"
                 type="date"
               />
               <ValidatedField
-                label={translate('campaignToolApp.fieldPossibleValue.updatedBy')}
+                label={translate('automatedPerformanceTestingApp.fieldPossibleValue.updatedBy')}
                 id="field-possible-value-updatedBy"
                 name="updatedBy"
                 data-cy="updatedBy"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.fieldPossibleValue.updatedAt')}
+                label={translate('automatedPerformanceTestingApp.fieldPossibleValue.updatedAt')}
                 id="field-possible-value-updatedAt"
                 name="updatedAt"
                 data-cy="updatedAt"
@@ -135,9 +139,9 @@ export const FieldPossibleValueUpdate = (props: RouteComponentProps<{ id: string
               />
               <ValidatedField
                 id="field-possible-value-field"
-                name="fieldId"
+                name="field"
                 data-cy="field"
-                label={translate('campaignToolApp.fieldPossibleValue.field')}
+                label={translate('automatedPerformanceTestingApp.fieldPossibleValue.field')}
                 type="select"
               >
                 <option value="" key="0" />

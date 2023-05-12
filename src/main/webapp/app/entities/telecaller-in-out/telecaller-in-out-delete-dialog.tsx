@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 import { Translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,23 +7,31 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { getEntity, deleteEntity } from './telecaller-in-out.reducer';
 
-export const TelecallerInOutDeleteDialog = (props: RouteComponentProps<{ id: string }>) => {
+export const TelecallerInOutDeleteDialog = () => {
   const dispatch = useAppDispatch();
 
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { id } = useParams<'id'>();
+
+  const [loadModal, setLoadModal] = useState(false);
+
   useEffect(() => {
-    dispatch(getEntity(props.match.params.id));
+    dispatch(getEntity(id));
+    setLoadModal(true);
   }, []);
 
   const telecallerInOutEntity = useAppSelector(state => state.telecallerInOut.entity);
   const updateSuccess = useAppSelector(state => state.telecallerInOut.updateSuccess);
 
   const handleClose = () => {
-    props.history.push('/telecaller-in-out');
+    navigate('/telecaller-in-out');
   };
 
   useEffect(() => {
-    if (updateSuccess) {
+    if (updateSuccess && loadModal) {
       handleClose();
+      setLoadModal(false);
     }
   }, [updateSuccess]);
 
@@ -36,8 +44,11 @@ export const TelecallerInOutDeleteDialog = (props: RouteComponentProps<{ id: str
       <ModalHeader toggle={handleClose} data-cy="telecallerInOutDeleteDialogHeading">
         <Translate contentKey="entity.delete.title">Confirm delete operation</Translate>
       </ModalHeader>
-      <ModalBody id="campaignToolApp.telecallerInOut.delete.question">
-        <Translate contentKey="campaignToolApp.telecallerInOut.delete.question" interpolate={{ id: telecallerInOutEntity.id }}>
+      <ModalBody id="automatedPerformanceTestingApp.telecallerInOut.delete.question">
+        <Translate
+          contentKey="automatedPerformanceTestingApp.telecallerInOut.delete.question"
+          interpolate={{ id: telecallerInOutEntity.id }}
+        >
           Are you sure you want to delete this TelecallerInOut?
         </Translate>
       </ModalBody>

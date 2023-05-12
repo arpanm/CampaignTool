@@ -1,10 +1,13 @@
-const tsconfig = require('./tsconfig.json');
+const tsconfig = require('./tsconfig.test.json');
 
 module.exports = {
+  testEnvironment: 'jsdom',
   transform: {
     '^.+\\.tsx?$': 'ts-jest',
   },
-  testURL: 'http://localhost/',
+  testEnvironmentOptions: {
+    url: 'http://localhost/',
+  },
   cacheDirectory: '<rootDir>/target/jest-cache',
   coverageDirectory: '<rootDir>/target/test-results/',
   testMatch: ['<rootDir>/src/main/webapp/app/**/@(*.)@(spec.ts?(x))'],
@@ -13,16 +16,22 @@ module.exports = {
   moduleNameMapper: mapTypescriptAliasToJestAlias({
     '\\.(css|scss)$': 'identity-obj-proxy',
   }),
-  reporters: ['default', ['jest-junit', { outputDirectory: './target/test-results/', outputName: 'TESTS-results-jest.xml' }]],
-  testResultsProcessor: 'jest-sonar-reporter',
+  reporters: [
+    'default',
+    ['jest-junit', { outputDirectory: './target/test-results/', outputName: 'TESTS-results-jest.xml' }],
+    ['jest-sonar', { outputDirectory: './target/test-results/jest', outputName: 'TESTS-results-sonar.xml' }],
+  ],
   testPathIgnorePatterns: ['<rootDir>/node_modules/'],
   setupFiles: ['<rootDir>/src/main/webapp/app/setup-tests.ts'],
   globals: {
+    I18N_HASH: 'generated_hash',
     'ts-jest': {
       tsconfig: './tsconfig.test.json',
       compiler: 'typescript',
       diagnostics: false,
     },
+    ...require('./webpack/environment'),
+    DEVELOPMENT: false,
   },
 };
 

@@ -1,5 +1,9 @@
 {
-  "name": "LeadAssociation",
+  "applications": ["CampaignTool"],
+  "changelogDate": "20210914175203",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "lead_association",
   "fields": [
     {
       "fieldName": "assignmentDate",
@@ -22,28 +26,24 @@
       "fieldType": "LocalDate"
     }
   ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "LeadAssociation",
+  "pagination": "infinite-scroll",
+  "readOnly": false,
   "relationships": [
     {
-      "relationshipType": "many-to-one",
       "otherEntityName": "lead",
       "otherEntityRelationshipName": "leadAssociation",
-      "relationshipName": "lead"
+      "relationshipName": "lead",
+      "relationshipType": "many-to-one"
     },
     {
-      "relationshipType": "many-to-one",
       "otherEntityName": "campaign",
       "otherEntityRelationshipName": "leadAssociation",
-      "relationshipName": "campaign"
+      "relationshipName": "campaign",
+      "relationshipType": "many-to-one"
     }
   ],
-  "entityTableName": "lead_association",
-  "dto": "mapstruct",
-  "pagination": "infinite-scroll",
-  "service": "serviceImpl",
-  "jpaMetamodelFiltering": false,
-  "fluentMethods": true,
-  "readOnly": false,
-  "embedded": false,
-  "applications": ["CampaignTool"],
-  "changelogDate": "20210914175203"
+  "service": "serviceImpl"
 }

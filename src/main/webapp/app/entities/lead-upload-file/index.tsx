@@ -1,23 +1,23 @@
 import React from 'react';
-import { Switch } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 
-import ErrorBoundaryRoute from 'app/shared/error/error-boundary-route';
+import ErrorBoundaryRoutes from 'app/shared/error/error-boundary-routes';
 
 import LeadUploadFile from './lead-upload-file';
 import LeadUploadFileDetail from './lead-upload-file-detail';
 import LeadUploadFileUpdate from './lead-upload-file-update';
 import LeadUploadFileDeleteDialog from './lead-upload-file-delete-dialog';
 
-const Routes = ({ match }) => (
-  <>
-    <Switch>
-      <ErrorBoundaryRoute exact path={`${match.url}/new`} component={LeadUploadFileUpdate} />
-      <ErrorBoundaryRoute exact path={`${match.url}/:id/edit`} component={LeadUploadFileUpdate} />
-      <ErrorBoundaryRoute exact path={`${match.url}/:id`} component={LeadUploadFileDetail} />
-      <ErrorBoundaryRoute path={match.url} component={LeadUploadFile} />
-    </Switch>
-    <ErrorBoundaryRoute exact path={`${match.url}/:id/delete`} component={LeadUploadFileDeleteDialog} />
-  </>
+const LeadUploadFileRoutes = () => (
+  <ErrorBoundaryRoutes>
+    <Route index element={<LeadUploadFile />} />
+    <Route path="new" element={<LeadUploadFileUpdate />} />
+    <Route path=":id">
+      <Route index element={<LeadUploadFileDetail />} />
+      <Route path="edit" element={<LeadUploadFileUpdate />} />
+      <Route path="delete" element={<LeadUploadFileDeleteDialog />} />
+    </Route>
+  </ErrorBoundaryRoutes>
 );
 
-export default Routes;
+export default LeadUploadFileRoutes;

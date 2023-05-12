@@ -1,6 +1,6 @@
 import './home.scss';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Translate } from 'react-jhipster';
 import { Row, Col, Alert } from 'reactstrap';
@@ -22,7 +22,7 @@ export const Home = () => {
         <p className="lead">
           <Translate contentKey="home.subtitle">This is your homepage</Translate>
         </p>
-        {account && account.login ? (
+        {account?.login ? (
           <div>
             <Alert color="success">
               <Translate contentKey="home.logged.message" interpolate={{ username: account.login }}>

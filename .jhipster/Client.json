@@ -1,5 +1,9 @@
 {
-  "name": "Client",
+  "applications": ["CampaignTool"],
+  "changelogDate": "20210914175153",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "client",
   "fields": [
     {
       "fieldName": "companyName",
@@ -43,22 +47,18 @@
       "fieldType": "LocalDate"
     }
   ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Client",
+  "pagination": "infinite-scroll",
+  "readOnly": false,
   "relationships": [
     {
-      "relationshipType": "one-to-many",
       "otherEntityName": "campaign",
       "otherEntityRelationshipName": "client",
-      "relationshipName": "campaign"
+      "relationshipName": "campaign",
+      "relationshipType": "one-to-many"
     }
   ],
-  "entityTableName": "client",
-  "dto": "mapstruct",
-  "pagination": "infinite-scroll",
-  "service": "serviceImpl",
-  "jpaMetamodelFiltering": false,
-  "fluentMethods": true,
-  "readOnly": false,
-  "embedded": false,
-  "applications": ["CampaignTool"],
-  "changelogDate": "20210914175153"
+  "service": "serviceImpl"
 }

@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, Row, Col, FormText } from 'reactstrap';
 import { isNumber, Translate, translate, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
+import { mapIdList } from 'app/shared/util/entity-utils';
+import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { ITelecaller } from 'app/shared/model/telecaller.model';
 import { getEntities as getTelecallers } from 'app/entities/telecaller/telecaller.reducer';
@@ -10,16 +14,16 @@ import { ILead } from 'app/shared/model/lead.model';
 import { getEntities as getLeads } from 'app/entities/lead/lead.reducer';
 import { ICall } from 'app/shared/model/call.model';
 import { getEntities as getCalls } from 'app/entities/call/call.reducer';
-import { getEntity, updateEntity, createEntity, reset } from './lead-assignment.reducer';
 import { ILeadAssignment } from 'app/shared/model/lead-assignment.model';
-import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
-import { mapIdList } from 'app/shared/util/entity-utils';
-import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { getEntity, updateEntity, createEntity, reset } from './lead-assignment.reducer';
 
-export const LeadAssignmentUpdate = (props: RouteComponentProps<{ id: string }>) => {
+export const LeadAssignmentUpdate = () => {
   const dispatch = useAppDispatch();
 
-  const [isNew] = useState(!props.match.params || !props.match.params.id);
+  const navigate = useNavigate();
+
+  const { id } = useParams<'id'>();
+  const isNew = id === undefined;
 
   const telecallers = useAppSelector(state => state.telecaller.entities);
   const leads = useAppSelector(state => state.lead.entities);
@@ -30,12 +34,12 @@ export const LeadAssignmentUpdate = (props: RouteComponentProps<{ id: string }>)
   const updateSuccess = useAppSelector(state => state.leadAssignment.updateSuccess);
 
   const handleClose = () => {
-    props.history.push('/lead-assignment');
+    navigate('/lead-assignment');
   };
 
   useEffect(() => {
     if (!isNew) {
-      dispatch(getEntity(props.match.params.id));
+      dispatch(getEntity(id));
     }
 
     dispatch(getTelecallers({}));
@@ -53,8 +57,8 @@ export const LeadAssignmentUpdate = (props: RouteComponentProps<{ id: string }>)
     const entity = {
       ...leadAssignmentEntity,
       ...values,
-      telecaller: telecallers.find(it => it.id.toString() === values.telecallerId.toString()),
-      lead: leads.find(it => it.id.toString() === values.leadId.toString()),
+      telecaller: telecallers.find(it => it.id.toString() === values.telecaller.toString()),
+      lead: leads.find(it => it.id.toString() === values.lead.toString()),
     };
 
     if (isNew) {
@@ -69,16 +73,18 @@ export const LeadAssignmentUpdate = (props: RouteComponentProps<{ id: string }>)
       ? {}
       : {
           ...leadAssignmentEntity,
-          telecallerId: leadAssignmentEntity?.telecaller?.id,
-          leadId: leadAssignmentEntity?.lead?.id,
+          telecaller: leadAssignmentEntity?.telecaller?.id,
+          lead: leadAssignmentEntity?.lead?.id,
         };
 
   return (
     <div>
       <Row className="justify-content-center">
         <Col md="8">
-          <h2 id="campaignToolApp.leadAssignment.home.createOrEditLabel" data-cy="LeadAssignmentCreateUpdateHeading">
-            <Translate contentKey="campaignToolApp.leadAssignment.home.createOrEditLabel">Create or edit a LeadAssignment</Translate>
+          <h2 id="automatedPerformanceTestingApp.leadAssignment.home.createOrEditLabel" data-cy="LeadAssignmentCreateUpdateHeading">
+            <Translate contentKey="automatedPerformanceTestingApp.leadAssignment.home.createOrEditLabel">
+              Create or edit a LeadAssignment
+            </Translate>
           </h2>
         </Col>
       </Row>
@@ -99,35 +105,35 @@ export const LeadAssignmentUpdate = (props: RouteComponentProps<{ id: string }>)
                 />
               ) : null}
               <ValidatedField
-                label={translate('campaignToolApp.leadAssignment.assignmentDate')}
+                label={translate('automatedPerformanceTestingApp.leadAssignment.assignmentDate')}
                 id="lead-assignment-assignmentDate"
                 name="assignmentDate"
                 data-cy="assignmentDate"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.leadAssignment.createdBy')}
+                label={translate('automatedPerformanceTestingApp.leadAssignment.createdBy')}
                 id="lead-assignment-createdBy"
                 name="createdBy"
                 data-cy="createdBy"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.leadAssignment.createdAt')}
+                label={translate('automatedPerformanceTestingApp.leadAssignment.createdAt')}
                 id="lead-assignment-createdAt"
                 name="createdAt"
                 data-cy="createdAt"
                 type="date"
               />
               <ValidatedField
-                label={translate('campaignToolApp.leadAssignment.updatedBy')}
+                label={translate('automatedPerformanceTestingApp.leadAssignment.updatedBy')}
                 id="lead-assignment-updatedBy"
                 name="updatedBy"
                 data-cy="updatedBy"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.leadAssignment.updatedAt')}
+                label={translate('automatedPerformanceTestingApp.leadAssignment.updatedAt')}
                 id="lead-assignment-updatedAt"
                 name="updatedAt"
                 data-cy="updatedAt"
@@ -135,9 +141,9 @@ export const LeadAssignmentUpdate = (props: RouteComponentProps<{ id: string }>)
               />
               <ValidatedField
                 id="lead-assignment-telecaller"
-                name="telecallerId"
+                name="telecaller"
                 data-cy="telecaller"
-                label={translate('campaignToolApp.leadAssignment.telecaller')}
+                label={translate('automatedPerformanceTestingApp.leadAssignment.telecaller')}
                 type="select"
               >
                 <option value="" key="0" />
@@ -151,9 +157,9 @@ export const LeadAssignmentUpdate = (props: RouteComponentProps<{ id: string }>)
               </ValidatedField>
               <ValidatedField
                 id="lead-assignment-lead"
-                name="leadId"
+                name="lead"
                 data-cy="lead"
-                label={translate('campaignToolApp.leadAssignment.lead')}
+                label={translate('automatedPerformanceTestingApp.leadAssignment.lead')}
                 type="select"
               >
                 <option value="" key="0" />

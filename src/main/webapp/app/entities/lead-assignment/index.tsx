@@ -1,23 +1,23 @@
 import React from 'react';
-import { Switch } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 
-import ErrorBoundaryRoute from 'app/shared/error/error-boundary-route';
+import ErrorBoundaryRoutes from 'app/shared/error/error-boundary-routes';
 
 import LeadAssignment from './lead-assignment';
 import LeadAssignmentDetail from './lead-assignment-detail';
 import LeadAssignmentUpdate from './lead-assignment-update';
 import LeadAssignmentDeleteDialog from './lead-assignment-delete-dialog';
 
-const Routes = ({ match }) => (
-  <>
-    <Switch>
-      <ErrorBoundaryRoute exact path={`${match.url}/new`} component={LeadAssignmentUpdate} />
-      <ErrorBoundaryRoute exact path={`${match.url}/:id/edit`} component={LeadAssignmentUpdate} />
-      <ErrorBoundaryRoute exact path={`${match.url}/:id`} component={LeadAssignmentDetail} />
-      <ErrorBoundaryRoute path={match.url} component={LeadAssignment} />
-    </Switch>
-    <ErrorBoundaryRoute exact path={`${match.url}/:id/delete`} component={LeadAssignmentDeleteDialog} />
-  </>
+const LeadAssignmentRoutes = () => (
+  <ErrorBoundaryRoutes>
+    <Route index element={<LeadAssignment />} />
+    <Route path="new" element={<LeadAssignmentUpdate />} />
+    <Route path=":id">
+      <Route index element={<LeadAssignmentDetail />} />
+      <Route path="edit" element={<LeadAssignmentUpdate />} />
+      <Route path="delete" element={<LeadAssignmentDeleteDialog />} />
+    </Route>
+  </ErrorBoundaryRoutes>
 );
 
-export default Routes;
+export default LeadAssignmentRoutes;

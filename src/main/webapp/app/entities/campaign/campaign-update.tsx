@@ -1,23 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, Row, Col, FormText } from 'reactstrap';
 import { isNumber, Translate, translate, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
+import { mapIdList } from 'app/shared/util/entity-utils';
+import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { IDisposition } from 'app/shared/model/disposition.model';
 import { getEntities as getDispositions } from 'app/entities/disposition/disposition.reducer';
 import { IClient } from 'app/shared/model/client.model';
 import { getEntities as getClients } from 'app/entities/client/client.reducer';
-import { getEntity, updateEntity, createEntity, reset } from './campaign.reducer';
 import { ICampaign } from 'app/shared/model/campaign.model';
-import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
-import { mapIdList } from 'app/shared/util/entity-utils';
-import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { CampaignType } from 'app/shared/model/enumerations/campaign-type.model';
+import { CampaignApprovalStatus } from 'app/shared/model/enumerations/campaign-approval-status.model';
+import { getEntity, updateEntity, createEntity, reset } from './campaign.reducer';
 
-export const CampaignUpdate = (props: RouteComponentProps<{ id: string }>) => {
+export const CampaignUpdate = () => {
   const dispatch = useAppDispatch();
 
-  const [isNew] = useState(!props.match.params || !props.match.params.id);
+  const navigate = useNavigate();
+
+  const { id } = useParams<'id'>();
+  const isNew = id === undefined;
 
   const dispositions = useAppSelector(state => state.disposition.entities);
   const clients = useAppSelector(state => state.client.entities);
@@ -25,14 +31,16 @@ export const CampaignUpdate = (props: RouteComponentProps<{ id: string }>) => {
   const loading = useAppSelector(state => state.campaign.loading);
   const updating = useAppSelector(state => state.campaign.updating);
   const updateSuccess = useAppSelector(state => state.campaign.updateSuccess);
+  const campaignTypeValues = Object.keys(CampaignType);
+  const campaignApprovalStatusValues = Object.keys(CampaignApprovalStatus);
 
   const handleClose = () => {
-    props.history.push('/campaign');
+    navigate('/campaign');
   };
 
   useEffect(() => {
     if (!isNew) {
-      dispatch(getEntity(props.match.params.id));
+      dispatch(getEntity(id));
     }
 
     dispatch(getDispositions({}));
@@ -49,8 +57,8 @@ export const CampaignUpdate = (props: RouteComponentProps<{ id: string }>) => {
     const entity = {
       ...campaignEntity,
       ...values,
-      disposition: dispositions.find(it => it.id.toString() === values.dispositionId.toString()),
-      client: clients.find(it => it.id.toString() === values.clientId.toString()),
+      disposition: dispositions.find(it => it.id.toString() === values.disposition.toString()),
+      client: clients.find(it => it.id.toString() === values.client.toString()),
     };
 
     if (isNew) {
@@ -64,19 +72,19 @@ export const CampaignUpdate = (props: RouteComponentProps<{ id: string }>) => {
     isNew
       ? {}
       : {
-          ...campaignEntity,
           type: 'Telecalling',
           status: 'Pending',
-          dispositionId: campaignEntity?.disposition?.id,
-          clientId: campaignEntity?.client?.id,
+          ...campaignEntity,
+          disposition: campaignEntity?.disposition?.id,
+          client: campaignEntity?.client?.id,
         };
 
   return (
     <div>
       <Row className="justify-content-center">
         <Col md="8">
-          <h2 id="campaignToolApp.campaign.home.createOrEditLabel" data-cy="CampaignCreateUpdateHeading">
-            <Translate contentKey="campaignToolApp.campaign.home.createOrEditLabel">Create or edit a Campaign</Translate>
+          <h2 id="automatedPerformanceTestingApp.campaign.home.createOrEditLabel" data-cy="CampaignCreateUpdateHeading">
+            <Translate contentKey="automatedPerformanceTestingApp.campaign.home.createOrEditLabel">Create or edit a Campaign</Translate>
           </h2>
         </Col>
       </Row>
@@ -97,57 +105,61 @@ export const CampaignUpdate = (props: RouteComponentProps<{ id: string }>) => {
                 />
               ) : null}
               <ValidatedField
-                label={translate('campaignToolApp.campaign.name')}
+                label={translate('automatedPerformanceTestingApp.campaign.name')}
                 id="campaign-name"
                 name="name"
                 data-cy="name"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.campaign.description')}
+                label={translate('automatedPerformanceTestingApp.campaign.description')}
                 id="campaign-description"
                 name="description"
                 data-cy="description"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.campaign.startDate')}
+                label={translate('automatedPerformanceTestingApp.campaign.startDate')}
                 id="campaign-startDate"
                 name="startDate"
                 data-cy="startDate"
                 type="date"
               />
               <ValidatedField
-                label={translate('campaignToolApp.campaign.endDate')}
+                label={translate('automatedPerformanceTestingApp.campaign.endDate')}
                 id="campaign-endDate"
                 name="endDate"
                 data-cy="endDate"
                 type="date"
               />
               <ValidatedField
-                label={translate('campaignToolApp.campaign.type')}
+                label={translate('automatedPerformanceTestingApp.campaign.type')}
                 id="campaign-type"
                 name="type"
                 data-cy="type"
                 type="select"
               >
-                <option value="Telecalling">{translate('campaignToolApp.CampaignType.Telecalling')}</option>
-                <option value="Email">{translate('campaignToolApp.CampaignType.Email')}</option>
-                <option value="SMS">{translate('campaignToolApp.CampaignType.SMS')}</option>
+                {campaignTypeValues.map(campaignType => (
+                  <option value={campaignType} key={campaignType}>
+                    {translate('automatedPerformanceTestingApp.CampaignType.' + campaignType)}
+                  </option>
+                ))}
               </ValidatedField>
               <ValidatedField
-                label={translate('campaignToolApp.campaign.status')}
+                label={translate('automatedPerformanceTestingApp.campaign.status')}
                 id="campaign-status"
                 name="status"
                 data-cy="status"
                 type="select"
               >
-                <option value="Pending">{translate('campaignToolApp.CampaignApprovalStatus.Pending')}</option>
-                <option value="Approved">{translate('campaignToolApp.CampaignApprovalStatus.Approved')}</option>
-                <option value="Rejected">{translate('campaignToolApp.CampaignApprovalStatus.Rejected')}</option>
+                {campaignApprovalStatusValues.map(campaignApprovalStatus => (
+                  <option value={campaignApprovalStatus} key={campaignApprovalStatus}>
+                    {translate('automatedPerformanceTestingApp.CampaignApprovalStatus.' + campaignApprovalStatus)}
+                  </option>
+                ))}
               </ValidatedField>
               <ValidatedField
-                label={translate('campaignToolApp.campaign.isActive')}
+                label={translate('automatedPerformanceTestingApp.campaign.isActive')}
                 id="campaign-isActive"
                 name="isActive"
                 data-cy="isActive"
@@ -155,28 +167,28 @@ export const CampaignUpdate = (props: RouteComponentProps<{ id: string }>) => {
                 type="checkbox"
               />
               <ValidatedField
-                label={translate('campaignToolApp.campaign.createdBy')}
+                label={translate('automatedPerformanceTestingApp.campaign.createdBy')}
                 id="campaign-createdBy"
                 name="createdBy"
                 data-cy="createdBy"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.campaign.createdAt')}
+                label={translate('automatedPerformanceTestingApp.campaign.createdAt')}
                 id="campaign-createdAt"
                 name="createdAt"
                 data-cy="createdAt"
                 type="date"
               />
               <ValidatedField
-                label={translate('campaignToolApp.campaign.updatedBy')}
+                label={translate('automatedPerformanceTestingApp.campaign.updatedBy')}
                 id="campaign-updatedBy"
                 name="updatedBy"
                 data-cy="updatedBy"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.campaign.updatedAt')}
+                label={translate('automatedPerformanceTestingApp.campaign.updatedAt')}
                 id="campaign-updatedAt"
                 name="updatedAt"
                 data-cy="updatedAt"
@@ -184,9 +196,9 @@ export const CampaignUpdate = (props: RouteComponentProps<{ id: string }>) => {
               />
               <ValidatedField
                 id="campaign-disposition"
-                name="dispositionId"
+                name="disposition"
                 data-cy="disposition"
-                label={translate('campaignToolApp.campaign.disposition')}
+                label={translate('automatedPerformanceTestingApp.campaign.disposition')}
                 type="select"
               >
                 <option value="" key="0" />
@@ -200,9 +212,9 @@ export const CampaignUpdate = (props: RouteComponentProps<{ id: string }>) => {
               </ValidatedField>
               <ValidatedField
                 id="campaign-client"
-                name="clientId"
+                name="client"
                 data-cy="client"
-                label={translate('campaignToolApp.campaign.client')}
+                label={translate('automatedPerformanceTestingApp.campaign.client')}
                 type="select"
               >
                 <option value="" key="0" />

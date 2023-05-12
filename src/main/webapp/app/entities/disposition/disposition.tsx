@@ -1,22 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import InfiniteScroll from 'react-infinite-scroller';
-import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Col, Row, Table } from 'reactstrap';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Button, Table } from 'reactstrap';
 import { Translate, TextFormat, getSortState } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { getEntities, reset } from './disposition.reducer';
-import { IDisposition } from 'app/shared/model/disposition.model';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/shared/util/pagination.constants';
 import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-export const Disposition = (props: RouteComponentProps<{ url: string }>) => {
+import { IDisposition } from 'app/shared/model/disposition.model';
+import { getEntities, reset } from './disposition.reducer';
+
+export const Disposition = () => {
   const dispatch = useAppDispatch();
 
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const [paginationState, setPaginationState] = useState(
-    overridePaginationStateWithQueryParams(getSortState(props.location, ITEMS_PER_PAGE, 'id'), props.location.search)
+    overridePaginationStateWithQueryParams(getSortState(location, ITEMS_PER_PAGE, 'id'), location.search)
   );
   const [sorting, setSorting] = useState(false);
 
@@ -91,54 +95,55 @@ export const Disposition = (props: RouteComponentProps<{ url: string }>) => {
     resetAll();
   };
 
-  const { match } = props;
-
   return (
     <div>
       <h2 id="disposition-heading" data-cy="DispositionHeading">
-        <Translate contentKey="campaignToolApp.disposition.home.title">Dispositions</Translate>
+        <Translate contentKey="automatedPerformanceTestingApp.disposition.home.title">Dispositions</Translate>
         <div className="d-flex justify-content-end">
-          <Button className="mr-2" color="info" onClick={handleSyncList} disabled={loading}>
+          <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
             <FontAwesomeIcon icon="sync" spin={loading} />{' '}
-            <Translate contentKey="campaignToolApp.disposition.home.refreshListLabel">Refresh List</Translate>
+            <Translate contentKey="automatedPerformanceTestingApp.disposition.home.refreshListLabel">Refresh List</Translate>
           </Button>
-          <Link to={`${match.url}/new`} className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
+          <Link to="/disposition/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
             <FontAwesomeIcon icon="plus" />
             &nbsp;
-            <Translate contentKey="campaignToolApp.disposition.home.createLabel">Create new Disposition</Translate>
+            <Translate contentKey="automatedPerformanceTestingApp.disposition.home.createLabel">Create new Disposition</Translate>
           </Link>
         </div>
       </h2>
       <div className="table-responsive">
         <InfiniteScroll
-          pageStart={paginationState.activePage}
-          loadMore={handleLoadMore}
+          dataLength={dispositionList ? dispositionList.length : 0}
+          next={handleLoadMore}
           hasMore={paginationState.activePage - 1 < links.next}
           loader={<div className="loader">Loading ...</div>}
-          threshold={0}
-          initialLoad={false}
         >
           {dispositionList && dispositionList.length > 0 ? (
             <Table responsive>
               <thead>
                 <tr>
                   <th className="hand" onClick={sort('id')}>
-                    <Translate contentKey="campaignToolApp.disposition.id">ID</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="automatedPerformanceTestingApp.disposition.id">ID</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('isActive')}>
-                    <Translate contentKey="campaignToolApp.disposition.isActive">Is Active</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="automatedPerformanceTestingApp.disposition.isActive">Is Active</Translate>{' '}
+                    <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('createdBy')}>
-                    <Translate contentKey="campaignToolApp.disposition.createdBy">Created By</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="automatedPerformanceTestingApp.disposition.createdBy">Created By</Translate>{' '}
+                    <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('createdAt')}>
-                    <Translate contentKey="campaignToolApp.disposition.createdAt">Created At</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="automatedPerformanceTestingApp.disposition.createdAt">Created At</Translate>{' '}
+                    <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('updatedBy')}>
-                    <Translate contentKey="campaignToolApp.disposition.updatedBy">Updated By</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="automatedPerformanceTestingApp.disposition.updatedBy">Updated By</Translate>{' '}
+                    <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('updatedAt')}>
-                    <Translate contentKey="campaignToolApp.disposition.updatedAt">Updated At</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="automatedPerformanceTestingApp.disposition.updatedAt">Updated At</Translate>{' '}
+                    <FontAwesomeIcon icon="sort" />
                   </th>
                   <th />
                 </tr>
@@ -147,7 +152,7 @@ export const Disposition = (props: RouteComponentProps<{ url: string }>) => {
                 {dispositionList.map((disposition, i) => (
                   <tr key={`entity-${i}`} data-cy="entityTable">
                     <td>
-                      <Button tag={Link} to={`${match.url}/${disposition.id}`} color="link" size="sm">
+                      <Button tag={Link} to={`/disposition/${disposition.id}`} color="link" size="sm">
                         {disposition.id}
                       </Button>
                     </td>
@@ -164,15 +169,15 @@ export const Disposition = (props: RouteComponentProps<{ url: string }>) => {
                         <TextFormat type="date" value={disposition.updatedAt} format={APP_LOCAL_DATE_FORMAT} />
                       ) : null}
                     </td>
-                    <td className="text-right">
+                    <td className="text-end">
                       <div className="btn-group flex-btn-group-container">
-                        <Button tag={Link} to={`${match.url}/${disposition.id}`} color="info" size="sm" data-cy="entityDetailsButton">
+                        <Button tag={Link} to={`/disposition/${disposition.id}`} color="info" size="sm" data-cy="entityDetailsButton">
                           <FontAwesomeIcon icon="eye" />{' '}
                           <span className="d-none d-md-inline">
                             <Translate contentKey="entity.action.view">View</Translate>
                           </span>
                         </Button>
-                        <Button tag={Link} to={`${match.url}/${disposition.id}/edit`} color="primary" size="sm" data-cy="entityEditButton">
+                        <Button tag={Link} to={`/disposition/${disposition.id}/edit`} color="primary" size="sm" data-cy="entityEditButton">
                           <FontAwesomeIcon icon="pencil-alt" />{' '}
                           <span className="d-none d-md-inline">
                             <Translate contentKey="entity.action.edit">Edit</Translate>
@@ -180,7 +185,7 @@ export const Disposition = (props: RouteComponentProps<{ url: string }>) => {
                         </Button>
                         <Button
                           tag={Link}
-                          to={`${match.url}/${disposition.id}/delete`}
+                          to={`/disposition/${disposition.id}/delete`}
                           color="danger"
                           size="sm"
                           data-cy="entityDeleteButton"
@@ -199,7 +204,7 @@ export const Disposition = (props: RouteComponentProps<{ url: string }>) => {
           ) : (
             !loading && (
               <div className="alert alert-warning">
-                <Translate contentKey="campaignToolApp.disposition.home.notFound">No Dispositions found</Translate>
+                <Translate contentKey="automatedPerformanceTestingApp.disposition.home.notFound">No Dispositions found</Translate>
               </div>
             )
           )}

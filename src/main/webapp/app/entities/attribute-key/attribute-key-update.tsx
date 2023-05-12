@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, Row, Col, FormText } from 'reactstrap';
 import { isNumber, Translate, translate, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { getEntity, updateEntity, createEntity, reset } from './attribute-key.reducer';
-import { IAttributeKey } from 'app/shared/model/attribute-key.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { mapIdList } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-export const AttributeKeyUpdate = (props: RouteComponentProps<{ id: string }>) => {
+import { IAttributeKey } from 'app/shared/model/attribute-key.model';
+import { getEntity, updateEntity, createEntity, reset } from './attribute-key.reducer';
+
+export const AttributeKeyUpdate = () => {
   const dispatch = useAppDispatch();
 
-  const [isNew] = useState(!props.match.params || !props.match.params.id);
+  const navigate = useNavigate();
+
+  const { id } = useParams<'id'>();
+  const isNew = id === undefined;
 
   const attributeKeyEntity = useAppSelector(state => state.attributeKey.entity);
   const loading = useAppSelector(state => state.attributeKey.loading);
@@ -21,12 +25,12 @@ export const AttributeKeyUpdate = (props: RouteComponentProps<{ id: string }>) =
   const updateSuccess = useAppSelector(state => state.attributeKey.updateSuccess);
 
   const handleClose = () => {
-    props.history.push('/attribute-key');
+    navigate('/attribute-key');
   };
 
   useEffect(() => {
     if (!isNew) {
-      dispatch(getEntity(props.match.params.id));
+      dispatch(getEntity(id));
     }
   }, []);
 
@@ -60,8 +64,10 @@ export const AttributeKeyUpdate = (props: RouteComponentProps<{ id: string }>) =
     <div>
       <Row className="justify-content-center">
         <Col md="8">
-          <h2 id="campaignToolApp.attributeKey.home.createOrEditLabel" data-cy="AttributeKeyCreateUpdateHeading">
-            <Translate contentKey="campaignToolApp.attributeKey.home.createOrEditLabel">Create or edit a AttributeKey</Translate>
+          <h2 id="automatedPerformanceTestingApp.attributeKey.home.createOrEditLabel" data-cy="AttributeKeyCreateUpdateHeading">
+            <Translate contentKey="automatedPerformanceTestingApp.attributeKey.home.createOrEditLabel">
+              Create or edit a AttributeKey
+            </Translate>
           </h2>
         </Col>
       </Row>
@@ -82,14 +88,14 @@ export const AttributeKeyUpdate = (props: RouteComponentProps<{ id: string }>) =
                 />
               ) : null}
               <ValidatedField
-                label={translate('campaignToolApp.attributeKey.key')}
+                label={translate('automatedPerformanceTestingApp.attributeKey.key')}
                 id="attribute-key-key"
                 name="key"
                 data-cy="key"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.attributeKey.isActive')}
+                label={translate('automatedPerformanceTestingApp.attributeKey.isActive')}
                 id="attribute-key-isActive"
                 name="isActive"
                 data-cy="isActive"
@@ -97,28 +103,28 @@ export const AttributeKeyUpdate = (props: RouteComponentProps<{ id: string }>) =
                 type="checkbox"
               />
               <ValidatedField
-                label={translate('campaignToolApp.attributeKey.createdBy')}
+                label={translate('automatedPerformanceTestingApp.attributeKey.createdBy')}
                 id="attribute-key-createdBy"
                 name="createdBy"
                 data-cy="createdBy"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.attributeKey.createdAt')}
+                label={translate('automatedPerformanceTestingApp.attributeKey.createdAt')}
                 id="attribute-key-createdAt"
                 name="createdAt"
                 data-cy="createdAt"
                 type="date"
               />
               <ValidatedField
-                label={translate('campaignToolApp.attributeKey.updatedBy')}
+                label={translate('automatedPerformanceTestingApp.attributeKey.updatedBy')}
                 id="attribute-key-updatedBy"
                 name="updatedBy"
                 data-cy="updatedBy"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.attributeKey.updatedAt')}
+                label={translate('automatedPerformanceTestingApp.attributeKey.updatedAt')}
                 id="attribute-key-updatedAt"
                 name="updatedAt"
                 data-cy="updatedAt"

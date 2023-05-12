@@ -1,18 +1,21 @@
 import React, { useEffect } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Button, Row, Col } from 'reactstrap';
 import { Translate, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { getEntity } from './lead-upload-file.reducer';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-export const LeadUploadFileDetail = (props: RouteComponentProps<{ id: string }>) => {
+import { getEntity } from './lead-upload-file.reducer';
+
+export const LeadUploadFileDetail = () => {
   const dispatch = useAppDispatch();
 
+  const { id } = useParams<'id'>();
+
   useEffect(() => {
-    dispatch(getEntity(props.match.params.id));
+    dispatch(getEntity(id));
   }, []);
 
   const leadUploadFileEntity = useAppSelector(state => state.leadUploadFile.entity);
@@ -20,7 +23,7 @@ export const LeadUploadFileDetail = (props: RouteComponentProps<{ id: string }>)
     <Row>
       <Col md="8">
         <h2 data-cy="leadUploadFileDetailsHeading">
-          <Translate contentKey="campaignToolApp.leadUploadFile.detail.title">LeadUploadFile</Translate>
+          <Translate contentKey="automatedPerformanceTestingApp.leadUploadFile.detail.title">LeadUploadFile</Translate>
         </h2>
         <dl className="jh-entity-details">
           <dt>
@@ -31,25 +34,25 @@ export const LeadUploadFileDetail = (props: RouteComponentProps<{ id: string }>)
           <dd>{leadUploadFileEntity.id}</dd>
           <dt>
             <span id="fileUrl">
-              <Translate contentKey="campaignToolApp.leadUploadFile.fileUrl">File Url</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.leadUploadFile.fileUrl">File Url</Translate>
             </span>
           </dt>
           <dd>{leadUploadFileEntity.fileUrl}</dd>
           <dt>
             <span id="uploadStatus">
-              <Translate contentKey="campaignToolApp.leadUploadFile.uploadStatus">Upload Status</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.leadUploadFile.uploadStatus">Upload Status</Translate>
             </span>
           </dt>
           <dd>{leadUploadFileEntity.uploadStatus}</dd>
           <dt>
             <span id="createdBy">
-              <Translate contentKey="campaignToolApp.leadUploadFile.createdBy">Created By</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.leadUploadFile.createdBy">Created By</Translate>
             </span>
           </dt>
           <dd>{leadUploadFileEntity.createdBy}</dd>
           <dt>
             <span id="createdAt">
-              <Translate contentKey="campaignToolApp.leadUploadFile.createdAt">Created At</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.leadUploadFile.createdAt">Created At</Translate>
             </span>
           </dt>
           <dd>
@@ -59,13 +62,13 @@ export const LeadUploadFileDetail = (props: RouteComponentProps<{ id: string }>)
           </dd>
           <dt>
             <span id="updatedBy">
-              <Translate contentKey="campaignToolApp.leadUploadFile.updatedBy">Updated By</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.leadUploadFile.updatedBy">Updated By</Translate>
             </span>
           </dt>
           <dd>{leadUploadFileEntity.updatedBy}</dd>
           <dt>
             <span id="updatedAt">
-              <Translate contentKey="campaignToolApp.leadUploadFile.updatedAt">Updated At</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.leadUploadFile.updatedAt">Updated At</Translate>
             </span>
           </dt>
           <dd>

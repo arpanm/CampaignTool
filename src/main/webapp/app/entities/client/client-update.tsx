@@ -1,32 +1,38 @@
 import React, { useState, useEffect } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, Row, Col, FormText } from 'reactstrap';
 import { isNumber, Translate, translate, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { getEntity, updateEntity, createEntity, reset } from './client.reducer';
-import { IClient } from 'app/shared/model/client.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { mapIdList } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-export const ClientUpdate = (props: RouteComponentProps<{ id: string }>) => {
+import { IClient } from 'app/shared/model/client.model';
+import { CompanyType } from 'app/shared/model/enumerations/company-type.model';
+import { getEntity, updateEntity, createEntity, reset } from './client.reducer';
+
+export const ClientUpdate = () => {
   const dispatch = useAppDispatch();
 
-  const [isNew] = useState(!props.match.params || !props.match.params.id);
+  const navigate = useNavigate();
+
+  const { id } = useParams<'id'>();
+  const isNew = id === undefined;
 
   const clientEntity = useAppSelector(state => state.client.entity);
   const loading = useAppSelector(state => state.client.loading);
   const updating = useAppSelector(state => state.client.updating);
   const updateSuccess = useAppSelector(state => state.client.updateSuccess);
+  const companyTypeValues = Object.keys(CompanyType);
 
   const handleClose = () => {
-    props.history.push('/client');
+    navigate('/client');
   };
 
   useEffect(() => {
     if (!isNew) {
-      dispatch(getEntity(props.match.params.id));
+      dispatch(getEntity(id));
     }
   }, []);
 
@@ -53,16 +59,16 @@ export const ClientUpdate = (props: RouteComponentProps<{ id: string }>) => {
     isNew
       ? {}
       : {
-          ...clientEntity,
           companyType: 'IT',
+          ...clientEntity,
         };
 
   return (
     <div>
       <Row className="justify-content-center">
         <Col md="8">
-          <h2 id="campaignToolApp.client.home.createOrEditLabel" data-cy="ClientCreateUpdateHeading">
-            <Translate contentKey="campaignToolApp.client.home.createOrEditLabel">Create or edit a Client</Translate>
+          <h2 id="automatedPerformanceTestingApp.client.home.createOrEditLabel" data-cy="ClientCreateUpdateHeading">
+            <Translate contentKey="automatedPerformanceTestingApp.client.home.createOrEditLabel">Create or edit a Client</Translate>
           </h2>
         </Col>
       </Row>
@@ -83,47 +89,48 @@ export const ClientUpdate = (props: RouteComponentProps<{ id: string }>) => {
                 />
               ) : null}
               <ValidatedField
-                label={translate('campaignToolApp.client.companyName')}
+                label={translate('automatedPerformanceTestingApp.client.companyName')}
                 id="client-companyName"
                 name="companyName"
                 data-cy="companyName"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.client.companyWebsite')}
+                label={translate('automatedPerformanceTestingApp.client.companyWebsite')}
                 id="client-companyWebsite"
                 name="companyWebsite"
                 data-cy="companyWebsite"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.client.companyType')}
+                label={translate('automatedPerformanceTestingApp.client.companyType')}
                 id="client-companyType"
                 name="companyType"
                 data-cy="companyType"
                 type="select"
               >
-                <option value="IT">{translate('campaignToolApp.CompanyType.IT')}</option>
-                <option value="Consultant">{translate('campaignToolApp.CompanyType.Consultant')}</option>
-                <option value="Hospital">{translate('campaignToolApp.CompanyType.Hospital')}</option>
-                <option value="MediaHouse">{translate('campaignToolApp.CompanyType.MediaHouse')}</option>
+                {companyTypeValues.map(companyType => (
+                  <option value={companyType} key={companyType}>
+                    {translate('automatedPerformanceTestingApp.CompanyType.' + companyType)}
+                  </option>
+                ))}
               </ValidatedField>
               <ValidatedField
-                label={translate('campaignToolApp.client.primaryPhone')}
+                label={translate('automatedPerformanceTestingApp.client.primaryPhone')}
                 id="client-primaryPhone"
                 name="primaryPhone"
                 data-cy="primaryPhone"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.client.description')}
+                label={translate('automatedPerformanceTestingApp.client.description')}
                 id="client-description"
                 name="description"
                 data-cy="description"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.client.isActive')}
+                label={translate('automatedPerformanceTestingApp.client.isActive')}
                 id="client-isActive"
                 name="isActive"
                 data-cy="isActive"
@@ -131,28 +138,28 @@ export const ClientUpdate = (props: RouteComponentProps<{ id: string }>) => {
                 type="checkbox"
               />
               <ValidatedField
-                label={translate('campaignToolApp.client.createdBy')}
+                label={translate('automatedPerformanceTestingApp.client.createdBy')}
                 id="client-createdBy"
                 name="createdBy"
                 data-cy="createdBy"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.client.createdAt')}
+                label={translate('automatedPerformanceTestingApp.client.createdAt')}
                 id="client-createdAt"
                 name="createdAt"
                 data-cy="createdAt"
                 type="date"
               />
               <ValidatedField
-                label={translate('campaignToolApp.client.updatedBy')}
+                label={translate('automatedPerformanceTestingApp.client.updatedBy')}
                 id="client-updatedBy"
                 name="updatedBy"
                 data-cy="updatedBy"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.client.updatedAt')}
+                label={translate('automatedPerformanceTestingApp.client.updatedAt')}
                 id="client-updatedAt"
                 name="updatedAt"
                 data-cy="updatedAt"

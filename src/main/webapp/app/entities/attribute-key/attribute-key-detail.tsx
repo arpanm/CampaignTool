@@ -1,18 +1,21 @@
 import React, { useEffect } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Button, Row, Col } from 'reactstrap';
 import { Translate, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { getEntity } from './attribute-key.reducer';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-export const AttributeKeyDetail = (props: RouteComponentProps<{ id: string }>) => {
+import { getEntity } from './attribute-key.reducer';
+
+export const AttributeKeyDetail = () => {
   const dispatch = useAppDispatch();
 
+  const { id } = useParams<'id'>();
+
   useEffect(() => {
-    dispatch(getEntity(props.match.params.id));
+    dispatch(getEntity(id));
   }, []);
 
   const attributeKeyEntity = useAppSelector(state => state.attributeKey.entity);
@@ -20,7 +23,7 @@ export const AttributeKeyDetail = (props: RouteComponentProps<{ id: string }>) =
     <Row>
       <Col md="8">
         <h2 data-cy="attributeKeyDetailsHeading">
-          <Translate contentKey="campaignToolApp.attributeKey.detail.title">AttributeKey</Translate>
+          <Translate contentKey="automatedPerformanceTestingApp.attributeKey.detail.title">AttributeKey</Translate>
         </h2>
         <dl className="jh-entity-details">
           <dt>
@@ -31,25 +34,25 @@ export const AttributeKeyDetail = (props: RouteComponentProps<{ id: string }>) =
           <dd>{attributeKeyEntity.id}</dd>
           <dt>
             <span id="key">
-              <Translate contentKey="campaignToolApp.attributeKey.key">Key</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.attributeKey.key">Key</Translate>
             </span>
           </dt>
           <dd>{attributeKeyEntity.key}</dd>
           <dt>
             <span id="isActive">
-              <Translate contentKey="campaignToolApp.attributeKey.isActive">Is Active</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.attributeKey.isActive">Is Active</Translate>
             </span>
           </dt>
           <dd>{attributeKeyEntity.isActive ? 'true' : 'false'}</dd>
           <dt>
             <span id="createdBy">
-              <Translate contentKey="campaignToolApp.attributeKey.createdBy">Created By</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.attributeKey.createdBy">Created By</Translate>
             </span>
           </dt>
           <dd>{attributeKeyEntity.createdBy}</dd>
           <dt>
             <span id="createdAt">
-              <Translate contentKey="campaignToolApp.attributeKey.createdAt">Created At</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.attributeKey.createdAt">Created At</Translate>
             </span>
           </dt>
           <dd>
@@ -59,13 +62,13 @@ export const AttributeKeyDetail = (props: RouteComponentProps<{ id: string }>) =
           </dd>
           <dt>
             <span id="updatedBy">
-              <Translate contentKey="campaignToolApp.attributeKey.updatedBy">Updated By</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.attributeKey.updatedBy">Updated By</Translate>
             </span>
           </dt>
           <dd>{attributeKeyEntity.updatedBy}</dd>
           <dt>
             <span id="updatedAt">
-              <Translate contentKey="campaignToolApp.attributeKey.updatedAt">Updated At</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.attributeKey.updatedAt">Updated At</Translate>
             </span>
           </dt>
           <dd>

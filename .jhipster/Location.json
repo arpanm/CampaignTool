@@ -1,12 +1,16 @@
 {
-  "name": "Location",
+  "applications": ["CampaignTool"],
+  "changelogDate": "20210914175159",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "location",
   "fields": [
     {
       "fieldName": "pincode",
       "fieldType": "Integer",
       "fieldValidateRules": ["min", "max"],
-      "fieldValidateRulesMin": "10000",
-      "fieldValidateRulesMax": "99999"
+      "fieldValidateRulesMax": "99999",
+      "fieldValidateRulesMin": "10000"
     },
     {
       "fieldName": "country",
@@ -41,23 +45,19 @@
       "fieldType": "LocalDate"
     }
   ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Location",
+  "pagination": "infinite-scroll",
+  "readOnly": false,
   "relationships": [
     {
-      "relationshipType": "many-to-many",
       "otherEntityName": "lead",
       "otherEntityRelationshipName": "location",
+      "ownerSide": false,
       "relationshipName": "lead",
-      "ownerSide": false
+      "relationshipType": "many-to-many"
     }
   ],
-  "entityTableName": "location",
-  "dto": "mapstruct",
-  "pagination": "infinite-scroll",
-  "service": "serviceImpl",
-  "jpaMetamodelFiltering": false,
-  "fluentMethods": true,
-  "readOnly": false,
-  "embedded": false,
-  "applications": ["CampaignTool"],
-  "changelogDate": "20210914175159"
+  "service": "serviceImpl"
 }

@@ -1,23 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, Row, Col, FormText } from 'reactstrap';
 import { isNumber, Translate, translate, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
+import { mapIdList } from 'app/shared/util/entity-utils';
+import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { ILead } from 'app/shared/model/lead.model';
 import { getEntities as getLeads } from 'app/entities/lead/lead.reducer';
 import { ICampaign } from 'app/shared/model/campaign.model';
 import { getEntities as getCampaigns } from 'app/entities/campaign/campaign.reducer';
-import { getEntity, updateEntity, createEntity, reset } from './lead-association.reducer';
 import { ILeadAssociation } from 'app/shared/model/lead-association.model';
-import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
-import { mapIdList } from 'app/shared/util/entity-utils';
-import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { getEntity, updateEntity, createEntity, reset } from './lead-association.reducer';
 
-export const LeadAssociationUpdate = (props: RouteComponentProps<{ id: string }>) => {
+export const LeadAssociationUpdate = () => {
   const dispatch = useAppDispatch();
 
-  const [isNew] = useState(!props.match.params || !props.match.params.id);
+  const navigate = useNavigate();
+
+  const { id } = useParams<'id'>();
+  const isNew = id === undefined;
 
   const leads = useAppSelector(state => state.lead.entities);
   const campaigns = useAppSelector(state => state.campaign.entities);
@@ -27,12 +31,12 @@ export const LeadAssociationUpdate = (props: RouteComponentProps<{ id: string }>
   const updateSuccess = useAppSelector(state => state.leadAssociation.updateSuccess);
 
   const handleClose = () => {
-    props.history.push('/lead-association');
+    navigate('/lead-association');
   };
 
   useEffect(() => {
     if (!isNew) {
-      dispatch(getEntity(props.match.params.id));
+      dispatch(getEntity(id));
     }
 
     dispatch(getLeads({}));
@@ -49,8 +53,8 @@ export const LeadAssociationUpdate = (props: RouteComponentProps<{ id: string }>
     const entity = {
       ...leadAssociationEntity,
       ...values,
-      lead: leads.find(it => it.id.toString() === values.leadId.toString()),
-      campaign: campaigns.find(it => it.id.toString() === values.campaignId.toString()),
+      lead: leads.find(it => it.id.toString() === values.lead.toString()),
+      campaign: campaigns.find(it => it.id.toString() === values.campaign.toString()),
     };
 
     if (isNew) {
@@ -65,16 +69,18 @@ export const LeadAssociationUpdate = (props: RouteComponentProps<{ id: string }>
       ? {}
       : {
           ...leadAssociationEntity,
-          leadId: leadAssociationEntity?.lead?.id,
-          campaignId: leadAssociationEntity?.campaign?.id,
+          lead: leadAssociationEntity?.lead?.id,
+          campaign: leadAssociationEntity?.campaign?.id,
         };
 
   return (
     <div>
       <Row className="justify-content-center">
         <Col md="8">
-          <h2 id="campaignToolApp.leadAssociation.home.createOrEditLabel" data-cy="LeadAssociationCreateUpdateHeading">
-            <Translate contentKey="campaignToolApp.leadAssociation.home.createOrEditLabel">Create or edit a LeadAssociation</Translate>
+          <h2 id="automatedPerformanceTestingApp.leadAssociation.home.createOrEditLabel" data-cy="LeadAssociationCreateUpdateHeading">
+            <Translate contentKey="automatedPerformanceTestingApp.leadAssociation.home.createOrEditLabel">
+              Create or edit a LeadAssociation
+            </Translate>
           </h2>
         </Col>
       </Row>
@@ -95,35 +101,35 @@ export const LeadAssociationUpdate = (props: RouteComponentProps<{ id: string }>
                 />
               ) : null}
               <ValidatedField
-                label={translate('campaignToolApp.leadAssociation.assignmentDate')}
+                label={translate('automatedPerformanceTestingApp.leadAssociation.assignmentDate')}
                 id="lead-association-assignmentDate"
                 name="assignmentDate"
                 data-cy="assignmentDate"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.leadAssociation.createdBy')}
+                label={translate('automatedPerformanceTestingApp.leadAssociation.createdBy')}
                 id="lead-association-createdBy"
                 name="createdBy"
                 data-cy="createdBy"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.leadAssociation.createdAt')}
+                label={translate('automatedPerformanceTestingApp.leadAssociation.createdAt')}
                 id="lead-association-createdAt"
                 name="createdAt"
                 data-cy="createdAt"
                 type="date"
               />
               <ValidatedField
-                label={translate('campaignToolApp.leadAssociation.updatedBy')}
+                label={translate('automatedPerformanceTestingApp.leadAssociation.updatedBy')}
                 id="lead-association-updatedBy"
                 name="updatedBy"
                 data-cy="updatedBy"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.leadAssociation.updatedAt')}
+                label={translate('automatedPerformanceTestingApp.leadAssociation.updatedAt')}
                 id="lead-association-updatedAt"
                 name="updatedAt"
                 data-cy="updatedAt"
@@ -131,9 +137,9 @@ export const LeadAssociationUpdate = (props: RouteComponentProps<{ id: string }>
               />
               <ValidatedField
                 id="lead-association-lead"
-                name="leadId"
+                name="lead"
                 data-cy="lead"
-                label={translate('campaignToolApp.leadAssociation.lead')}
+                label={translate('automatedPerformanceTestingApp.leadAssociation.lead')}
                 type="select"
               >
                 <option value="" key="0" />
@@ -147,9 +153,9 @@ export const LeadAssociationUpdate = (props: RouteComponentProps<{ id: string }>
               </ValidatedField>
               <ValidatedField
                 id="lead-association-campaign"
-                name="campaignId"
+                name="campaign"
                 data-cy="campaign"
-                label={translate('campaignToolApp.leadAssociation.campaign')}
+                label={translate('automatedPerformanceTestingApp.leadAssociation.campaign')}
                 type="select"
               >
                 <option value="" key="0" />

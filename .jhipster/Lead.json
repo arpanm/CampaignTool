@@ -1,5 +1,9 @@
 {
-  "name": "Lead",
+  "applications": ["CampaignTool"],
+  "changelogDate": "20210914175155",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "jhi_lead",
   "fields": [
     {
       "fieldName": "name",
@@ -34,29 +38,25 @@
       "fieldType": "LocalDate"
     }
   ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Lead",
+  "pagination": "infinite-scroll",
+  "readOnly": false,
   "relationships": [
     {
-      "relationshipType": "one-to-many",
       "otherEntityName": "attribute",
       "otherEntityRelationshipName": "lead",
-      "relationshipName": "attribute"
+      "relationshipName": "attribute",
+      "relationshipType": "one-to-many"
     },
     {
-      "relationshipType": "many-to-many",
       "otherEntityName": "location",
       "otherEntityRelationshipName": "lead",
+      "ownerSide": true,
       "relationshipName": "location",
-      "ownerSide": true
+      "relationshipType": "many-to-many"
     }
   ],
-  "entityTableName": "jhi_lead",
-  "dto": "mapstruct",
-  "pagination": "infinite-scroll",
-  "service": "serviceImpl",
-  "jpaMetamodelFiltering": false,
-  "fluentMethods": true,
-  "readOnly": false,
-  "embedded": false,
-  "applications": ["CampaignTool"],
-  "changelogDate": "20210914175155"
+  "service": "serviceImpl"
 }

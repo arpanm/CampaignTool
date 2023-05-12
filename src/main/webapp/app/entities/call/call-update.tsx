@@ -1,23 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, Row, Col, FormText } from 'reactstrap';
 import { isNumber, Translate, translate, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
+import { mapIdList } from 'app/shared/util/entity-utils';
+import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { ILeadAssignment } from 'app/shared/model/lead-assignment.model';
 import { getEntities as getLeadAssignments } from 'app/entities/lead-assignment/lead-assignment.reducer';
 import { IDispositionSubmission } from 'app/shared/model/disposition-submission.model';
 import { getEntities as getDispositionSubmissions } from 'app/entities/disposition-submission/disposition-submission.reducer';
-import { getEntity, updateEntity, createEntity, reset } from './call.reducer';
 import { ICall } from 'app/shared/model/call.model';
-import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
-import { mapIdList } from 'app/shared/util/entity-utils';
-import { useAppDispatch, useAppSelector } from 'app/config/store';
+import { CallStatus } from 'app/shared/model/enumerations/call-status.model';
+import { getEntity, updateEntity, createEntity, reset } from './call.reducer';
 
-export const CallUpdate = (props: RouteComponentProps<{ id: string }>) => {
+export const CallUpdate = () => {
   const dispatch = useAppDispatch();
 
-  const [isNew] = useState(!props.match.params || !props.match.params.id);
+  const navigate = useNavigate();
+
+  const { id } = useParams<'id'>();
+  const isNew = id === undefined;
 
   const leadAssignments = useAppSelector(state => state.leadAssignment.entities);
   const dispositionSubmissions = useAppSelector(state => state.dispositionSubmission.entities);
@@ -25,14 +30,15 @@ export const CallUpdate = (props: RouteComponentProps<{ id: string }>) => {
   const loading = useAppSelector(state => state.call.loading);
   const updating = useAppSelector(state => state.call.updating);
   const updateSuccess = useAppSelector(state => state.call.updateSuccess);
+  const callStatusValues = Object.keys(CallStatus);
 
   const handleClose = () => {
-    props.history.push('/call');
+    navigate('/call');
   };
 
   useEffect(() => {
     if (!isNew) {
-      dispatch(getEntity(props.match.params.id));
+      dispatch(getEntity(id));
     }
 
     dispatch(getLeadAssignments({}));
@@ -49,8 +55,8 @@ export const CallUpdate = (props: RouteComponentProps<{ id: string }>) => {
     const entity = {
       ...callEntity,
       ...values,
-      leadAssignment: leadAssignments.find(it => it.id.toString() === values.leadAssignmentId.toString()),
-      dispositionSubmission: dispositionSubmissions.find(it => it.id.toString() === values.dispositionSubmissionId.toString()),
+      leadAssignment: leadAssignments.find(it => it.id.toString() === values.leadAssignment.toString()),
+      dispositionSubmission: dispositionSubmissions.find(it => it.id.toString() === values.dispositionSubmission.toString()),
     };
 
     if (isNew) {
@@ -64,18 +70,18 @@ export const CallUpdate = (props: RouteComponentProps<{ id: string }>) => {
     isNew
       ? {}
       : {
-          ...callEntity,
           status: 'Pending',
-          leadAssignmentId: callEntity?.leadAssignment?.id,
-          dispositionSubmissionId: callEntity?.dispositionSubmission?.id,
+          ...callEntity,
+          leadAssignment: callEntity?.leadAssignment?.id,
+          dispositionSubmission: callEntity?.dispositionSubmission?.id,
         };
 
   return (
     <div>
       <Row className="justify-content-center">
         <Col md="8">
-          <h2 id="campaignToolApp.call.home.createOrEditLabel" data-cy="CallCreateUpdateHeading">
-            <Translate contentKey="campaignToolApp.call.home.createOrEditLabel">Create or edit a Call</Translate>
+          <h2 id="automatedPerformanceTestingApp.call.home.createOrEditLabel" data-cy="CallCreateUpdateHeading">
+            <Translate contentKey="automatedPerformanceTestingApp.call.home.createOrEditLabel">Create or edit a Call</Translate>
           </h2>
         </Col>
       </Row>
@@ -95,68 +101,77 @@ export const CallUpdate = (props: RouteComponentProps<{ id: string }>) => {
                   validate={{ required: true }}
                 />
               ) : null}
-              <ValidatedField label={translate('campaignToolApp.call.phone')} id="call-phone" name="phone" data-cy="phone" type="text" />
               <ValidatedField
-                label={translate('campaignToolApp.call.callDate')}
+                label={translate('automatedPerformanceTestingApp.call.phone')}
+                id="call-phone"
+                name="phone"
+                data-cy="phone"
+                type="text"
+              />
+              <ValidatedField
+                label={translate('automatedPerformanceTestingApp.call.callDate')}
                 id="call-callDate"
                 name="callDate"
                 data-cy="callDate"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.call.followupDate')}
+                label={translate('automatedPerformanceTestingApp.call.followupDate')}
                 id="call-followupDate"
                 name="followupDate"
                 data-cy="followupDate"
                 type="text"
               />
-              <ValidatedField label={translate('campaignToolApp.call.notes')} id="call-notes" name="notes" data-cy="notes" type="text" />
               <ValidatedField
-                label={translate('campaignToolApp.call.recordingUrl')}
+                label={translate('automatedPerformanceTestingApp.call.notes')}
+                id="call-notes"
+                name="notes"
+                data-cy="notes"
+                type="text"
+              />
+              <ValidatedField
+                label={translate('automatedPerformanceTestingApp.call.recordingUrl')}
                 id="call-recordingUrl"
                 name="recordingUrl"
                 data-cy="recordingUrl"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.call.status')}
+                label={translate('automatedPerformanceTestingApp.call.status')}
                 id="call-status"
                 name="status"
                 data-cy="status"
                 type="select"
               >
-                <option value="Pending">{translate('campaignToolApp.CallStatus.Pending')}</option>
-                <option value="InProgress">{translate('campaignToolApp.CallStatus.InProgress')}</option>
-                <option value="NoAnswer">{translate('campaignToolApp.CallStatus.NoAnswer')}</option>
-                <option value="Disconnected">{translate('campaignToolApp.CallStatus.Disconnected')}</option>
-                <option value="Answered">{translate('campaignToolApp.CallStatus.Answered')}</option>
-                <option value="Interested">{translate('campaignToolApp.CallStatus.Interested')}</option>
-                <option value="NotInterested">{translate('campaignToolApp.CallStatus.NotInterested')}</option>
-                <option value="FollowupRequested">{translate('campaignToolApp.CallStatus.FollowupRequested')}</option>
+                {callStatusValues.map(callStatus => (
+                  <option value={callStatus} key={callStatus}>
+                    {translate('automatedPerformanceTestingApp.CallStatus.' + callStatus)}
+                  </option>
+                ))}
               </ValidatedField>
               <ValidatedField
-                label={translate('campaignToolApp.call.createdBy')}
+                label={translate('automatedPerformanceTestingApp.call.createdBy')}
                 id="call-createdBy"
                 name="createdBy"
                 data-cy="createdBy"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.call.createdAt')}
+                label={translate('automatedPerformanceTestingApp.call.createdAt')}
                 id="call-createdAt"
                 name="createdAt"
                 data-cy="createdAt"
                 type="date"
               />
               <ValidatedField
-                label={translate('campaignToolApp.call.updatedBy')}
+                label={translate('automatedPerformanceTestingApp.call.updatedBy')}
                 id="call-updatedBy"
                 name="updatedBy"
                 data-cy="updatedBy"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.call.updatedAt')}
+                label={translate('automatedPerformanceTestingApp.call.updatedAt')}
                 id="call-updatedAt"
                 name="updatedAt"
                 data-cy="updatedAt"
@@ -164,9 +179,9 @@ export const CallUpdate = (props: RouteComponentProps<{ id: string }>) => {
               />
               <ValidatedField
                 id="call-leadAssignment"
-                name="leadAssignmentId"
+                name="leadAssignment"
                 data-cy="leadAssignment"
-                label={translate('campaignToolApp.call.leadAssignment')}
+                label={translate('automatedPerformanceTestingApp.call.leadAssignment')}
                 type="select"
               >
                 <option value="" key="0" />
@@ -180,9 +195,9 @@ export const CallUpdate = (props: RouteComponentProps<{ id: string }>) => {
               </ValidatedField>
               <ValidatedField
                 id="call-dispositionSubmission"
-                name="dispositionSubmissionId"
+                name="dispositionSubmission"
                 data-cy="dispositionSubmission"
-                label={translate('campaignToolApp.call.dispositionSubmission')}
+                label={translate('automatedPerformanceTestingApp.call.dispositionSubmission')}
                 type="select"
               >
                 <option value="" key="0" />

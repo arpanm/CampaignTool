@@ -1,6 +1,3 @@
-/**
- * @jest-environment jsdom
- */
 import axios from 'axios';
 import sinon from 'sinon';
 
@@ -21,13 +18,14 @@ describe('Axios Interceptor', () => {
       expect((client.interceptors.response as any).handlers[0].fulfilled({ data: 'foo' })).toEqual({ data: 'foo' });
     });
     it('onResponseError is called on rejected response', () => {
-      (client.interceptors.response as any).handlers[0].rejected({
+      const rejectError = {
         response: {
           statusText: 'NotFound',
           status: 403,
           data: { message: 'Page not found' },
         },
-      });
+      };
+      expect((client.interceptors.response as any).handlers[0].rejected(rejectError)).rejects.toEqual(rejectError);
       expect(onUnauthenticated.calledOnce).toBe(true);
     });
   });

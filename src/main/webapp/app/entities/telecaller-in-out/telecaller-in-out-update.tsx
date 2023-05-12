@@ -1,35 +1,41 @@
 import React, { useState, useEffect } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Button, Row, Col, FormText } from 'reactstrap';
 import { isNumber, Translate, translate, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { ITelecaller } from 'app/shared/model/telecaller.model';
-import { getEntities as getTelecallers } from 'app/entities/telecaller/telecaller.reducer';
-import { getEntity, updateEntity, createEntity, reset } from './telecaller-in-out.reducer';
-import { ITelecallerInOut } from 'app/shared/model/telecaller-in-out.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { mapIdList } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-export const TelecallerInOutUpdate = (props: RouteComponentProps<{ id: string }>) => {
+import { ITelecaller } from 'app/shared/model/telecaller.model';
+import { getEntities as getTelecallers } from 'app/entities/telecaller/telecaller.reducer';
+import { ITelecallerInOut } from 'app/shared/model/telecaller-in-out.model';
+import { InOutType } from 'app/shared/model/enumerations/in-out-type.model';
+import { getEntity, updateEntity, createEntity, reset } from './telecaller-in-out.reducer';
+
+export const TelecallerInOutUpdate = () => {
   const dispatch = useAppDispatch();
 
-  const [isNew] = useState(!props.match.params || !props.match.params.id);
+  const navigate = useNavigate();
+
+  const { id } = useParams<'id'>();
+  const isNew = id === undefined;
 
   const telecallers = useAppSelector(state => state.telecaller.entities);
   const telecallerInOutEntity = useAppSelector(state => state.telecallerInOut.entity);
   const loading = useAppSelector(state => state.telecallerInOut.loading);
   const updating = useAppSelector(state => state.telecallerInOut.updating);
   const updateSuccess = useAppSelector(state => state.telecallerInOut.updateSuccess);
+  const inOutTypeValues = Object.keys(InOutType);
 
   const handleClose = () => {
-    props.history.push('/telecaller-in-out');
+    navigate('/telecaller-in-out');
   };
 
   useEffect(() => {
     if (!isNew) {
-      dispatch(getEntity(props.match.params.id));
+      dispatch(getEntity(id));
     }
 
     dispatch(getTelecallers({}));
@@ -45,7 +51,7 @@ export const TelecallerInOutUpdate = (props: RouteComponentProps<{ id: string }>
     const entity = {
       ...telecallerInOutEntity,
       ...values,
-      telecaller: telecallers.find(it => it.id.toString() === values.telecallerId.toString()),
+      telecaller: telecallers.find(it => it.id.toString() === values.telecaller.toString()),
     };
 
     if (isNew) {
@@ -59,17 +65,19 @@ export const TelecallerInOutUpdate = (props: RouteComponentProps<{ id: string }>
     isNew
       ? {}
       : {
-          ...telecallerInOutEntity,
           eventType: 'IN',
-          telecallerId: telecallerInOutEntity?.telecaller?.id,
+          ...telecallerInOutEntity,
+          telecaller: telecallerInOutEntity?.telecaller?.id,
         };
 
   return (
     <div>
       <Row className="justify-content-center">
         <Col md="8">
-          <h2 id="campaignToolApp.telecallerInOut.home.createOrEditLabel" data-cy="TelecallerInOutCreateUpdateHeading">
-            <Translate contentKey="campaignToolApp.telecallerInOut.home.createOrEditLabel">Create or edit a TelecallerInOut</Translate>
+          <h2 id="automatedPerformanceTestingApp.telecallerInOut.home.createOrEditLabel" data-cy="TelecallerInOutCreateUpdateHeading">
+            <Translate contentKey="automatedPerformanceTestingApp.telecallerInOut.home.createOrEditLabel">
+              Create or edit a TelecallerInOut
+            </Translate>
           </h2>
         </Col>
       </Row>
@@ -90,52 +98,55 @@ export const TelecallerInOutUpdate = (props: RouteComponentProps<{ id: string }>
                 />
               ) : null}
               <ValidatedField
-                label={translate('campaignToolApp.telecallerInOut.eventType')}
+                label={translate('automatedPerformanceTestingApp.telecallerInOut.eventType')}
                 id="telecaller-in-out-eventType"
                 name="eventType"
                 data-cy="eventType"
                 type="select"
               >
-                <option value="IN">{translate('campaignToolApp.InOutType.IN')}</option>
-                <option value="OUT">{translate('campaignToolApp.InOutType.OUT')}</option>
+                {inOutTypeValues.map(inOutType => (
+                  <option value={inOutType} key={inOutType}>
+                    {translate('automatedPerformanceTestingApp.InOutType.' + inOutType)}
+                  </option>
+                ))}
               </ValidatedField>
               <ValidatedField
-                label={translate('campaignToolApp.telecallerInOut.eventTime')}
+                label={translate('automatedPerformanceTestingApp.telecallerInOut.eventTime')}
                 id="telecaller-in-out-eventTime"
                 name="eventTime"
                 data-cy="eventTime"
                 type="date"
               />
               <ValidatedField
-                label={translate('campaignToolApp.telecallerInOut.eventDate')}
+                label={translate('automatedPerformanceTestingApp.telecallerInOut.eventDate')}
                 id="telecaller-in-out-eventDate"
                 name="eventDate"
                 data-cy="eventDate"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.telecallerInOut.createdBy')}
+                label={translate('automatedPerformanceTestingApp.telecallerInOut.createdBy')}
                 id="telecaller-in-out-createdBy"
                 name="createdBy"
                 data-cy="createdBy"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.telecallerInOut.createdAt')}
+                label={translate('automatedPerformanceTestingApp.telecallerInOut.createdAt')}
                 id="telecaller-in-out-createdAt"
                 name="createdAt"
                 data-cy="createdAt"
                 type="date"
               />
               <ValidatedField
-                label={translate('campaignToolApp.telecallerInOut.updatedBy')}
+                label={translate('automatedPerformanceTestingApp.telecallerInOut.updatedBy')}
                 id="telecaller-in-out-updatedBy"
                 name="updatedBy"
                 data-cy="updatedBy"
                 type="text"
               />
               <ValidatedField
-                label={translate('campaignToolApp.telecallerInOut.updatedAt')}
+                label={translate('automatedPerformanceTestingApp.telecallerInOut.updatedAt')}
                 id="telecaller-in-out-updatedAt"
                 name="updatedAt"
                 data-cy="updatedAt"
@@ -143,9 +154,9 @@ export const TelecallerInOutUpdate = (props: RouteComponentProps<{ id: string }>
               />
               <ValidatedField
                 id="telecaller-in-out-telecaller"
-                name="telecallerId"
+                name="telecaller"
                 data-cy="telecaller"
-                label={translate('campaignToolApp.telecallerInOut.telecaller')}
+                label={translate('automatedPerformanceTestingApp.telecallerInOut.telecaller')}
                 type="select"
               >
                 <option value="" key="0" />

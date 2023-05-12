@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 import { Translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,23 +7,31 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { getEntity, deleteEntity } from './disposition-submission-value.reducer';
 
-export const DispositionSubmissionValueDeleteDialog = (props: RouteComponentProps<{ id: string }>) => {
+export const DispositionSubmissionValueDeleteDialog = () => {
   const dispatch = useAppDispatch();
 
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { id } = useParams<'id'>();
+
+  const [loadModal, setLoadModal] = useState(false);
+
   useEffect(() => {
-    dispatch(getEntity(props.match.params.id));
+    dispatch(getEntity(id));
+    setLoadModal(true);
   }, []);
 
   const dispositionSubmissionValueEntity = useAppSelector(state => state.dispositionSubmissionValue.entity);
   const updateSuccess = useAppSelector(state => state.dispositionSubmissionValue.updateSuccess);
 
   const handleClose = () => {
-    props.history.push('/disposition-submission-value');
+    navigate('/disposition-submission-value');
   };
 
   useEffect(() => {
-    if (updateSuccess) {
+    if (updateSuccess && loadModal) {
       handleClose();
+      setLoadModal(false);
     }
   }, [updateSuccess]);
 
@@ -36,9 +44,9 @@ export const DispositionSubmissionValueDeleteDialog = (props: RouteComponentProp
       <ModalHeader toggle={handleClose} data-cy="dispositionSubmissionValueDeleteDialogHeading">
         <Translate contentKey="entity.delete.title">Confirm delete operation</Translate>
       </ModalHeader>
-      <ModalBody id="campaignToolApp.dispositionSubmissionValue.delete.question">
+      <ModalBody id="automatedPerformanceTestingApp.dispositionSubmissionValue.delete.question">
         <Translate
-          contentKey="campaignToolApp.dispositionSubmissionValue.delete.question"
+          contentKey="automatedPerformanceTestingApp.dispositionSubmissionValue.delete.question"
           interpolate={{ id: dispositionSubmissionValueEntity.id }}
         >
           Are you sure you want to delete this DispositionSubmissionValue?

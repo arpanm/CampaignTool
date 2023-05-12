@@ -1,18 +1,21 @@
 import React, { useEffect } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Button, Row, Col } from 'reactstrap';
 import { Translate, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { getEntity } from './disposition.reducer';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-export const DispositionDetail = (props: RouteComponentProps<{ id: string }>) => {
+import { getEntity } from './disposition.reducer';
+
+export const DispositionDetail = () => {
   const dispatch = useAppDispatch();
 
+  const { id } = useParams<'id'>();
+
   useEffect(() => {
-    dispatch(getEntity(props.match.params.id));
+    dispatch(getEntity(id));
   }, []);
 
   const dispositionEntity = useAppSelector(state => state.disposition.entity);
@@ -20,7 +23,7 @@ export const DispositionDetail = (props: RouteComponentProps<{ id: string }>) =>
     <Row>
       <Col md="8">
         <h2 data-cy="dispositionDetailsHeading">
-          <Translate contentKey="campaignToolApp.disposition.detail.title">Disposition</Translate>
+          <Translate contentKey="automatedPerformanceTestingApp.disposition.detail.title">Disposition</Translate>
         </h2>
         <dl className="jh-entity-details">
           <dt>
@@ -31,19 +34,19 @@ export const DispositionDetail = (props: RouteComponentProps<{ id: string }>) =>
           <dd>{dispositionEntity.id}</dd>
           <dt>
             <span id="isActive">
-              <Translate contentKey="campaignToolApp.disposition.isActive">Is Active</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.disposition.isActive">Is Active</Translate>
             </span>
           </dt>
           <dd>{dispositionEntity.isActive ? 'true' : 'false'}</dd>
           <dt>
             <span id="createdBy">
-              <Translate contentKey="campaignToolApp.disposition.createdBy">Created By</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.disposition.createdBy">Created By</Translate>
             </span>
           </dt>
           <dd>{dispositionEntity.createdBy}</dd>
           <dt>
             <span id="createdAt">
-              <Translate contentKey="campaignToolApp.disposition.createdAt">Created At</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.disposition.createdAt">Created At</Translate>
             </span>
           </dt>
           <dd>
@@ -53,13 +56,13 @@ export const DispositionDetail = (props: RouteComponentProps<{ id: string }>) =>
           </dd>
           <dt>
             <span id="updatedBy">
-              <Translate contentKey="campaignToolApp.disposition.updatedBy">Updated By</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.disposition.updatedBy">Updated By</Translate>
             </span>
           </dt>
           <dd>{dispositionEntity.updatedBy}</dd>
           <dt>
             <span id="updatedAt">
-              <Translate contentKey="campaignToolApp.disposition.updatedAt">Updated At</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.disposition.updatedAt">Updated At</Translate>
             </span>
           </dt>
           <dd>

@@ -1,23 +1,23 @@
 import React from 'react';
-import { Switch } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 
-import ErrorBoundaryRoute from 'app/shared/error/error-boundary-route';
+import ErrorBoundaryRoutes from 'app/shared/error/error-boundary-routes';
 
 import Field from './field';
 import FieldDetail from './field-detail';
 import FieldUpdate from './field-update';
 import FieldDeleteDialog from './field-delete-dialog';
 
-const Routes = ({ match }) => (
-  <>
-    <Switch>
-      <ErrorBoundaryRoute exact path={`${match.url}/new`} component={FieldUpdate} />
-      <ErrorBoundaryRoute exact path={`${match.url}/:id/edit`} component={FieldUpdate} />
-      <ErrorBoundaryRoute exact path={`${match.url}/:id`} component={FieldDetail} />
-      <ErrorBoundaryRoute path={match.url} component={Field} />
-    </Switch>
-    <ErrorBoundaryRoute exact path={`${match.url}/:id/delete`} component={FieldDeleteDialog} />
-  </>
+const FieldRoutes = () => (
+  <ErrorBoundaryRoutes>
+    <Route index element={<Field />} />
+    <Route path="new" element={<FieldUpdate />} />
+    <Route path=":id">
+      <Route index element={<FieldDetail />} />
+      <Route path="edit" element={<FieldUpdate />} />
+      <Route path="delete" element={<FieldDeleteDialog />} />
+    </Route>
+  </ErrorBoundaryRoutes>
 );
 
-export default Routes;
+export default FieldRoutes;

@@ -1,22 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import InfiniteScroll from 'react-infinite-scroller';
-import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Col, Row, Table } from 'reactstrap';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Button, Table } from 'reactstrap';
 import { Translate, TextFormat, getSortState } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { getEntities, reset } from './field.reducer';
-import { IField } from 'app/shared/model/field.model';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/shared/util/pagination.constants';
 import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-export const Field = (props: RouteComponentProps<{ url: string }>) => {
+import { IField } from 'app/shared/model/field.model';
+import { getEntities, reset } from './field.reducer';
+
+export const Field = () => {
   const dispatch = useAppDispatch();
 
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const [paginationState, setPaginationState] = useState(
-    overridePaginationStateWithQueryParams(getSortState(props.location, ITEMS_PER_PAGE, 'id'), props.location.search)
+    overridePaginationStateWithQueryParams(getSortState(location, ITEMS_PER_PAGE, 'id'), location.search)
   );
   const [sorting, setSorting] = useState(false);
 
@@ -91,66 +95,71 @@ export const Field = (props: RouteComponentProps<{ url: string }>) => {
     resetAll();
   };
 
-  const { match } = props;
-
   return (
     <div>
       <h2 id="field-heading" data-cy="FieldHeading">
-        <Translate contentKey="campaignToolApp.field.home.title">Fields</Translate>
+        <Translate contentKey="automatedPerformanceTestingApp.field.home.title">Fields</Translate>
         <div className="d-flex justify-content-end">
-          <Button className="mr-2" color="info" onClick={handleSyncList} disabled={loading}>
+          <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
             <FontAwesomeIcon icon="sync" spin={loading} />{' '}
-            <Translate contentKey="campaignToolApp.field.home.refreshListLabel">Refresh List</Translate>
+            <Translate contentKey="automatedPerformanceTestingApp.field.home.refreshListLabel">Refresh List</Translate>
           </Button>
-          <Link to={`${match.url}/new`} className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
+          <Link to="/field/new" className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
             <FontAwesomeIcon icon="plus" />
             &nbsp;
-            <Translate contentKey="campaignToolApp.field.home.createLabel">Create new Field</Translate>
+            <Translate contentKey="automatedPerformanceTestingApp.field.home.createLabel">Create new Field</Translate>
           </Link>
         </div>
       </h2>
       <div className="table-responsive">
         <InfiniteScroll
-          pageStart={paginationState.activePage}
-          loadMore={handleLoadMore}
+          dataLength={fieldList ? fieldList.length : 0}
+          next={handleLoadMore}
           hasMore={paginationState.activePage - 1 < links.next}
           loader={<div className="loader">Loading ...</div>}
-          threshold={0}
-          initialLoad={false}
         >
           {fieldList && fieldList.length > 0 ? (
             <Table responsive>
               <thead>
                 <tr>
                   <th className="hand" onClick={sort('id')}>
-                    <Translate contentKey="campaignToolApp.field.id">ID</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="automatedPerformanceTestingApp.field.id">ID</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('fieldName')}>
-                    <Translate contentKey="campaignToolApp.field.fieldName">Field Name</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="automatedPerformanceTestingApp.field.fieldName">Field Name</Translate>{' '}
+                    <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('fieldLabel')}>
-                    <Translate contentKey="campaignToolApp.field.fieldLabel">Field Label</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="automatedPerformanceTestingApp.field.fieldLabel">Field Label</Translate>{' '}
+                    <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('fieldType')}>
-                    <Translate contentKey="campaignToolApp.field.fieldType">Field Type</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="automatedPerformanceTestingApp.field.fieldType">Field Type</Translate>{' '}
+                    <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('isActive')}>
-                    <Translate contentKey="campaignToolApp.field.isActive">Is Active</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="automatedPerformanceTestingApp.field.isActive">Is Active</Translate>{' '}
+                    <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('createdBy')}>
-                    <Translate contentKey="campaignToolApp.field.createdBy">Created By</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="automatedPerformanceTestingApp.field.createdBy">Created By</Translate>{' '}
+                    <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('createdAt')}>
-                    <Translate contentKey="campaignToolApp.field.createdAt">Created At</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="automatedPerformanceTestingApp.field.createdAt">Created At</Translate>{' '}
+                    <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('updatedBy')}>
-                    <Translate contentKey="campaignToolApp.field.updatedBy">Updated By</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="automatedPerformanceTestingApp.field.updatedBy">Updated By</Translate>{' '}
+                    <FontAwesomeIcon icon="sort" />
                   </th>
                   <th className="hand" onClick={sort('updatedAt')}>
-                    <Translate contentKey="campaignToolApp.field.updatedAt">Updated At</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="automatedPerformanceTestingApp.field.updatedAt">Updated At</Translate>{' '}
+                    <FontAwesomeIcon icon="sort" />
                   </th>
                   <th>
-                    <Translate contentKey="campaignToolApp.field.disposition">Disposition</Translate> <FontAwesomeIcon icon="sort" />
+                    <Translate contentKey="automatedPerformanceTestingApp.field.disposition">Disposition</Translate>{' '}
+                    <FontAwesomeIcon icon="sort" />
                   </th>
                   <th />
                 </tr>
@@ -159,36 +168,36 @@ export const Field = (props: RouteComponentProps<{ url: string }>) => {
                 {fieldList.map((field, i) => (
                   <tr key={`entity-${i}`} data-cy="entityTable">
                     <td>
-                      <Button tag={Link} to={`${match.url}/${field.id}`} color="link" size="sm">
+                      <Button tag={Link} to={`/field/${field.id}`} color="link" size="sm">
                         {field.id}
                       </Button>
                     </td>
                     <td>{field.fieldName}</td>
                     <td>{field.fieldLabel}</td>
                     <td>
-                      <Translate contentKey={`campaignToolApp.FieldType.${field.fieldType}`} />
+                      <Translate contentKey={`automatedPerformanceTestingApp.FieldType.${field.fieldType}`} />
                     </td>
                     <td>{field.isActive ? 'true' : 'false'}</td>
                     <td>{field.createdBy}</td>
                     <td>{field.createdAt ? <TextFormat type="date" value={field.createdAt} format={APP_LOCAL_DATE_FORMAT} /> : null}</td>
                     <td>{field.updatedBy}</td>
                     <td>{field.updatedAt ? <TextFormat type="date" value={field.updatedAt} format={APP_LOCAL_DATE_FORMAT} /> : null}</td>
-                    <td>{field.disposition ? <Link to={`disposition/${field.disposition.id}`}>{field.disposition.id}</Link> : ''}</td>
-                    <td className="text-right">
+                    <td>{field.disposition ? <Link to={`/disposition/${field.disposition.id}`}>{field.disposition.id}</Link> : ''}</td>
+                    <td className="text-end">
                       <div className="btn-group flex-btn-group-container">
-                        <Button tag={Link} to={`${match.url}/${field.id}`} color="info" size="sm" data-cy="entityDetailsButton">
+                        <Button tag={Link} to={`/field/${field.id}`} color="info" size="sm" data-cy="entityDetailsButton">
                           <FontAwesomeIcon icon="eye" />{' '}
                           <span className="d-none d-md-inline">
                             <Translate contentKey="entity.action.view">View</Translate>
                           </span>
                         </Button>
-                        <Button tag={Link} to={`${match.url}/${field.id}/edit`} color="primary" size="sm" data-cy="entityEditButton">
+                        <Button tag={Link} to={`/field/${field.id}/edit`} color="primary" size="sm" data-cy="entityEditButton">
                           <FontAwesomeIcon icon="pencil-alt" />{' '}
                           <span className="d-none d-md-inline">
                             <Translate contentKey="entity.action.edit">Edit</Translate>
                           </span>
                         </Button>
-                        <Button tag={Link} to={`${match.url}/${field.id}/delete`} color="danger" size="sm" data-cy="entityDeleteButton">
+                        <Button tag={Link} to={`/field/${field.id}/delete`} color="danger" size="sm" data-cy="entityDeleteButton">
                           <FontAwesomeIcon icon="trash" />{' '}
                           <span className="d-none d-md-inline">
                             <Translate contentKey="entity.action.delete">Delete</Translate>
@@ -203,7 +212,7 @@ export const Field = (props: RouteComponentProps<{ url: string }>) => {
           ) : (
             !loading && (
               <div className="alert alert-warning">
-                <Translate contentKey="campaignToolApp.field.home.notFound">No Fields found</Translate>
+                <Translate contentKey="automatedPerformanceTestingApp.field.home.notFound">No Fields found</Translate>
               </div>
             )
           )}

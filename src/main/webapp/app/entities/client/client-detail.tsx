@@ -1,18 +1,21 @@
 import React, { useEffect } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Button, Row, Col } from 'reactstrap';
 import { Translate, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { getEntity } from './client.reducer';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-export const ClientDetail = (props: RouteComponentProps<{ id: string }>) => {
+import { getEntity } from './client.reducer';
+
+export const ClientDetail = () => {
   const dispatch = useAppDispatch();
 
+  const { id } = useParams<'id'>();
+
   useEffect(() => {
-    dispatch(getEntity(props.match.params.id));
+    dispatch(getEntity(id));
   }, []);
 
   const clientEntity = useAppSelector(state => state.client.entity);
@@ -20,7 +23,7 @@ export const ClientDetail = (props: RouteComponentProps<{ id: string }>) => {
     <Row>
       <Col md="8">
         <h2 data-cy="clientDetailsHeading">
-          <Translate contentKey="campaignToolApp.client.detail.title">Client</Translate>
+          <Translate contentKey="automatedPerformanceTestingApp.client.detail.title">Client</Translate>
         </h2>
         <dl className="jh-entity-details">
           <dt>
@@ -31,49 +34,49 @@ export const ClientDetail = (props: RouteComponentProps<{ id: string }>) => {
           <dd>{clientEntity.id}</dd>
           <dt>
             <span id="companyName">
-              <Translate contentKey="campaignToolApp.client.companyName">Company Name</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.client.companyName">Company Name</Translate>
             </span>
           </dt>
           <dd>{clientEntity.companyName}</dd>
           <dt>
             <span id="companyWebsite">
-              <Translate contentKey="campaignToolApp.client.companyWebsite">Company Website</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.client.companyWebsite">Company Website</Translate>
             </span>
           </dt>
           <dd>{clientEntity.companyWebsite}</dd>
           <dt>
             <span id="companyType">
-              <Translate contentKey="campaignToolApp.client.companyType">Company Type</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.client.companyType">Company Type</Translate>
             </span>
           </dt>
           <dd>{clientEntity.companyType}</dd>
           <dt>
             <span id="primaryPhone">
-              <Translate contentKey="campaignToolApp.client.primaryPhone">Primary Phone</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.client.primaryPhone">Primary Phone</Translate>
             </span>
           </dt>
           <dd>{clientEntity.primaryPhone}</dd>
           <dt>
             <span id="description">
-              <Translate contentKey="campaignToolApp.client.description">Description</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.client.description">Description</Translate>
             </span>
           </dt>
           <dd>{clientEntity.description}</dd>
           <dt>
             <span id="isActive">
-              <Translate contentKey="campaignToolApp.client.isActive">Is Active</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.client.isActive">Is Active</Translate>
             </span>
           </dt>
           <dd>{clientEntity.isActive ? 'true' : 'false'}</dd>
           <dt>
             <span id="createdBy">
-              <Translate contentKey="campaignToolApp.client.createdBy">Created By</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.client.createdBy">Created By</Translate>
             </span>
           </dt>
           <dd>{clientEntity.createdBy}</dd>
           <dt>
             <span id="createdAt">
-              <Translate contentKey="campaignToolApp.client.createdAt">Created At</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.client.createdAt">Created At</Translate>
             </span>
           </dt>
           <dd>
@@ -81,13 +84,13 @@ export const ClientDetail = (props: RouteComponentProps<{ id: string }>) => {
           </dd>
           <dt>
             <span id="updatedBy">
-              <Translate contentKey="campaignToolApp.client.updatedBy">Updated By</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.client.updatedBy">Updated By</Translate>
             </span>
           </dt>
           <dd>{clientEntity.updatedBy}</dd>
           <dt>
             <span id="updatedAt">
-              <Translate contentKey="campaignToolApp.client.updatedAt">Updated At</Translate>
+              <Translate contentKey="automatedPerformanceTestingApp.client.updatedAt">Updated At</Translate>
             </span>
           </dt>
           <dd>
